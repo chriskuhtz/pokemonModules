@@ -1,0 +1,1 @@
+export const helloWorld=()=>{console.log("fucking magic, mate")};
