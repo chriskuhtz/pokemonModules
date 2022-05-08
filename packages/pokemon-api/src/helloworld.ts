@@ -1,5 +1,5 @@
 export const helloWorld = () => {
-  console.log("does this change things");
+  console.log("hello world");
 };
 
 export const goodbyeWorld = () => {
