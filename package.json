@@ -5,7 +5,9 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "start": "lerna run start",
-    "restart": "lerna run tsc && lerna bootstrap --hoist && lerna run start"
+    "bootstrap": "lerna bootstrap --hoist",
+    "start": "lerna run start --stream",
+    "tsc": "lerna run tsc --stream",
+    "watch": "lerna run watch --stream"
   }
 }

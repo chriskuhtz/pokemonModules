@@ -8,7 +8,8 @@
   "main": "./lib/index.js",
   "types": "./lib/types.d.ts",
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "watch": "tsc --watch"
   },
   "peerDependencies": {
     "react": ">= 16.8.0 < 19",
