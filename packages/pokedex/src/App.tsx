@@ -1,10 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {helloWorld} from "pokemonApi"
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { helloWorld } from "pokemon-api";
 
-const App=():JSX.Element=> {
-  helloWorld()
+const App = (): JSX.Element => {
+  helloWorld();
   return (
     <div className="App">
       <header className="App-header">
@@ -21,9 +21,8 @@ const App=():JSX.Element=> {
           Learn React
         </a>
       </header>
-     
     </div>
   );
-}
+};
 
 export default App;
