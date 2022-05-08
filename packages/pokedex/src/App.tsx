@@ -1,10 +1,11 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { helloWorld } from "chriskuhtz-pokemon-api";
+import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
 
 const App = (): JSX.Element => {
-  helloWorld();
+  const { data } = useGetPokemonByNameQuery("bulbasaur");
+  console.log(data);
   return (
     <div className="App">
       <header className="App-header">
