@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { helloWorld } from "christopherkuhtz-pokemon-api";
+import { helloWorld } from "chriskuhtz-pokemon-api";
 
 const App = (): JSX.Element => {
   helloWorld();
