@@ -6,6 +6,8 @@ import {
   Toolbar,
   useTheme,
   useMediaQuery,
+  Typography,
+  Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -14,22 +16,58 @@ const DrawerController = ({ open, setOpen }) => {
   const isMdOrUp = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Drawer open={isMdOrUp || open} onClose={() => setOpen(!open)}>
+    <Drawer
+      variant="persistent"
+      open={isMdOrUp || open}
+      onClose={() => setOpen(!open)}
+    >
       <Toolbar />
-      <Stack spacing={2} sx={{ p: 3 }}>
+      <Stack spacing={2} sx={{ p: 3, minWidth: { xs: "100vw", md: 0 } }}>
         {" "}
-        <Link style={{ textDecoration: "none" }} to="/why-pokemon">
-          Why Pokemon
+        <Link
+          onClick={() => {
+            setOpen(false);
+          }}
+          style={{ textDecoration: "none", color: "inherit" }}
+          to="/intro"
+        >
+          Intro
         </Link>
-        <Link style={{ textDecoration: "none" }} to="/why-monorepo">
-          Why Monorepo
+        <Box>
+          <Divider />
+          <Typography variant="caption">Modules</Typography>
+        </Box>
+        <Link
+          onClick={() => {
+            setOpen(false);
+          }}
+          style={{ textDecoration: "none", color: "inherit" }}
+          to="/api-modules"
+        >
+          Api Module
         </Link>
-        <Link style={{ textDecoration: "none" }} to="/older-modules">
-          Api Modules
-        </Link>
-        <Divider />
-        <Link style={{ textDecoration: "none" }} to="/older-modules">
+        <Box>
+          <Divider />
+          <Typography variant="caption">Legacy</Typography>
+        </Box>
+        <Link
+          onClick={() => {
+            setOpen(false);
+          }}
+          style={{ textDecoration: "none", color: "inherit" }}
+          to="/older-modules"
+        >
           Older Modules
+        </Link>
+        <Box>
+          <Divider />
+          <Typography variant="caption">Github</Typography>
+        </Box>
+        <Link
+          style={{ textDecoration: "none", color: "inherit" }}
+          to="https://github.com/chriskuhtz/pokemonModules"
+        >
+          Entire Repo
         </Link>
       </Stack>
     </Drawer>

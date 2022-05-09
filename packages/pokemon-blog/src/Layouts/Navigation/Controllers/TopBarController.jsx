@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Container, useTheme, useMediaQuery } from "@mui/material";
 import DrawerController from "./DrawerController";
 import ContentController from "../../Content/Controller/ContentController";
-
+import { Link } from "react-router-dom";
 const TopBarController = ({ children }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -35,9 +35,11 @@ const TopBarController = ({ children }) => {
               <MenuIcon />
             </IconButton>
           )}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Pokemon Modules Blog
-          </Typography>
+          <Link style={{ textDecoration: "none", color: "inherit" }} to="/">
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Pokemon Modules Blog
+            </Typography>
+          </Link>
         </Toolbar>{" "}
       </AppBar>
 
