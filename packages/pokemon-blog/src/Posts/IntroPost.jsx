@@ -3,7 +3,11 @@ import { Box, Typography, Stack, Link } from "@mui/material";
 const IntroPost = () => {
   return (
     <Stack spacing={2}>
-      <Typography variant="h4">The Pokemon Monorepo</Typography>
+      <Box>
+        {" "}
+        <Typography variant="h4">The Pokemon Monorepo</Typography>
+        <Typography variant="caption">09.05.2022</Typography>
+      </Box>
       <Typography variant="h5">What is this about?</Typography>
       <Box>
         <Typography>
@@ -14,6 +18,10 @@ const IntroPost = () => {
           Since I am not a beginner anymore, and because I am more focused on
           software architecture than UI Design, i want to continuously work on
           one big example project.
+        </Typography>
+        <Typography>
+          I also want to document my progress and experience with this blog, so
+          that it might help others with their frontend architecture projects.
         </Typography>
       </Box>
       <Box>

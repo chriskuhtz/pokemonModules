@@ -63,12 +63,14 @@ const DrawerController = ({ open, setOpen }) => {
           <Divider />
           <Typography variant="caption">Github</Typography>
         </Box>
-        <Link
-          style={{ textDecoration: "none", color: "inherit" }}
-          to="https://github.com/chriskuhtz/pokemonModules"
-        >
-          Entire Repo
-        </Link>
+        <Typography>
+          <a
+            style={{ textDecoration: "none", color: "inherit" }}
+            href="https://github.com/chriskuhtz/pokemonModules"
+          >
+            Entire Repo
+          </a>
+        </Typography>
       </Stack>
     </Drawer>
   );
