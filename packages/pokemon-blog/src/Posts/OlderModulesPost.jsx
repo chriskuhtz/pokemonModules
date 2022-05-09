@@ -3,7 +3,11 @@ import { Box, Typography, Stack, Link } from "@mui/material";
 const OlderModulesPost = () => {
   return (
     <Stack spacing={2}>
-      <Typography variant="h4">My Legacy Modules</Typography>
+      <Box>
+        {" "}
+        <Typography variant="h4">My Older Modules</Typography>
+        <Typography variant="caption">09.05.2022</Typography>
+      </Box>
 
       <Box>
         <Typography>

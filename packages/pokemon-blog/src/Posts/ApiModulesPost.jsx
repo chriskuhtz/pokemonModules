@@ -3,7 +3,11 @@ import { Box, Typography, Stack, Link } from "@mui/material";
 const ApiModulesPost = () => {
   return (
     <Stack spacing={2}>
-      <Typography variant="h4">The API Module</Typography>
+      <Box>
+        {" "}
+        <Typography variant="h4">The API Module</Typography>
+        <Typography variant="caption">09.05.2022</Typography>
+      </Box>
       <Box>
         {" "}
         <Typography variant="h5">PokeApi.co</Typography>
