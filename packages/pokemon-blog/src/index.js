@@ -8,10 +8,29 @@ import ApiModulesPost from "./Posts/ApiModulesPost";
 import OlderModulesPost from "./Posts/OlderModulesPost";
 import NextFeaturesScreen from "./Screens/NextFeaturesScreen/NextFeaturesScreen";
 import NewestPostCard from "./Components/NewestPostCard/NewestPostCard";
-import { Stack, ThemeProvider } from "@mui/material";
-import { scizorTheme } from "pokemon-mui-themes";
+import { Stack } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+export const scizorTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#ba4a4a",
+    },
+    secondary: {
+      main: "#1a1b1a",
+    },
+    backgroundColor: {
+      main: "#1a1b1a",
+    },
+    textColor: {
+      main: "#b3c1cb",
+    },
+  },
+});
+console.log(scizorTheme);
+
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={scizorTheme}>
