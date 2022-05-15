@@ -1,6 +1,6 @@
 {
   "name": "pokedex",
-  "version": "0.0.6-alpha.0",
+  "version": "0.0.6",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
@@ -11,7 +11,7 @@
     "@types/node": "^16.11.33",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
-    "chriskuhtz-pokemon-api": "^0.0.6-alpha.0",
+    "chriskuhtz-pokemon-api": "^0.0.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
