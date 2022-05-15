@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "@mui/material";
 
-const ContentController = ({ children }) => {
+const ContentView = ({ children }) => {
   return (
     <Container maxWidth="sm" sx={{ py: 2 }}>
       {children}
@@ -9,4 +9,4 @@ const ContentController = ({ children }) => {
   );
 };
 
-export default ContentController;
+export default ContentView;

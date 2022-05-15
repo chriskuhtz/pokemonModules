@@ -1,0 +1,10 @@
+{
+  "nextFeatures": [
+    "make first custom mui theme & add it to blog",
+    "add pokemon icons library",
+    "add next feature card to front page",
+    "fill out the pokemon api",
+    "create PostLayoutController",
+    "outsource the post data into json files"
+  ]
+}

@@ -11,16 +11,11 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const DrawerController = ({ open, setOpen }) => {
+const DrawerView = ({ open, setOpen }) => {
   const theme = useTheme();
-  const isMdOrUp = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Drawer
-      variant="persistent"
-      open={isMdOrUp || open}
-      onClose={() => setOpen(!open)}
-    >
+    <Drawer variant="persistent" open={open} onClose={() => setOpen(!open)}>
       <Toolbar />
       <Stack spacing={2} sx={{ p: 3, minWidth: { xs: "100vw", md: 0 } }}>
         {" "}
@@ -61,6 +56,19 @@ const DrawerController = ({ open, setOpen }) => {
         </Link>
         <Box>
           <Divider />
+          <Typography variant="caption">Next Features</Typography>
+        </Box>
+        <Link
+          onClick={() => {
+            setOpen(false);
+          }}
+          style={{ textDecoration: "none", color: "inherit" }}
+          to="/next-features"
+        >
+          Next Features
+        </Link>
+        <Box>
+          <Divider />
           <Typography variant="caption">Github</Typography>
         </Box>
         <Typography>
@@ -76,4 +84,4 @@ const DrawerController = ({ open, setOpen }) => {
   );
 };
 
-export default DrawerController;
+export default DrawerView;
