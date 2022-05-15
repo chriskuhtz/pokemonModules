@@ -16,8 +16,15 @@ const DrawerView = ({ open, setOpen }) => {
 
   return (
     <Drawer variant="persistent" open={open} onClose={() => setOpen(!open)}>
-      <Toolbar />
-      <Stack spacing={2} sx={{ p: 3, minWidth: { xs: "100vw", md: 0 } }}>
+      <Stack
+        spacing={2}
+        sx={{
+          py: 9,
+          px: { xs: 3, lg: 6 },
+          minWidth: { xs: "100vw", md: 0 },
+          minHeight: "100%",
+        }}
+      >
         {" "}
         <Link
           onClick={() => {

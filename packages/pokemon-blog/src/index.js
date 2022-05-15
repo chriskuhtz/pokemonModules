@@ -8,32 +8,65 @@ import ApiModulesPost from "./Posts/ApiModulesPost";
 import OlderModulesPost from "./Posts/OlderModulesPost";
 import NextFeaturesScreen from "./Screens/NextFeaturesScreen/NextFeaturesScreen";
 import NewestPostCard from "./Components/NewestPostCard/NewestPostCard";
-import { Stack } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline, Stack } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+export const scizorPrimary = "#ba4a4a";
+export const scizorSecondary = "#1a1b1a";
+export const scizorText = "#b3c1cb";
 
 export const scizorTheme = createTheme({
   palette: {
     primary: {
-      main: "#ba4a4a",
+      main: scizorPrimary,
     },
     secondary: {
-      main: "#1a1b1a",
-    },
-    backgroundColor: {
-      main: "#1a1b1a",
+      main: scizorSecondary,
     },
     textColor: {
-      main: "#b3c1cb",
+      main: scizorText,
+    },
+  },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          // Some CSS
+          backgroundColor: scizorSecondary,
+          color: scizorText,
+        },
+      },
+    },
+    MuiContainer: {
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          // Some CSS
+          backgroundColor: scizorSecondary,
+          color: scizorText,
+        },
+      },
+    },
+    MuiStack: {
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          // Some CSS
+          backgroundColor: scizorSecondary,
+          color: scizorText,
+        },
+      },
     },
   },
 });
-console.log(scizorTheme);
 
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={scizorTheme}>
+      <CssBaseline />
       <BrowserRouter>
         {" "}
         <TopBarController>
