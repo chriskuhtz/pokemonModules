@@ -7,13 +7,15 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Container, useTheme, useMediaQuery } from "@mui/material";
-import DrawerController from "./DrawerController";
-import ContentController from "../../Content/Controller/ContentController";
+import DrawerView from "../Views/DrawerView";
+import ContentView from "../Views/ContentView";
 import { Link } from "react-router-dom";
+
 const TopBarController = ({ children }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isSmOrDown = useMediaQuery(theme.breakpoints.down("md"));
+  const isMdOrUp = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -44,8 +46,8 @@ const TopBarController = ({ children }) => {
       </AppBar>
 
       <Toolbar />
-      <DrawerController open={open} setOpen={setOpen} />
-      <ContentController>{children}</ContentController>
+      <DrawerView open={isMdOrUp || open} setOpen={setOpen} />
+      <ContentView>{children}</ContentView>
     </Box>
   );
 };
