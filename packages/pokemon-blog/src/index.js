@@ -9,59 +9,10 @@ import OlderModulesPost from "./Posts/OlderModulesPost";
 import NextFeaturesScreen from "./Screens/NextFeaturesScreen/NextFeaturesScreen";
 import NewestPostCard from "./Components/NewestPostCard/NewestPostCard";
 import { CssBaseline, Stack } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import { scizorTheme } from "./Theme/scizor";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
-export const scizorPrimary = "#ba4a4a";
-export const scizorSecondary = "#1a1b1a";
-export const scizorText = "#b3c1cb";
-
-export const scizorTheme = createTheme({
-  palette: {
-    primary: {
-      main: scizorPrimary,
-    },
-    secondary: {
-      main: scizorSecondary,
-    },
-    textColor: {
-      main: scizorText,
-    },
-  },
-  components: {
-    MuiCard: {
-      styleOverrides: {
-        // Name of the slot
-        root: {
-          // Some CSS
-          backgroundColor: scizorSecondary,
-          color: scizorText,
-        },
-      },
-    },
-    MuiContainer: {
-      styleOverrides: {
-        // Name of the slot
-        root: {
-          // Some CSS
-          backgroundColor: scizorSecondary,
-          color: scizorText,
-        },
-      },
-    },
-    MuiStack: {
-      styleOverrides: {
-        // Name of the slot
-        root: {
-          // Some CSS
-          backgroundColor: scizorSecondary,
-          color: scizorText,
-        },
-      },
-    },
-  },
-});
 
 root.render(
   <React.StrictMode>
