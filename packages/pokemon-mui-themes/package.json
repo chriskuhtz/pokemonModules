@@ -1,0 +1,32 @@
+{
+  "name": "pokemon-mui-themes",
+  "version": "0.0.6",
+  "description": "mui color themes and property overrides",
+  "author": "christopherkuhtz <christopherkuhtz@gmail.com>",
+  "homepage": "https://github.com/chriskuhtz/pokemonModules#readme",
+  "license": "ISC",
+  "main": "lib/pokemon-mui-themes.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.6.4"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "tsc": "tsc",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chriskuhtz/pokemonModules.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chriskuhtz/pokemonModules/issues"
+  }
+}
