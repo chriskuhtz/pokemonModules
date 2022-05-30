@@ -9,8 +9,10 @@ import {
   Typography,
   Box,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useGetGenOnePokemonQuery } from "chriskuhtz-pokemon-api";
 
 const DrawerView = ({
   open,
@@ -23,8 +25,20 @@ const DrawerView = ({
   currentPokemon: string;
   setCurrentPokemon: (pokemon: string) => void;
 }) => {
-  const theme = useTheme();
+  const { data } = useGetGenOnePokemonQuery("");
 
+  if (!data) {
+    return (
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        height="100vh"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
   return (
     <Drawer variant="persistent" open={open} onClose={() => setOpen(!open)}>
       <Stack
@@ -36,22 +50,24 @@ const DrawerView = ({
           minHeight: "100%",
         }}
       >
-        <Typography>
+        <Typography variant={"h6"}>
           <a
             style={{ textDecoration: "none", color: "inherit" }}
             href="https://github.com/chriskuhtz/pokemonModules"
           >
-            Entire Repo
+            Github Repo
           </a>
         </Typography>
-        <Typography
-          onClick={() => {
-            setCurrentPokemon("bulbasaur");
-            setOpen(false);
-          }}
-        >
-          Bulbasaur
-        </Typography>
+        {data.results.map((d: { name: string }) => (
+          <Typography
+            onClick={() => {
+              setCurrentPokemon(d.name);
+              setOpen(false);
+            }}
+          >
+            {d.name}
+          </Typography>
+        ))}
       </Stack>
     </Drawer>
   );

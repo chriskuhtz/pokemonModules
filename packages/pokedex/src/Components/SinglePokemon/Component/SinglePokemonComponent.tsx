@@ -13,7 +13,7 @@ const SinglePokemonComponent = ({
   const { data, isLoading } = useGetPokemonByNameQuery(pokemon);
   console.log(data);
 
-  if (isLoading) {
+  if (!data) {
     return (
       <Box
         display={"flex"}
