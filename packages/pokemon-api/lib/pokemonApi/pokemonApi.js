@@ -15,5 +15,5 @@ export var pokemonApi = createApi({
 });
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery;
+export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery;
 //# sourceMappingURL=pokemonApi.js.map
