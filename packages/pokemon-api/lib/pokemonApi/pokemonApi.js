@@ -8,6 +8,9 @@ export var pokemonApi = createApi({
         getPokemonByName: builder.query({
             query: function (name) { return "pokemon/".concat(name); },
         }),
+        getAllPokemon: builder.query({
+            query: function () { return "pokemon?limit=151"; },
+        }),
     }); },
 });
 // Export hooks for usage in function components, which are
