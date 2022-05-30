@@ -19,8 +19,8 @@ const NewestPostCard = () => {
       }}
     >
       <CardContent>
-        The newest post is about the <strong>API Module</strong>, which uses RTK
-        Query.
+        The newest post is about the <strong>Pokedex Module</strong>, which is
+        the first Standalone Module that implements an Assistance Module.
       </CardContent>
       <CardActions>
         <Button variant="contained">
@@ -29,7 +29,7 @@ const NewestPostCard = () => {
               setOpen(false);
             }}
             style={{ textDecoration: "none", color: "inherit" }}
-            to="/api-modules"
+            to="/pokedex-module"
           >
             Read more
           </Link>

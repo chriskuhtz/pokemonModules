@@ -5,6 +5,7 @@ import TopBarController from "./Layouts/Navigation/Controllers/TopBarController"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import IntroPost from "./Posts/IntroPost";
 import ApiModulesPost from "./Posts/ApiModulesPost";
+import PokedexModulePost from "./Posts/PokedexModulePost";
 import OlderModulesPost from "./Posts/OlderModulesPost";
 import NextFeaturesScreen from "./Screens/NextFeaturesScreen/NextFeaturesScreen";
 import NewestPostCard from "./Components/NewestPostCard/NewestPostCard";
@@ -34,6 +35,7 @@ root.render(
             {/*posts*/}
             <Route path="intro" element={<IntroPost />} />
             <Route path="api-modules" element={<ApiModulesPost />} />
+            <Route path="pokedex-module" element={<PokedexModulePost />} />
             <Route path="older-modules" element={<OlderModulesPost />} />
             {/*next-features*/}
             <Route path="next-features" element={<NextFeaturesScreen />} />

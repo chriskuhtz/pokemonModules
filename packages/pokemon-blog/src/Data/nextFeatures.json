@@ -1,7 +1,7 @@
 {
   "nextFeatures": [
-    "fill out the pokemon api",
-    "create PostLayoutController",
-    "outsource the post data into json files"
+    "expanded pokedex module",
+    "STANDALONE MODULE: pokemon mui theme generator module",
+    "ASSISTANCE MODULE: blog backend & db"
   ]
 }
