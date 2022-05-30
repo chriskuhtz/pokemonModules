@@ -1,17 +1,11 @@
 import React from "react";
 import {
   Stack,
-  Divider,
   Drawer,
-  Toolbar,
-  useTheme,
-  useMediaQuery,
   Typography,
   Box,
-  Button,
   CircularProgress,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useGetGenOnePokemonQuery } from "chriskuhtz-pokemon-api";
 
 const DrawerView = ({

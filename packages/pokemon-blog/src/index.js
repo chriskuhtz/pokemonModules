@@ -12,6 +12,7 @@ import NewestPostCard from "./Components/NewestPostCard/NewestPostCard";
 import { CssBaseline, Stack } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { scizorTheme } from "./Theme/scizor";
+import ArchitectureDiagramScreen from "./Screens/ArchitectureDiagramScreen/ArchitectureDiagram";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -39,6 +40,10 @@ root.render(
             <Route path="older-modules" element={<OlderModulesPost />} />
             {/*next-features*/}
             <Route path="next-features" element={<NextFeaturesScreen />} />
+            <Route
+              path="architecture-diagram"
+              element={<ArchitectureDiagramScreen />}
+            />
           </Routes>
         </TopBarController>
       </BrowserRouter>

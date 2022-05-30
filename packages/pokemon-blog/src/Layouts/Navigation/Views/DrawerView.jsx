@@ -7,6 +7,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const DrawerView = ({ open, setOpen }) => {
   return (
