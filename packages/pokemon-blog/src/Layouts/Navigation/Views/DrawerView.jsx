@@ -44,6 +44,15 @@ const DrawerView = ({ open, setOpen }) => {
             setOpen(false);
           }}
           style={{ textDecoration: "none", color: "inherit" }}
+          to="/pokedex-module"
+        >
+          Pokedex Module
+        </Link>
+        <Link
+          onClick={() => {
+            setOpen(false);
+          }}
+          style={{ textDecoration: "none", color: "inherit" }}
           to="/api-modules"
         >
           Api Module
