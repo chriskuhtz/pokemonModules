@@ -8,12 +8,15 @@ export var pokemonApi = createApi({
         getPokemonByName: builder.query({
             query: function (name) { return "pokemon/".concat(name); },
         }),
-        getAllPokemon: builder.query({
+        getGenOnePokemon: builder.query({
             query: function () { return "pokemon?limit=151"; },
+        }),
+        getGenTwoPokemon: builder.query({
+            query: function () { return "pokemon?limit=252&offset=151"; },
         }),
     }); },
 });
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery;
+export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetGenOnePokemonQuery = pokemonApi.useGetGenOnePokemonQuery, useGetGenTwoPokemonQuery = pokemonApi.useGetGenTwoPokemonQuery;
 //# sourceMappingURL=pokemonApi.js.map
