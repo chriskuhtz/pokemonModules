@@ -12,7 +12,7 @@ const PokedexModulePost = () => {
         <br />
         <Typography variant="caption">30.05.2022</Typography>
       </Box>
-      <Box>
+      {/* <Box>
         {" "}
         <Typography variant="h5">Updated Architecture Diagram</Typography>
         <Link href="https://github.com/chriskuhtz/pokemonModules/tree/main/packages/pokedex">
@@ -31,7 +31,7 @@ const PokedexModulePost = () => {
           standalone, but will serve as assistance to bigger Modules in the
           future.
         </Typography>
-      </Box>
+      </Box> */}
       <Box>
         {" "}
         <Typography variant="h5">What does this Module do</Typography>
