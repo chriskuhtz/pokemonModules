@@ -1,1 +1,1 @@
-{"version":3,"file":"pokemonApi.d.ts","sourceRoot":"","sources":["../../src/pokemonApi/pokemonApi.ts"],"names":[],"mappings":"AAIA,eAAO,MAAM,UAAU;;iLAQrB,CAAC;AAIH,eAAO,MAAQ,wBAAwB,2YAAe,CAAC"}
+{"version":3,"file":"pokemonApi.d.ts","sourceRoot":"","sources":["../../src/pokemonApi/pokemonApi.ts"],"names":[],"mappings":"AAIA,eAAO,MAAM,UAAU;;;;iLAcrB,CAAC;AAIH,eAAO,MACL,wBAAwB,6YACxB,wBAAwB,6YACxB,wBAAwB,2YACZ,CAAC"}

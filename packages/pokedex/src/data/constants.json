@@ -1,0 +1,10 @@
+{
+  "highestBaseStats": {
+    "hp": 255,
+    "attack": 181,
+    "defense": 230,
+    "special-attack": 180,
+    "special-defense": 230,
+    "speed": 200
+  }
+}
