@@ -3,17 +3,12 @@ import {
   Stack,
   Divider,
   Drawer,
-  Toolbar,
   useTheme,
-  useMediaQuery,
   Typography,
   Box,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
 const DrawerView = ({ open, setOpen }) => {
-  const theme = useTheme();
-
   return (
     <Drawer variant="persistent" open={open} onClose={() => setOpen(!open)}>
       <Stack

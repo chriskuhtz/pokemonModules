@@ -10,7 +10,7 @@ const SinglePokemonComponent = ({
 }: {
   pokemon: string;
 }): JSX.Element => {
-  const { data, isLoading } = useGetPokemonByNameQuery(pokemon);
+  const { data } = useGetPokemonByNameQuery(pokemon);
   console.log(data);
 
   if (!data) {

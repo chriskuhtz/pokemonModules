@@ -1,4 +1,3 @@
-import { useGetGenOnePokemonQuery } from "chriskuhtz-pokemon-api";
 import { useState } from "react";
 import SinglePokemonComponent from "./Components/SinglePokemon/Component/SinglePokemonComponent";
 import TopBarController from "./Layouts/Navigation/Controllers/TopBarController";
