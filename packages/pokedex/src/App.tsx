@@ -1,28 +1,17 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
+import { useState } from "react";
+import SinglePokemonComponent from "./Components/SinglePokemon/Component/SinglePokemonComponent";
+import TopBarController from "./Layouts/Navigation/Controllers/TopBarController";
 
 const App = (): JSX.Element => {
-  const { data } = useGetPokemonByNameQuery("bulbasaur");
-  console.log(data);
+  const [currentPokemon, setCurrentPokemon] = useState<string>("pikachu");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TopBarController
+      currentPokemon={currentPokemon}
+      setCurrentPokemon={setCurrentPokemon}
+    >
+      <SinglePokemonComponent pokemon={currentPokemon} />
+    </TopBarController>
   );
 };
 
