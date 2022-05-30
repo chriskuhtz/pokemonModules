@@ -6,7 +6,7 @@ const PokedexModulePost = () => {
       <Box>
         {" "}
         <Typography variant="h4">The Pokedex Module</Typography>
-        <Link href="https://github.com/chriskuhtz/pokemonModules/tree/main/packages/pokedex">
+        <Link href="https://pokemonmodules-pokedex.netlify.app/">
           Live Site
         </Link>
         <br />
