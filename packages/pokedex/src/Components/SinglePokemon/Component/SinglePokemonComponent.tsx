@@ -1,5 +1,14 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
-import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
+import {
+  useGetAbilityByIndexQuery,
+  useGetPokemonByNameQuery,
+} from "chriskuhtz-pokemon-api";
 import SinglePokemonAbilities from "../Sections/SinglePokemonAbilities";
 import SinglePokemonHeader from "../Sections/SinglePokemonHeader";
 import SinglePokemonStats from "../Sections/SinglePokemonStats";
@@ -11,6 +20,7 @@ const SinglePokemonComponent = ({
   pokemon: string;
 }): JSX.Element => {
   const { data } = useGetPokemonByNameQuery(pokemon);
+
   console.log(data);
 
   if (!data) {
@@ -32,17 +42,22 @@ const SinglePokemonComponent = ({
         id={data.id}
         name={data.name.charAt(0).toUpperCase() + data.name.slice(1)}
       />
+      <Divider />
       <SinglePokemonTypes
         types={data.types.map((t: { type: { name: string } }) => t.type.name)}
       />
+      <Divider />
 
-      <SinglePokemonAbilities
-        abilities={data.abilities.map(
-          (a: { ability: { name: string } }) => a.ability.name
-        )}
-      />
-
+      <SinglePokemonAbilities abilities={data.abilities} />
+      <Divider />
       <SinglePokemonStats stats={data.stats} />
+      <Divider />
+      <Typography variant="h5">Misc:</Typography>
+      <Typography>Base Exp: {data.base_experience}</Typography>
+      <Typography variant="h6">Held Items:</Typography>
+      {data.held_items.map((h: { item: { name: string } }) => (
+        <Typography>{h.item.name}</Typography>
+      ))}
     </Stack>
   );
 };

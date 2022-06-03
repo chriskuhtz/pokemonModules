@@ -6,7 +6,7 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-import { useGetGenOnePokemonQuery } from "chriskuhtz-pokemon-api";
+import { useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
 
 const DrawerView = ({
   open,
@@ -19,9 +19,9 @@ const DrawerView = ({
   currentPokemon: string;
   setCurrentPokemon: (pokemon: string) => void;
 }) => {
-  const { data } = useGetGenOnePokemonQuery("");
+  const { data, isLoading } = useGetAllPokemonQuery("");
 
-  if (!data) {
+  if (isLoading) {
     return (
       <Box
         display={"flex"}
@@ -54,6 +54,8 @@ const DrawerView = ({
         </Typography>
         {data.results.map((d: { name: string }) => (
           <Typography
+            key={d.name}
+            color={d.name === currentPokemon ? "primary" : "text"}
             onClick={() => {
               setCurrentPokemon(d.name);
               setOpen(false);

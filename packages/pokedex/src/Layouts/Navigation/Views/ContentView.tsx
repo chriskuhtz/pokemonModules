@@ -10,9 +10,7 @@ const ContentView = ({
 }) => {
   return (
     <Container maxWidth="sm" sx={{ p: 2 }} disableGutters>
-      <section>
-        {React.cloneElement(children, { pokemon: currentPokemon })}
-      </section>
+      {React.cloneElement(children, { pokemon: currentPokemon })}
     </Container>
   );
 };

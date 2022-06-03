@@ -15,6 +15,12 @@ export const pokemonApi = createApi({
     getGenTwoPokemon: builder.query({
       query: () => `pokemon?limit=252&offset=151`,
     }),
+    getAllPokemon: builder.query({
+      query: () => `pokemon?limit=984`,
+    }),
+    getAbilityByIndex: builder.query({
+      query: (index: number) => `ability/${index}`,
+    }),
   }),
 });
 
@@ -24,4 +30,6 @@ export const {
   useGetPokemonByNameQuery,
   useGetGenOnePokemonQuery,
   useGetGenTwoPokemonQuery,
+  useGetAllPokemonQuery,
+  useGetAbilityByIndexQuery,
 } = pokemonApi;
