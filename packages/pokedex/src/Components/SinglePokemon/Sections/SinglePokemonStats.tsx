@@ -16,10 +16,7 @@ const SinglePokemonStats = ({ stats }: SinglePokemonStats) => {
           name: s.stat.name,
           value: s.base_stat,
         };
-        console.log(
-          100 *
-            (mappedStat.value / Object.values(constants.highestBaseStats)[i])
-        );
+
         return (
           <Typography key={key + mappedStat.name}>
             {mappedStat.name}: {mappedStat.value}
