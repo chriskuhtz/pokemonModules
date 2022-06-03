@@ -1,7 +1,9 @@
 import { Typography } from "@mui/material";
+import { useGetAbilityByIndexQuery } from "chriskuhtz-pokemon-api";
+import SingularAbility from "./SingularAbility";
 
 interface SinglePokemonAbilities {
-  abilities: string[];
+  abilities: { ability: { url: string }; is_hidden: boolean }[];
 }
 
 const SinglePokemonAbilities = ({ abilities }: SinglePokemonAbilities) => {
@@ -10,7 +12,18 @@ const SinglePokemonAbilities = ({ abilities }: SinglePokemonAbilities) => {
       <Typography variant="h5">
         {abilities.length > 1 ? "Abilities" : "Ability"}
       </Typography>
-      <Typography>{abilities.join()}</Typography>
+      {abilities.map((a) => {
+        const splitUrl = a.ability.url.split("/");
+        const urlIndex = parseInt(splitUrl[splitUrl.length - 2]);
+
+        return (
+          <SingularAbility
+            key={urlIndex}
+            index={urlIndex}
+            isHidden={a.is_hidden}
+          />
+        );
+      })}
     </>
   );
 };

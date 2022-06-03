@@ -15,7 +15,7 @@ export var pokemonApi = createApi({
             query: function () { return "pokemon?limit=252&offset=151"; },
         }),
         getAllPokemon: builder.query({
-            query: function () { return "pokemon"; },
+            query: function () { return "pokemon?limit=984"; },
         }),
         getAbilityByIndex: builder.query({
             query: function (index) { return "ability/".concat(index); },

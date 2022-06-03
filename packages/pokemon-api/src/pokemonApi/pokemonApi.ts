@@ -16,7 +16,7 @@ export const pokemonApi = createApi({
       query: () => `pokemon?limit=252&offset=151`,
     }),
     getAllPokemon: builder.query({
-      query: () => `pokemon`,
+      query: () => `pokemon?limit=984`,
     }),
     getAbilityByIndex: builder.query({
       query: (index: number) => `ability/${index}`,
