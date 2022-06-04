@@ -36,4 +36,5 @@ export const {
   useGetAllPokemonQuery,
   useGetAbilityByIndexQuery,
   useGetMoveByIndexQuery,
+  useLazyGetMoveByIndexQuery,
 } = pokemonApi;

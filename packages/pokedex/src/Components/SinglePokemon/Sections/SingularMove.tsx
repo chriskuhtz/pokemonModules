@@ -1,28 +1,69 @@
-import { Box, Chip, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { Move } from "./SinglePokemonMoves";
+import { useLazyGetMoveByIndexQuery } from "chriskuhtz-pokemon-api";
+import { useEffect, useState } from "react";
+import SingularMoveDetails from "./SingularMoveDetails";
 
-const SingularMove = ({ move }: { move?: Move }) => {
-  const { data: abilityData, isLoading } = useGetMoveByIndexQuery(0);
+const SingularMove = ({
+  move,
+  isLvlUp,
+}: {
+  move?: Move;
+  isLvlUp?: boolean;
+}) => {
+  const [showDetails, setShowDetails] = useState<boolean>(false);
+  const splitUrl = move?.move.url.split("/");
 
-  if (isLoading) {
-    return (
-      <Box
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        height="100vh"
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
+  const urlIndex = splitUrl && parseInt(splitUrl[splitUrl.length - 2]);
+
+  const lvl = move?.version_group_details[0].level_learned_at;
+
+  const [trigger, result] = useLazyGetMoveByIndexQuery();
+
+  useEffect(() => {
+    if (result.isSuccess) console.log(result.data);
+  }, [result]);
+
   return (
-    <>
-      <Typography>
-        {move?.move.name}:{move?.version_group_details[0].level_learned_at},
-        {move?.version_group_details[0].move_learn_method.name}
-      </Typography>
-    </>
+    <ListItem>
+      {result.isLoading && (
+        <ListItemIcon>
+          <CircularProgress />
+        </ListItemIcon>
+      )}
+      <ListItemText
+        primary={
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            onClick={() => {
+              urlIndex && trigger(urlIndex);
+              setShowDetails(!showDetails);
+            }}
+          >
+            <strong>{move?.move.name}</strong>
+            {isLvlUp && `at level ${lvl}`}
+          </Box>
+        }
+        secondary={
+          result.isSuccess && showDetails ? (
+            <SingularMoveDetails
+              data={result.data}
+              setShowDetails={setShowDetails}
+            />
+          ) : (
+            "more info"
+          )
+        }
+      />
+    </ListItem>
   );
 };
 

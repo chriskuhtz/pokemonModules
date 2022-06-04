@@ -27,5 +27,5 @@ export var pokemonApi = createApi({
 });
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetGenOnePokemonQuery = pokemonApi.useGetGenOnePokemonQuery, useGetGenTwoPokemonQuery = pokemonApi.useGetGenTwoPokemonQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery, useGetAbilityByIndexQuery = pokemonApi.useGetAbilityByIndexQuery, useGetMoveByIndexQuery = pokemonApi.useGetMoveByIndexQuery;
+export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetGenOnePokemonQuery = pokemonApi.useGetGenOnePokemonQuery, useGetGenTwoPokemonQuery = pokemonApi.useGetGenTwoPokemonQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery, useGetAbilityByIndexQuery = pokemonApi.useGetAbilityByIndexQuery, useGetMoveByIndexQuery = pokemonApi.useGetMoveByIndexQuery, useLazyGetMoveByIndexQuery = pokemonApi.useLazyGetMoveByIndexQuery;
 //# sourceMappingURL=pokemonApi.js.map
