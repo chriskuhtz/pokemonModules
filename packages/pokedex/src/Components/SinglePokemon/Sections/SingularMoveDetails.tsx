@@ -26,12 +26,14 @@ interface SingularMoveDetails {
     pp: number;
     priority: number;
     stat_changes: { change: number; stat: { name: string } }[];
+    effect_chance: number;
   };
 }
 const SingularMoveDetails = ({
   data,
   setShowDetails,
 }: SingularMoveDetails): JSX.Element => {
+  console.log(data);
   return (
     <Box>
       <Typography>
@@ -129,10 +131,10 @@ const SingularMoveDetails = ({
         <>
           <Divider />
           <Typography>
-            Stat Changes:
+            Stat Changes: {data.effect_chance}% chance of{" "}
             {data.stat_changes.map((s, i) => (
               <span>
-                {s.change} {s.stat.name}
+                {s.change > 0 ? `+${s.change}` : s.change} {s.stat.name}
                 {i !== data.stat_changes.length - 1 && ", "}
               </span>
             ))}
