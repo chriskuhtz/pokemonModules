@@ -26,10 +26,6 @@ const SingularMove = ({
 
   const [trigger, result] = useLazyGetMoveByIndexQuery();
 
-  useEffect(() => {
-    if (result.isSuccess) console.log(result.data);
-  }, [result]);
-
   return (
     <ListItem>
       {result.isLoading && (
