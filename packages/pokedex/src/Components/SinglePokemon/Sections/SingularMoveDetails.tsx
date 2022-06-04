@@ -3,7 +3,6 @@ import { Box, Typography, Divider } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface SingularMoveDetails {
-  setShowDetails: (x: boolean) => void;
   data: {
     damage_class: { name: string };
     meta: {
@@ -29,17 +28,14 @@ interface SingularMoveDetails {
     effect_chance: number;
   };
 }
-const SingularMoveDetails = ({
-  data,
-  setShowDetails,
-}: SingularMoveDetails): JSX.Element => {
+const SingularMoveDetails = ({ data }: SingularMoveDetails): JSX.Element => {
   console.log(data);
   return (
     <Box>
       <Typography>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <strong>Move Type: {data.damage_class.name}</strong>
-          <CloseIcon onClick={() => setShowDetails(false)} />
+          <CloseIcon />
         </Box>
       </Typography>
       <Divider />
