@@ -11,6 +11,8 @@ import {
 } from "chriskuhtz-pokemon-api";
 import SinglePokemonAbilities from "../Sections/SinglePokemonAbilities";
 import SinglePokemonHeader from "../Sections/SinglePokemonHeader";
+import SinglePokemonMisc from "../Sections/SinglePokemonMisc";
+import SinglePokemonMoves from "../Sections/SinglePokemonMoves";
 import SinglePokemonStats from "../Sections/SinglePokemonStats";
 import SinglePokemonTypes from "../Sections/SinglePokemonTypes";
 
@@ -52,12 +54,14 @@ const SinglePokemonComponent = ({
       <Divider />
       <SinglePokemonStats stats={data.stats} />
       <Divider />
-      <Typography variant="h5">Misc:</Typography>
-      <Typography>Base Exp: {data.base_experience}</Typography>
-      <Typography variant="h6">Held Items:</Typography>
-      {data.held_items.map((h: { item: { name: string } }) => (
-        <Typography>{h.item.name}</Typography>
-      ))}
+      <SinglePokemonMoves moves={data.moves} />
+      <Divider />
+      <SinglePokemonMisc
+        baseExp={data.base_experience}
+        heldItems={data.held_items.map(
+          (h: { item: { name: string } }) => h.item.name
+        )}
+      />
     </Stack>
   );
 };

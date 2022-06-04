@@ -21,6 +21,9 @@ export const pokemonApi = createApi({
     getAbilityByIndex: builder.query({
       query: (index: number) => `ability/${index}`,
     }),
+    getMoveByIndex: builder.query({
+      query: (index: number) => `move/${index}`,
+    }),
   }),
 });
 
@@ -32,4 +35,6 @@ export const {
   useGetGenTwoPokemonQuery,
   useGetAllPokemonQuery,
   useGetAbilityByIndexQuery,
+  useGetMoveByIndexQuery,
+  useLazyGetMoveByIndexQuery,
 } = pokemonApi;
