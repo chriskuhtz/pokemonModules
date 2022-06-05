@@ -1,6 +1,6 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Collapse, List, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Move } from "./SinglePokemonMoves";
 import SingularMove from "./SingularMove";
 
@@ -14,6 +14,10 @@ const MoveGroup = ({
   isLvlGroup?: boolean;
 }): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [moves]);
 
   let movesToDisplay = moves;
   if (isLvlGroup) {
