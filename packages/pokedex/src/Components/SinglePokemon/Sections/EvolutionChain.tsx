@@ -82,8 +82,9 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
             {i !== 0 && (
               <ListItem>
                 <ListItemIcon sx={{ ml: 4 }}>
-                  {i !== evoChain.length - 1 &&
-                  e.stage === evoChain[i + 1].stage ? (
+                  {(i !== evoChain.length - 1 &&
+                    e.stage === evoChain[i + 1].stage) ||
+                  (i !== 0 && e.stage === evoChain[i - 1].stage) ? (
                     <SubdirectoryArrowRightIcon />
                   ) : (
                     <ArrowDownwardIcon />
@@ -111,16 +112,7 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
                 />
               </ListItemIcon>
               <ListItemText
-                primary={
-                  formatResponseText(e.chainLink.species.name)
-                  // <Link
-                  //   to={`/${e.chainLink.species.name}`}
-                  //   state={{ pokemon: e.chainLink.species.name }}
-                  //   style={{ textDecoration: "none", color: "inherit" }}
-                  // >
-
-                  // </Link>
-                }
+                primary={formatResponseText(e.chainLink.species.name)}
                 secondary={<strong>{e.stage}</strong>}
               />
             </ListItem>
