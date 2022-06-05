@@ -5,31 +5,22 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Move } from "./SinglePokemonMoves";
-import { useLazyGetMoveByIndexQuery } from "chriskuhtz-pokemon-api";
-import { useEffect, useState } from "react";
+import { useLazyGetMoveByUrlQuery } from "chriskuhtz-pokemon-api";
+import { useState } from "react";
 import SingularMoveDetails from "./SingularMoveDetails";
+import { SingularMoveProps } from "../Models/SinglePokemonModels";
 
-const SingularMove = ({
-  move,
-  isLvlUp,
-}: {
-  move?: Move;
-  isLvlUp?: boolean;
-}) => {
+const SingularMove = ({ move, isLvlUp }: SingularMoveProps) => {
   const [showDetails, setShowDetails] = useState<boolean>(false);
-  const splitUrl = move?.move.url.split("/");
-
-  const urlIndex = splitUrl && parseInt(splitUrl[splitUrl.length - 2]);
 
   const lvl = move?.version_group_details[0].level_learned_at;
 
-  const [trigger, result] = useLazyGetMoveByIndexQuery();
+  const [trigger, result] = useLazyGetMoveByUrlQuery();
 
   return (
     <ListItem
       onClick={() => {
-        urlIndex && trigger(urlIndex);
+        move?.move.url && trigger(move.move.url);
         setShowDetails(!showDetails);
       }}
     >

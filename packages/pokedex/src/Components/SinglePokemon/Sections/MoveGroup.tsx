@@ -1,18 +1,14 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Collapse, List, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Move } from "./SinglePokemonMoves";
+import { MoveGroupProps } from "../Models/SinglePokemonModels";
 import SingularMove from "./SingularMove";
 
 const MoveGroup = ({
   moves,
   headline,
   isLvlGroup,
-}: {
-  moves: Move[];
-  headline: string;
-  isLvlGroup?: boolean;
-}): JSX.Element => {
+}: MoveGroupProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {

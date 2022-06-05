@@ -1,34 +1,11 @@
 import { Box, Typography, Divider } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
+import { SingularMoveDetailsProps } from "../Models/SinglePokemonModels";
 
-interface SingularMoveDetails {
-  data: {
-    damage_class: { name: string };
-    meta: {
-      max_hits: number;
-      min_hits: number;
-      max_turns: number;
-      min_turns: number;
-      ailment: { name: string };
-      ailment_chance: number;
-      crit_rate: number;
-      flinch_chance: number;
-      drain: number;
-      healing: number;
-    };
-    type: { name: string };
-    accuracy: number;
-    effect_entries: { effect: string }[];
-    target: { name: string };
-    power: number;
-    pp: number;
-    priority: number;
-    stat_changes: { change: number; stat: { name: string } }[];
-    effect_chance: number;
-  };
-}
-const SingularMoveDetails = ({ data }: SingularMoveDetails): JSX.Element => {
+const SingularMoveDetails = ({
+  data,
+}: SingularMoveDetailsProps): JSX.Element => {
   return (
     <Box>
       <Typography>

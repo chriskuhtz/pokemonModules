@@ -1,5 +1,6 @@
 // Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { extractUrlIndex } from "./Helpers/extractUrlIndex";
 // Define a service using a base URL and expected endpoints
 export var pokemonApi = createApi({
     reducerPath: "pokemonApi",
@@ -17,21 +18,21 @@ export var pokemonApi = createApi({
         getAllPokemon: builder.query({
             query: function () { return "pokemon?limit=1126"; },
         }),
-        getAbilityByIndex: builder.query({
-            query: function (index) { return "ability/".concat(index); },
+        getAbilityByUrl: builder.query({
+            query: function (url) { return "ability/".concat(extractUrlIndex(url)); },
         }),
-        getMoveByIndex: builder.query({
-            query: function (index) { return "move/".concat(index); },
+        getMoveByUrl: builder.query({
+            query: function (url) { return "move/".concat(extractUrlIndex(url)); },
         }),
-        getSpeciesByIndex: builder.query({
-            query: function (index) { return "pokemon-species/".concat(index); },
+        getSpeciesByUrl: builder.query({
+            query: function (url) { return "pokemon-species/".concat(extractUrlIndex(url)); },
         }),
-        getEvolutionChainByIndex: builder.query({
-            query: function (index) { return "evolution-chain/".concat(index); },
+        getEvolutionChainByUrl: builder.query({
+            query: function (url) { return "evolution-chain/".concat(extractUrlIndex(url)); },
         }),
     }); },
 });
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetGenOnePokemonQuery = pokemonApi.useGetGenOnePokemonQuery, useGetGenTwoPokemonQuery = pokemonApi.useGetGenTwoPokemonQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery, useGetAbilityByIndexQuery = pokemonApi.useGetAbilityByIndexQuery, useGetMoveByIndexQuery = pokemonApi.useGetMoveByIndexQuery, useLazyGetMoveByIndexQuery = pokemonApi.useLazyGetMoveByIndexQuery, useGetSpeciesByIndexQuery = pokemonApi.useGetSpeciesByIndexQuery, useGetEvolutionChainByIndexQuery = pokemonApi.useGetEvolutionChainByIndexQuery, useLazyGetEvolutionChainByIndexQuery = pokemonApi.useLazyGetEvolutionChainByIndexQuery;
+export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetGenOnePokemonQuery = pokemonApi.useGetGenOnePokemonQuery, useGetGenTwoPokemonQuery = pokemonApi.useGetGenTwoPokemonQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery, useGetAbilityByUrlQuery = pokemonApi.useGetAbilityByUrlQuery, useLazyGetAbilityByUrlQuery = pokemonApi.useLazyGetAbilityByUrlQuery, useLazyGetAllPokemonQuery = pokemonApi.useLazyGetAllPokemonQuery, useLazyGetGenOnePokemonQuery = pokemonApi.useLazyGetGenOnePokemonQuery, useLazyGetGenTwoPokemonQuery = pokemonApi.useLazyGetGenTwoPokemonQuery, useLazyGetPokemonByNameQuery = pokemonApi.useLazyGetPokemonByNameQuery, useGetEvolutionChainByUrlQuery = pokemonApi.useGetEvolutionChainByUrlQuery, useGetMoveByUrlQuery = pokemonApi.useGetMoveByUrlQuery, useGetSpeciesByUrlQuery = pokemonApi.useGetSpeciesByUrlQuery, useLazyGetEvolutionChainByUrlQuery = pokemonApi.useLazyGetEvolutionChainByUrlQuery, useLazyGetMoveByUrlQuery = pokemonApi.useLazyGetMoveByUrlQuery;
 //# sourceMappingURL=pokemonApi.js.map

@@ -1,12 +1,9 @@
 import { LinearProgress, Typography } from "@mui/material";
 import { useId } from "react";
 import constants from "../../../data/constants.json";
+import { SinglePokemonStatsProps } from "../Models/SinglePokemonModels";
 
-interface SinglePokemonStats {
-  stats: { base_stat: number; stat: { name: string } }[];
-}
-
-const SinglePokemonStats = ({ stats }: SinglePokemonStats) => {
+const SinglePokemonStats = ({ stats }: SinglePokemonStatsProps) => {
   const key = useId();
   return (
     <>

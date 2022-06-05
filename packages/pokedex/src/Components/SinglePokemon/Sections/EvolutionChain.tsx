@@ -1,39 +1,20 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material";
-import { useLazyGetEvolutionChainByIndexQuery } from "chriskuhtz-pokemon-api";
+import { useLazyGetEvolutionChainByUrlQuery } from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { determineEvoMethod } from "../Helpers/determineEvoMethod";
+import {
+  EvolutionStage,
+  EvolutionChainProps,
+  ChainLink,
+} from "../Models/SinglePokemonModels";
 
-interface EvolutionDetails {
-  min_level: number;
-  min_happiness: number;
-  item?: { name: string };
-  held_item?: { name: string };
-  trigger: { name: string };
-}
-interface ChainLink {
-  species: { name: string };
-  evolves_to: ChainLink[];
-  is_baby: boolean;
-  evolution_details: EvolutionDetails[];
-}
-interface EvolutionStage {
-  chainLink: ChainLink;
-  stage: string;
-}
-const EvolutionChain = ({
-  evoUrl,
-}: {
-  evoUrl: string | undefined;
-}): JSX.Element => {
-  const splitEvoUrl = evoUrl?.split("/");
-  const evoUrlIndex =
-    (splitEvoUrl && parseInt(splitEvoUrl[splitEvoUrl.length - 2])) || null;
-
-  const [trigger, result] = useLazyGetEvolutionChainByIndexQuery();
+const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
+  const [trigger, result] = useLazyGetEvolutionChainByUrlQuery();
 
   useEffect(() => {
-    if (evoUrlIndex !== null) trigger(evoUrlIndex);
-  }, [evoUrlIndex]);
+    if (evoUrl !== "") trigger(evoUrl);
+  }, [evoUrl]);
 
   const [evoChain, setEvoChain] = useState<EvolutionStage[]>([]);
 
@@ -74,62 +55,6 @@ const EvolutionChain = ({
       assembleEvoChain(result.data.chain);
     }
   }, [result]);
-
-  const determineEvoMethod = (e: EvolutionStage): string => {
-    if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .min_level
-    )
-      return `At Level ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .min_level
-      }`;
-    else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .min_happiness
-    ) {
-      return `Level Up with Happiness ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .min_happiness
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .item
-    ) {
-      return `Using a ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .item?.name
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .trigger.name === "trade"
-    ) {
-      return `Trade while holding a ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .held_item?.name
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .held_item
-    ) {
-      return `Level Up while holding a ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .held_item?.name
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .trigger.name === "trade"
-    ) {
-      return `Trade Evolution`;
-    }
-    return "unknown evolution method";
-  };
 
   return result.isSuccess ? (
     <Box>

@@ -1,10 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import { SinglePokemonTypesProps } from "../Models/SinglePokemonModels";
 
-interface SinglePokemonTypes {
-  types: string[];
-}
-
-const SinglePokemonTypes = ({ types }: SinglePokemonTypes) => {
+const SinglePokemonTypes = ({ types }: SinglePokemonTypesProps) => {
   return (
     <Box>
       <Typography variant="h5">

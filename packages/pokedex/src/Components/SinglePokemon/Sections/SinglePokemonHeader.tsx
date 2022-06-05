@@ -1,12 +1,7 @@
 import { Typography } from "@mui/material";
+import { SinglePokemonHeaderProps } from "../Models/SinglePokemonModels";
 
-interface SinglePokemonHeader {
-  url: string;
-  id: number;
-  name: string;
-}
-
-const SinglePokemonHeader = ({ url, id, name }: SinglePokemonHeader) => {
+const SinglePokemonHeader = ({ url, id, name }: SinglePokemonHeaderProps) => {
   return (
     <>
       <img src={url} />

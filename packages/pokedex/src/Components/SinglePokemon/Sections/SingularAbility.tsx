@@ -1,14 +1,9 @@
 import { Box, Chip, CircularProgress, Typography } from "@mui/material";
-import { useGetAbilityByIndexQuery } from "chriskuhtz-pokemon-api";
+import { useGetAbilityByUrlQuery } from "chriskuhtz-pokemon-api";
+import { SingularAbilityProps } from "../Models/SinglePokemonModels";
 
-const SingularAbility = ({
-  index,
-  isHidden,
-}: {
-  index: number;
-  isHidden: boolean;
-}) => {
-  const { data: abilityData, isLoading } = useGetAbilityByIndexQuery(index);
+const SingularAbility = ({ url, isHidden }: SingularAbilityProps) => {
+  const { data: abilityData, isLoading } = useGetAbilityByUrlQuery(url);
 
   if (isLoading) {
     return (

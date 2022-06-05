@@ -5,29 +5,21 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useGetSpeciesByIndexQuery } from "chriskuhtz-pokemon-api";
+import { useGetSpeciesByUrlQuery } from "chriskuhtz-pokemon-api";
 import { useEffect, useId, useState } from "react";
+import { SinglePokemonSpeciesProps } from "../Models/SinglePokemonModels";
 import EvolutionChain from "./EvolutionChain";
-
-interface SinglePokemonSpecies {
-  url: string;
-  baseExp: number;
-  heldItems: string[];
-}
 
 const SinglePokemonSpecies = ({
   url,
   baseExp,
   heldItems,
-}: SinglePokemonSpecies) => {
+}: SinglePokemonSpeciesProps) => {
   const id = useId();
 
-  const splitUrl = url.split("/");
-  const urlIndex = parseInt(splitUrl[splitUrl.length - 2]);
+  const [evoUrl, setEvoUrl] = useState<string>("");
 
-  const [evoUrl, setEvoUrl] = useState<string | undefined>(undefined);
-
-  const useSpeciesQuery = useGetSpeciesByIndexQuery(urlIndex);
+  const useSpeciesQuery = useGetSpeciesByUrlQuery(url);
 
   useEffect(() => {
     if (useSpeciesQuery.isSuccess) {

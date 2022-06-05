@@ -1,21 +1,9 @@
 import { Typography } from "@mui/material";
 import { useState } from "react";
+import { Move, SinglePokemonMovesProps } from "../Models/SinglePokemonModels";
 import MoveGroup from "./MoveGroup";
 
-export interface Move {
-  move: { name: string; url: string };
-  version_group_details: VersionGroupDetail[];
-}
-interface VersionGroupDetail {
-  level_learned_at: number;
-  move_learn_method: { name: string };
-  version_group: { name: string };
-}
-interface SinglePokemonMoves {
-  moves: Move[];
-}
-
-const SinglePokemonMoves = ({ moves }: SinglePokemonMoves) => {
+const SinglePokemonMoves = ({ moves }: SinglePokemonMovesProps) => {
   const [versionGroupIndex, setVersionGroupIndex] = useState<number>(0);
   const versionGroups = [
     "sword-shield",
