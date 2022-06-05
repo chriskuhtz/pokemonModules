@@ -9,6 +9,7 @@ import { useLazyGetMoveByUrlQuery } from "chriskuhtz-pokemon-api";
 import { useState } from "react";
 import SingularMoveDetails from "./SingularMoveDetails";
 import { SingularMoveProps } from "../Models/SinglePokemonModels";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
 
 const SingularMove = ({ move, isLvlUp }: SingularMoveProps) => {
   const [showDetails, setShowDetails] = useState<boolean>(false);
@@ -36,7 +37,7 @@ const SingularMove = ({ move, isLvlUp }: SingularMoveProps) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <strong>{move?.move.name}</strong>
+            <strong>{formatResponseText(move?.move.name || "")}</strong>
             {isLvlUp && `at level ${lvl}`}
           </Box>
         }

@@ -1,5 +1,6 @@
 import { Box, Chip, CircularProgress, Typography } from "@mui/material";
 import { useGetAbilityByUrlQuery } from "chriskuhtz-pokemon-api";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { SingularAbilityProps } from "../Models/SinglePokemonModels";
 
 const SingularAbility = ({ url, isHidden }: SingularAbilityProps) => {
@@ -20,15 +21,17 @@ const SingularAbility = ({ url, isHidden }: SingularAbilityProps) => {
   return (
     <>
       <Box display="flex" justifyContent={"space-between"} alignItems="center">
-        <Typography variant="h6">{abilityData.name} </Typography>
+        <Typography variant="h6">
+          {formatResponseText(abilityData.name)}{" "}
+        </Typography>
         {isHidden && <Chip label="hidden ability" variant="outlined" />}
       </Box>
 
       <Typography>
-        {
+        {formatResponseText(
           abilityData.effect_entries[abilityData.effect_entries.length - 1]
             .short_effect
-        }
+        )}
       </Typography>
     </>
   );

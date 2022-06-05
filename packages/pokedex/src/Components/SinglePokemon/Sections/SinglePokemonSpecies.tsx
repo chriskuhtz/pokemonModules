@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { useGetSpeciesByUrlQuery } from "chriskuhtz-pokemon-api";
 import { useEffect, useId, useState } from "react";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { SinglePokemonSpeciesProps } from "../Models/SinglePokemonModels";
 import EvolutionChain from "./EvolutionChain";
 
@@ -73,7 +74,9 @@ const SinglePokemonSpecies = ({
           </Grid>{" "}
           <Grid item xs={8}>
             <Typography>
-              {heldItems.length > 0 ? heldItems.join(", ") : "none"}
+              {heldItems.length > 0
+                ? heldItems.map((h) => formatResponseText(h)).join(", ")
+                : "none"}
             </Typography>
           </Grid>
         </Grid>

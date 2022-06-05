@@ -34,7 +34,7 @@ const SinglePokemonComponent = (): JSX.Element => {
       <SinglePokemonHeader
         url={data.sprites.other["official-artwork"].front_default}
         id={data.id}
-        name={data.name.charAt(0).toUpperCase() + data.name.slice(1)}
+        name={data.name}
       />
       <Divider />
       <SinglePokemonTypes

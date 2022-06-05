@@ -2,6 +2,7 @@ import { Box, Typography, Divider } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { SingularMoveDetailsProps } from "../Models/SinglePokemonModels";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
 
 const SingularMoveDetails = ({
   data,
@@ -37,7 +38,9 @@ const SingularMoveDetails = ({
         <strong>Type: {data.type.name}</strong>
       </Typography>{" "}
       <Divider />
-      <Typography>{data.effect_entries[0].effect}</Typography>
+      <Typography>
+        {formatResponseText(data.effect_entries[0].effect)}
+      </Typography>
       {!["user", "users-field"].includes(data.target.name) && (
         <>
           <Divider />

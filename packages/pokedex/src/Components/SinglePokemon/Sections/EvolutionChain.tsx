@@ -2,6 +2,7 @@ import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useLazyGetEvolutionChainByUrlQuery } from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { determineEvoMethod } from "../Helpers/determineEvoMethod";
 import {
   EvolutionStage,
@@ -74,7 +75,7 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
                   state={{ pokemon: e.chainLink.species.name }}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  {e.chainLink.species.name}
+                  {formatResponseText(e.chainLink.species.name)}
                 </Link>
               </Typography>
             </Grid>
