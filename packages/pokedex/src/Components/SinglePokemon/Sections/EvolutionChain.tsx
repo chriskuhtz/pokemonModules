@@ -1,7 +1,20 @@
-import { Box, CircularProgress, Grid, Typography } from "@mui/material";
-import { useLazyGetEvolutionChainByUrlQuery } from "chriskuhtz-pokemon-api";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
+import {
+  useLazyGetEvolutionChainByUrlQuery,
+  extractUrlIndex,
+} from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { determineEvoMethod } from "../Helpers/determineEvoMethod";
 import {
@@ -9,9 +22,12 @@ import {
   EvolutionChainProps,
   ChainLink,
 } from "../Models/SinglePokemonModels";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 
 const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
   const [trigger, result] = useLazyGetEvolutionChainByUrlQuery();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (evoUrl !== "") trigger(evoUrl);
@@ -62,29 +78,53 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
       <Typography variant="h5">Evolution Chain</Typography>
       {evoChain.length > 1 ? (
         evoChain.map((e, i) => (
-          <Grid container key={e.chainLink.species.name}>
-            <Grid item xs={4}>
-              <Typography>
-                <strong>{e.stage}: </strong>
-              </Typography>
-            </Grid>{" "}
-            <Grid item xs={4}>
-              <Typography>
-                <Link
-                  to={`/${e.chainLink.species.name}`}
-                  state={{ pokemon: e.chainLink.species.name }}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {formatResponseText(e.chainLink.species.name)}
-                </Link>
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography key={e.chainLink.species.name}>
-                <strong>{i !== 0 && determineEvoMethod(e)}</strong>
-              </Typography>
-            </Grid>
-          </Grid>
+          <List key={e.chainLink.species.name}>
+            {i !== 0 && (
+              <ListItem>
+                <ListItemIcon sx={{ ml: 4 }}>
+                  {i !== evoChain.length - 1 &&
+                  e.stage === evoChain[i + 1].stage ? (
+                    <SubdirectoryArrowRightIcon />
+                  ) : (
+                    <ArrowDownwardIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText
+                  primary={<strong>{determineEvoMethod(e)}</strong>}
+                />
+              </ListItem>
+            )}
+            <ListItem
+              onClick={() =>
+                navigate(`/${e.chainLink.species.name}`, {
+                  state: { pokemon: e.chainLink.species.name },
+                })
+              }
+            >
+              <ListItemIcon>
+                <img
+                  src={
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+                    extractUrlIndex(e.chainLink.species.url) +
+                    ".png"
+                  }
+                />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  formatResponseText(e.chainLink.species.name)
+                  // <Link
+                  //   to={`/${e.chainLink.species.name}`}
+                  //   state={{ pokemon: e.chainLink.species.name }}
+                  //   style={{ textDecoration: "none", color: "inherit" }}
+                  // >
+
+                  // </Link>
+                }
+                secondary={<strong>{e.stage}</strong>}
+              />
+            </ListItem>
+          </List>
         ))
       ) : (
         <Typography>This Pokemon does not evolve</Typography>

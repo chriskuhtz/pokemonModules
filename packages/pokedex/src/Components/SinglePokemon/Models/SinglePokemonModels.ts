@@ -74,7 +74,7 @@ export interface EvolutionDetails {
   trigger: { name: string };
 }
 export interface ChainLink {
-  species: { name: string };
+  species: { name: string; url: string };
   evolves_to: ChainLink[];
   is_baby: boolean;
   evolution_details: EvolutionDetails[];

@@ -14,6 +14,7 @@ const SinglePokemonComponent = (): JSX.Element => {
   const { data, isLoading } = useGetPokemonByNameQuery(state.pokemon);
 
   useEffect(() => {
+    console.log(data);
     window.scrollTo(0, 0);
   }, [data]);
 
