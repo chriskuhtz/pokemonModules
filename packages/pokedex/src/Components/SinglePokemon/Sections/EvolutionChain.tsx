@@ -1,17 +1,7 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useLazyGetEvolutionChainByIndexQuery } from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import TimelineDot from "@mui/lab/TimelineDot";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
-import LaptopMacIcon from "@mui/icons-material/LaptopMac";
-import HotelIcon from "@mui/icons-material/Hotel";
-import RepeatIcon from "@mui/icons-material/Repeat";
+import { Link } from "react-router-dom";
 
 interface EvolutionDetails {
   min_level: number;
@@ -69,7 +59,6 @@ const EvolutionChain = ({
     while (nextStage.chainLink.evolves_to.length > 0) {
       nextStage.chainLink.evolves_to.forEach((e) => {
         newEvoChain.push({ chainLink: e, stage: stages[stageIndex] });
-        console.log("pushing " + nextStage.chainLink.species.name);
       });
       stageIndex += 1;
       nextStage = {
@@ -82,9 +71,8 @@ const EvolutionChain = ({
 
   useEffect(() => {
     if (result.isSuccess) {
-      console.log(result.data);
       assembleEvoChain(result.data.chain);
-    } else console.log("awaiting result");
+    }
   }, [result]);
 
   const determineEvoMethod = (e: EvolutionStage): string => {
@@ -148,14 +136,22 @@ const EvolutionChain = ({
       <Typography variant="h5">Evolution Chain</Typography>
       {evoChain.length > 1 ? (
         evoChain.map((e, i) => (
-          <Grid container>
+          <Grid container key={e.chainLink.species.name}>
             <Grid item xs={4}>
               <Typography>
                 <strong>{e.stage}: </strong>
               </Typography>
             </Grid>{" "}
             <Grid item xs={4}>
-              <Typography>{e.chainLink.species.name}</Typography>
+              <Typography>
+                <Link
+                  to={`/${e.chainLink.species.name}`}
+                  state={{ pokemon: e.chainLink.species.name }}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  {e.chainLink.species.name}
+                </Link>
+              </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography key={e.chainLink.species.name}>

@@ -1,16 +1,10 @@
 import React, { ReactElement } from "react";
 import { Container } from "@mui/material";
 
-const ContentView = ({
-  children,
-  currentPokemon,
-}: {
-  children: ReactElement;
-  currentPokemon: string;
-}) => {
+const ContentView = ({ children }: { children: ReactElement }) => {
   return (
     <Container maxWidth="sm" sx={{ p: 2 }} disableGutters>
-      {React.cloneElement(children, { pokemon: currentPokemon })}
+      {children}
     </Container>
   );
 };

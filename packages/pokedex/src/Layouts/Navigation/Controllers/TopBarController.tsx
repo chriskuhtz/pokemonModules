@@ -11,12 +11,8 @@ import ContentView from "../Views/ContentView";
 
 const TopBarController = ({
   children,
-  currentPokemon,
-  setCurrentPokemon,
 }: {
   children: ReactElement;
-  currentPokemon: string;
-  setCurrentPokemon: (pokemon: string) => void;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -52,13 +48,8 @@ const TopBarController = ({
         </AppBar>
 
         <Toolbar />
-        <DrawerView
-          currentPokemon={currentPokemon}
-          setCurrentPokemon={setCurrentPokemon}
-          open={isMdOrUp || open}
-          setOpen={setOpen}
-        />
-        <ContentView currentPokemon={currentPokemon}>{children}</ContentView>
+        <DrawerView open={isMdOrUp || open} setOpen={setOpen} />
+        <ContentView>{children}</ContentView>
       </Box>
     </Container>
   );
