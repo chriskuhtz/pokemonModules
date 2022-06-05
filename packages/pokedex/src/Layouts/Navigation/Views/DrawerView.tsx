@@ -12,6 +12,7 @@ import { useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
 import { Link, useLocation } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
 
 const DrawerView = ({
   open,
@@ -93,7 +94,7 @@ const DrawerView = ({
                 state={{ pokemon: d.name }}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                {d.name}
+                {formatResponseText(d.name)}
               </Link>
             </Typography>
           ))}
