@@ -24,6 +24,12 @@ export const pokemonApi = createApi({
     getMoveByIndex: builder.query({
       query: (index: number) => `move/${index}`,
     }),
+    getSpeciesByIndex: builder.query({
+      query: (index: number) => `pokemon-species/${index}`,
+    }),
+    getEvolutionChainByIndex: builder.query({
+      query: (index: number) => `evolution-chain/${index}`,
+    }),
   }),
 });
 
@@ -37,4 +43,7 @@ export const {
   useGetAbilityByIndexQuery,
   useGetMoveByIndexQuery,
   useLazyGetMoveByIndexQuery,
+  useGetSpeciesByIndexQuery,
+  useGetEvolutionChainByIndexQuery,
+  useLazyGetEvolutionChainByIndexQuery,
 } = pokemonApi;

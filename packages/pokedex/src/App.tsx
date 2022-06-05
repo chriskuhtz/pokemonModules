@@ -3,7 +3,7 @@ import SinglePokemonComponent from "./Components/SinglePokemon/Component/SingleP
 import TopBarController from "./Layouts/Navigation/Controllers/TopBarController";
 
 const App = (): JSX.Element => {
-  const [currentPokemon, setCurrentPokemon] = useState<string>("pikachu");
+  const [currentPokemon, setCurrentPokemon] = useState<string>("eevee");
 
   return (
     <TopBarController
