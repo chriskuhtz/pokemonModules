@@ -3,7 +3,6 @@ import { Box, Typography, Divider } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface SingularMoveDetails {
-  setShowDetails: (x: boolean) => void;
   data: {
     damage_class: { name: string };
     meta: {
@@ -26,18 +25,17 @@ interface SingularMoveDetails {
     pp: number;
     priority: number;
     stat_changes: { change: number; stat: { name: string } }[];
+    effect_chance: number;
   };
 }
-const SingularMoveDetails = ({
-  data,
-  setShowDetails,
-}: SingularMoveDetails): JSX.Element => {
+const SingularMoveDetails = ({ data }: SingularMoveDetails): JSX.Element => {
+  console.log(data);
   return (
     <Box>
       <Typography>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <strong>Move Type: {data.damage_class.name}</strong>
-          <CloseIcon onClick={() => setShowDetails(false)} />
+          <CloseIcon />
         </Box>
       </Typography>
       <Divider />
@@ -129,10 +127,10 @@ const SingularMoveDetails = ({
         <>
           <Divider />
           <Typography>
-            Stat Changes:
+            Stat Changes: {data.effect_chance}% chance of{" "}
             {data.stat_changes.map((s, i) => (
               <span>
-                {s.change} {s.stat.name}
+                {s.change > 0 ? `+${s.change}` : s.change} {s.stat.name}
                 {i !== data.stat_changes.length - 1 && ", "}
               </span>
             ))}

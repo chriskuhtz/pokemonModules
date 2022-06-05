@@ -23,9 +23,15 @@ export var pokemonApi = createApi({
         getMoveByIndex: builder.query({
             query: function (index) { return "move/".concat(index); },
         }),
+        getSpeciesByIndex: builder.query({
+            query: function (index) { return "pokemon-species/".concat(index); },
+        }),
+        getEvolutionChainByIndex: builder.query({
+            query: function (index) { return "evolution-chain/".concat(index); },
+        }),
     }); },
 });
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetGenOnePokemonQuery = pokemonApi.useGetGenOnePokemonQuery, useGetGenTwoPokemonQuery = pokemonApi.useGetGenTwoPokemonQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery, useGetAbilityByIndexQuery = pokemonApi.useGetAbilityByIndexQuery, useGetMoveByIndexQuery = pokemonApi.useGetMoveByIndexQuery, useLazyGetMoveByIndexQuery = pokemonApi.useLazyGetMoveByIndexQuery;
+export var useGetPokemonByNameQuery = pokemonApi.useGetPokemonByNameQuery, useGetGenOnePokemonQuery = pokemonApi.useGetGenOnePokemonQuery, useGetGenTwoPokemonQuery = pokemonApi.useGetGenTwoPokemonQuery, useGetAllPokemonQuery = pokemonApi.useGetAllPokemonQuery, useGetAbilityByIndexQuery = pokemonApi.useGetAbilityByIndexQuery, useGetMoveByIndexQuery = pokemonApi.useGetMoveByIndexQuery, useLazyGetMoveByIndexQuery = pokemonApi.useLazyGetMoveByIndexQuery, useGetSpeciesByIndexQuery = pokemonApi.useGetSpeciesByIndexQuery, useGetEvolutionChainByIndexQuery = pokemonApi.useGetEvolutionChainByIndexQuery, useLazyGetEvolutionChainByIndexQuery = pokemonApi.useLazyGetEvolutionChainByIndexQuery;
 //# sourceMappingURL=pokemonApi.js.map

@@ -27,7 +27,12 @@ const SingularMove = ({
   const [trigger, result] = useLazyGetMoveByIndexQuery();
 
   return (
-    <ListItem>
+    <ListItem
+      onClick={() => {
+        urlIndex && trigger(urlIndex);
+        setShowDetails(!showDetails);
+      }}
+    >
       {result.isLoading && (
         <ListItemIcon>
           <CircularProgress />
@@ -39,10 +44,6 @@ const SingularMove = ({
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            onClick={() => {
-              urlIndex && trigger(urlIndex);
-              setShowDetails(!showDetails);
-            }}
           >
             <strong>{move?.move.name}</strong>
             {isLvlUp && `at level ${lvl}`}
@@ -50,10 +51,7 @@ const SingularMove = ({
         }
         secondary={
           result.isSuccess && showDetails ? (
-            <SingularMoveDetails
-              data={result.data}
-              setShowDetails={setShowDetails}
-            />
+            <SingularMoveDetails data={result.data} />
           ) : (
             "more info"
           )
