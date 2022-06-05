@@ -1,3 +1,4 @@
+import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { EvolutionStage } from "../Models/SinglePokemonModels";
 
 export const determineEvoMethod = (e: EvolutionStage): string => {
@@ -23,28 +24,28 @@ export const determineEvoMethod = (e: EvolutionStage): string => {
     e.chainLink.evolution_details.length > 0 &&
     e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1].item
   ) {
-    return `Using a ${
+    return `Using a ${formatResponseText(
       e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .item?.name
-    }`;
+        .item?.name || ""
+    )}`;
   } else if (
     e.chainLink.evolution_details.length > 0 &&
     e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
       .trigger.name === "trade"
   ) {
-    return `Trade while holding a ${
+    return `Trade while holding a ${formatResponseText(
       e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .held_item?.name
-    }`;
+        .held_item?.name || ""
+    )}`;
   } else if (
     e.chainLink.evolution_details.length > 0 &&
     e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
       .held_item
   ) {
-    return `Level Up while holding a ${
+    return `Level Up while holding a ${formatResponseText(
       e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .held_item?.name
-    }`;
+        .held_item?.name || ""
+    )}`;
   } else if (
     e.chainLink.evolution_details.length > 0 &&
     e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
