@@ -31,8 +31,6 @@ const SinglePokemonSpecies = ({
 
   useEffect(() => {
     if (useSpeciesQuery.isSuccess) {
-      console.log(useSpeciesQuery.data);
-
       setEvoUrl(useSpeciesQuery.data.evolution_chain.url);
     }
   }, [useSpeciesQuery.data, evoUrl, url]);

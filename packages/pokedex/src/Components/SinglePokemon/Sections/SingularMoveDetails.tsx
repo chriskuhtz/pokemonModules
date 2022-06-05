@@ -29,7 +29,6 @@ interface SingularMoveDetails {
   };
 }
 const SingularMoveDetails = ({ data }: SingularMoveDetails): JSX.Element => {
-  console.log(data);
   return (
     <Box>
       <Typography>

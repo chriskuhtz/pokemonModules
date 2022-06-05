@@ -69,7 +69,6 @@ const EvolutionChain = ({
     while (nextStage.chainLink.evolves_to.length > 0) {
       nextStage.chainLink.evolves_to.forEach((e) => {
         newEvoChain.push({ chainLink: e, stage: stages[stageIndex] });
-        console.log("pushing " + nextStage.chainLink.species.name);
       });
       stageIndex += 1;
       nextStage = {
@@ -82,9 +81,8 @@ const EvolutionChain = ({
 
   useEffect(() => {
     if (result.isSuccess) {
-      console.log(result.data);
       assembleEvoChain(result.data.chain);
-    } else console.log("awaiting result");
+    }
   }, [result]);
 
   const determineEvoMethod = (e: EvolutionStage): string => {

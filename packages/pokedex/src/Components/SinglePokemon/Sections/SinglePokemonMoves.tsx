@@ -49,8 +49,6 @@ const SinglePokemonMoves = ({ moves }: SinglePokemonMoves) => {
     versionGroupIndex !== versionGroups.length - 1
   ) {
     setVersionGroupIndex(versionGroupIndex + 1);
-
-    console.log(versionGroups[versionGroupIndex]);
   }
 
   const lvlUpMoves: Move[] = [];
