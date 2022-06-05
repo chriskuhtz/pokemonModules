@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Stack,
   Drawer,
   Typography,
   Box,
   CircularProgress,
+  InputAdornment,
+  TextField,
 } from "@mui/material";
 import { useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
+import { Link, useLocation } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 
 const DrawerView = ({
   open,
   setOpen,
-  currentPokemon,
-  setCurrentPokemon,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  currentPokemon: string;
-  setCurrentPokemon: (pokemon: string) => void;
 }) => {
+  const { state } = useLocation() as { state: { pokemon: string } };
+
   const { data, isLoading } = useGetAllPokemonQuery("");
+  const [search, setSearch] = useState<string>("");
 
   if (isLoading) {
     return (
@@ -52,18 +56,47 @@ const DrawerView = ({
             Github Repo
           </a>
         </Typography>
-        {data.results.map((d: { name: string }) => (
-          <Typography
-            key={d.name}
-            color={d.name === currentPokemon ? "primary" : "text"}
-            onClick={() => {
-              setCurrentPokemon(d.name);
-              setOpen(false);
-            }}
-          >
-            {d.name}
-          </Typography>
-        ))}
+
+        <TextField
+          id="input-with-icon-textfield"
+          label="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{ pr: { xs: 6, sm: 0 } }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CloseIcon onClick={() => setSearch("")} />
+              </InputAdornment>
+            ),
+          }}
+          variant="standard"
+        />
+
+        {data.results
+          .filter((d: { name: string }) => d.name.includes(search))
+          .map((d: { name: string }) => (
+            <Typography
+              key={d.name}
+              color={d.name === state.pokemon ? "primary" : "text"}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <Link
+                to={`/${d.name}`}
+                state={{ pokemon: d.name }}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {d.name}
+              </Link>
+            </Typography>
+          ))}
       </Stack>
     </Drawer>
   );

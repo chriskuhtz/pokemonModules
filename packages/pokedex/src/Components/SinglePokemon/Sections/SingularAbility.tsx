@@ -29,7 +29,12 @@ const SingularAbility = ({
         {isHidden && <Chip label="hidden ability" variant="outlined" />}
       </Box>
 
-      <Typography>{abilityData.effect_entries[1].short_effect}</Typography>
+      <Typography>
+        {
+          abilityData.effect_entries[abilityData.effect_entries.length - 1]
+            .short_effect
+        }
+      </Typography>
     </>
   );
 };

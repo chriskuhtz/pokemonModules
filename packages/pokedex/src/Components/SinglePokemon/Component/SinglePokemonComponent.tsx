@@ -1,14 +1,6 @@
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
-import {
-  useGetAbilityByIndexQuery,
-  useGetPokemonByNameQuery,
-} from "chriskuhtz-pokemon-api";
+import { Box, CircularProgress, Divider, Stack } from "@mui/material";
+import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
+import { useLocation } from "react-router-dom";
 import SinglePokemonAbilities from "../Sections/SinglePokemonAbilities";
 import SinglePokemonHeader from "../Sections/SinglePokemonHeader";
 import SinglePokemonMoves from "../Sections/SinglePokemonMoves";
@@ -16,14 +8,9 @@ import SinglePokemonSpecies from "../Sections/SinglePokemonSpecies";
 import SinglePokemonStats from "../Sections/SinglePokemonStats";
 import SinglePokemonTypes from "../Sections/SinglePokemonTypes";
 
-const SinglePokemonComponent = ({
-  pokemon,
-}: {
-  pokemon: string;
-}): JSX.Element => {
-  const { data, isLoading } = useGetPokemonByNameQuery(pokemon);
-
-  console.log(data);
+const SinglePokemonComponent = (): JSX.Element => {
+  const { state } = useLocation() as { state: { pokemon: string } };
+  const { data, isLoading } = useGetPokemonByNameQuery(state.pokemon);
 
   if (isLoading) {
     return (
