@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
@@ -21,6 +21,7 @@ const DrawerView = ({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
+  const navigate = useNavigate();
   const { state } = useLocation() as { state: { pokemon: string } };
 
   const { data, isLoading } = useGetAllPokemonQuery("");
@@ -87,15 +88,12 @@ const DrawerView = ({
               color={d.name === state.pokemon ? "primary" : "text"}
               onClick={() => {
                 setOpen(false);
+                navigate(`/${d.name}`, {
+                  state: { pokemon: d.name },
+                });
               }}
             >
-              <Link
-                to={`/${d.name}`}
-                state={{ pokemon: d.name }}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                {formatResponseText(d.name)}
-              </Link>
+              {formatResponseText(d.name)}
             </Typography>
           ))}
       </Stack>
