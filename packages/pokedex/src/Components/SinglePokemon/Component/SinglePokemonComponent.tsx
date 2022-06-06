@@ -59,9 +59,9 @@ const SinglePokemonComponent = (): JSX.Element => {
       <Divider />
       <SinglePokemonAbilities abilities={data.abilities} id={data.id} />
       <Divider />
-      <SinglePokemonStats stats={data.stats} />
-      <Divider />
       <SinglePokemonMoves moves={data.moves} id={data.id} />
+      <Divider />
+      <SinglePokemonStats stats={data.stats} />
     </Stack>
   );
 };
