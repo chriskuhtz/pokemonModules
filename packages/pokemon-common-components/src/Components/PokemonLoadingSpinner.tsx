@@ -15,6 +15,9 @@ export const PokemonLoadingSpinner = ({
   return (
     <animated.img
       style={props}
+      height="96px"
+      width="96px"
+      alt="pokemon icon"
       src={
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
         index +

@@ -8,7 +8,7 @@ export var PokemonLoadingSpinner = function (_a) {
         loop: true,
         config: config.gentle,
     });
-    return (React.createElement(animated.img, { style: props, src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+    return (React.createElement(animated.img, { style: props, height: "96px", width: "96px", alt: "pokemon icon", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
             index +
             ".png" }));
 };

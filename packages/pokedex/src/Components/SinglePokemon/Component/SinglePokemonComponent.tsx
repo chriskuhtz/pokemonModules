@@ -1,10 +1,6 @@
 import { Box, Divider, Stack } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
-import {
-  PokemonIcon,
-  PokemonLoadingSpinner,
-  TypeIcon,
-} from "chriskuhtz-pokemon-common-components";
+import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SinglePokemonAbilities from "../Sections/SinglePokemonAbilities";
