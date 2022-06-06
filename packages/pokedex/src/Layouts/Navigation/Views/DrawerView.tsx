@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { startTransition, Suspense, useState } from "react";
 import {
   Stack,
   Drawer,
@@ -32,8 +32,8 @@ const DrawerView = ({
   let { pokemonId } = useParams();
 
   const { data, isLoading } = useGetAllPokemonQuery("");
-  const [search, setSearch] = useState<string>("");
-
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>("");
   if (isLoading) {
     return (
       <Box
@@ -66,8 +66,14 @@ const DrawerView = ({
         </Typography>
 
         <TextField
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={searchInput}
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+
+            startTransition(() => {
+              setSearchQuery(e.target.value);
+            });
+          }}
           sx={{ px: 2 }}
           InputProps={{
             startAdornment: (
@@ -77,43 +83,52 @@ const DrawerView = ({
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <CloseIcon onClick={() => setSearch("")} />
+                <CloseIcon
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSearchInput("");
+                  }}
+                />
               </InputAdornment>
             ),
           }}
           variant="standard"
         />
-        <List>
-          {data.results
-            .filter((d: { name: string }) => d.name.includes(search))
-            .map((d: { name: string; url: string }) => (
-              <ListItemButton
-                key={d.name}
-                onClick={() => {
-                  setOpen(false);
-                  navigate(`/${d.name}`);
-                }}
-              >
-                <ListItemIcon>
-                  <PokemonIcon index={extractUrlIndex(d.url)} />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ color: d.name === pokemonId ? "primary" : "text" }}
-                  primary={
-                    <Typography variant="h5">
-                      #
-                      {extractUrlIndex(d.url) < 10
-                        ? "00" + extractUrlIndex(d.url)
-                        : extractUrlIndex(d.url) < 100
-                        ? "0" + extractUrlIndex(d.url)
-                        : extractUrlIndex(d.url)}{" "}
-                      {formatResponseText(d.name)}
-                    </Typography>
-                  }
-                />
-              </ListItemButton>
-            ))}
-        </List>
+        <Suspense fallback={<PokemonLoadingSpinner index={25} />}>
+          <List>
+            {data.results
+              .filter((d: { name: string }) => d.name.includes(searchQuery))
+              .map((d: { name: string; url: string }) => (
+                <ListItemButton
+                  key={d.name}
+                  onClick={() => {
+                    setOpen(false);
+                    navigate(`/${d.name}`);
+                  }}
+                >
+                  {searchQuery !== "" && (
+                    <ListItemIcon>
+                      <PokemonIcon index={extractUrlIndex(d.url)} />
+                    </ListItemIcon>
+                  )}
+                  <ListItemText
+                    sx={{ color: d.name === pokemonId ? "primary" : "text" }}
+                    primary={
+                      <Typography variant="h5">
+                        #
+                        {extractUrlIndex(d.url) < 10
+                          ? "00" + extractUrlIndex(d.url)
+                          : extractUrlIndex(d.url) < 100
+                          ? "0" + extractUrlIndex(d.url)
+                          : extractUrlIndex(d.url)}{" "}
+                        {formatResponseText(d.name)}
+                      </Typography>
+                    }
+                  />
+                </ListItemButton>
+              ))}
+          </List>
+        </Suspense>
       </Stack>
     </Drawer>
   );
