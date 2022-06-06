@@ -1,6 +1,6 @@
 {
   "name": "chriskuhtz-pokemon-api",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "private": false,
   "files": [
     "lib"
