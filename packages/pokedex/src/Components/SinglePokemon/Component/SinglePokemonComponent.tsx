@@ -1,7 +1,12 @@
 import { Box, CircularProgress, Divider, Stack } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import SinglePokemonAbilities from "../Sections/SinglePokemonAbilities";
 import SinglePokemonHeader from "../Sections/SinglePokemonHeader";
 import SinglePokemonMoves from "../Sections/SinglePokemonMoves";
@@ -10,8 +15,9 @@ import SinglePokemonStats from "../Sections/SinglePokemonStats";
 import SinglePokemonTypes from "../Sections/SinglePokemonTypes";
 
 const SinglePokemonComponent = (): JSX.Element => {
-  const { state } = useLocation() as { state: { pokemon: string } };
-  const { data, isLoading } = useGetPokemonByNameQuery(state.pokemon);
+  let { pokemonId } = useParams();
+
+  const { data, isLoading } = useGetPokemonByNameQuery(pokemonId);
 
   useEffect(() => {
     console.log(data);

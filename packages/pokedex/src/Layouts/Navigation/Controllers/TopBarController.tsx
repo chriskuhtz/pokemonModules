@@ -16,8 +16,6 @@ const TopBarController = ({
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const isSmOrDown = useMediaQuery(theme.breakpoints.down("md"));
-  const isMdOrUp = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <Container maxWidth={false} disableGutters sx={{ minHeight: "100vh" }}>
@@ -28,18 +26,16 @@ const TopBarController = ({
         >
           {" "}
           <Toolbar>
-            {isSmOrDown && (
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-                onClick={() => setOpen(!open)}
-              >
-                <MenuIcon />
-              </IconButton>
-            )}
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={() => setOpen(!open)}
+            >
+              <MenuIcon />
+            </IconButton>
 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Pokedex 0.0.1
@@ -48,7 +44,7 @@ const TopBarController = ({
         </AppBar>
 
         <Toolbar />
-        <DrawerView open={isMdOrUp || open} setOpen={setOpen} />
+        <DrawerView open={open} setOpen={setOpen} />
         <ContentView>{children}</ContentView>
       </Box>
     </Container>

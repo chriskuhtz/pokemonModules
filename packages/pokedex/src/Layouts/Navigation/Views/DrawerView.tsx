@@ -7,9 +7,14 @@ import {
   CircularProgress,
   InputAdornment,
   TextField,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  List,
+  ListItemButton,
 } from "@mui/material";
-import { useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { extractUrlIndex, useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
+import { useNavigate, useParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
@@ -22,7 +27,7 @@ const DrawerView = ({
   setOpen: (open: boolean) => void;
 }) => {
   const navigate = useNavigate();
-  const { state } = useLocation() as { state: { pokemon: string } };
+  let { pokemonId } = useParams();
 
   const { data, isLoading } = useGetAllPokemonQuery("");
   const [search, setSearch] = useState<string>("");
@@ -45,12 +50,11 @@ const DrawerView = ({
         spacing={2}
         sx={{
           py: 9,
-          px: { xs: 3, lg: 6 },
           minWidth: { xs: "100vw", md: 0 },
           minHeight: "100%",
         }}
       >
-        <Typography variant={"h6"}>
+        <Typography variant={"h6"} sx={{ px: { xs: 3, lg: 6 } }}>
           <a
             style={{ textDecoration: "none", color: "inherit" }}
             href="https://github.com/chriskuhtz/pokemonModules"
@@ -60,11 +64,9 @@ const DrawerView = ({
         </Typography>
 
         <TextField
-          id="input-with-icon-textfield"
-          label="Search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          sx={{ pr: { xs: 6, sm: 0 } }}
+          sx={{ px: 2 }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -79,23 +81,43 @@ const DrawerView = ({
           }}
           variant="standard"
         />
-
-        {data.results
-          .filter((d: { name: string }) => d.name.includes(search))
-          .map((d: { name: string }) => (
-            <Typography
-              key={d.name}
-              color={d.name === state.pokemon ? "primary" : "text"}
-              onClick={() => {
-                setOpen(false);
-                navigate(`/${d.name}`, {
-                  state: { pokemon: d.name },
-                });
-              }}
-            >
-              {formatResponseText(d.name)}
-            </Typography>
-          ))}
+        <List>
+          {data.results
+            .filter((d: { name: string }) => d.name.includes(search))
+            .map((d: { name: string; url: string }) => (
+              <ListItemButton
+                key={d.name}
+                onClick={() => {
+                  setOpen(false);
+                  navigate(`/${d.name}`);
+                }}
+              >
+                <ListItemIcon>
+                  <img
+                    src={
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+                      extractUrlIndex(d.url) +
+                      ".png"
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  sx={{ color: d.name === pokemonId ? "primary" : "text" }}
+                  primary={
+                    <Typography variant="h5">
+                      #
+                      {extractUrlIndex(d.url) < 10
+                        ? "00" + extractUrlIndex(d.url)
+                        : extractUrlIndex(d.url) < 100
+                        ? "0" + extractUrlIndex(d.url)
+                        : extractUrlIndex(d.url)}{" "}
+                      {formatResponseText(d.name)}
+                    </Typography>
+                  }
+                />
+              </ListItemButton>
+            ))}
+        </List>
       </Stack>
     </Drawer>
   );

@@ -2,6 +2,7 @@ import {
   Box,
   CircularProgress,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
@@ -19,7 +20,7 @@ const SingularMove = ({ move, isLvlUp }: SingularMoveProps) => {
   const [trigger, result] = useLazyGetMoveByUrlQuery();
 
   return (
-    <ListItem
+    <ListItemButton
       onClick={() => {
         move?.move.url && trigger(move.move.url);
         setShowDetails(!showDetails);
@@ -49,7 +50,7 @@ const SingularMove = ({ move, isLvlUp }: SingularMoveProps) => {
           )
         }
       />
-    </ListItem>
+    </ListItemButton>
   );
 };
 

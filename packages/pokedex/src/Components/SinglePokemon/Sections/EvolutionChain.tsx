@@ -4,6 +4,7 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   Stack,
@@ -95,12 +96,8 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
                 />
               </ListItem>
             )}
-            <ListItem
-              onClick={() =>
-                navigate(`/${e.chainLink.species.name}`, {
-                  state: { pokemon: e.chainLink.species.name },
-                })
-              }
+            <ListItemButton
+              onClick={() => navigate(`/${e.chainLink.species.name}`)}
             >
               <ListItemIcon>
                 <img
@@ -115,7 +112,7 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
                 primary={formatResponseText(e.chainLink.species.name)}
                 secondary={<strong>{e.stage}</strong>}
               />
-            </ListItem>
+            </ListItemButton>
           </List>
         ))
       ) : (
