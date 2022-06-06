@@ -1,6 +1,6 @@
 {
   "name": "chriskuhtz-pokemon-common-components",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "private": false,
   "files": [
     "lib"
@@ -23,8 +23,8 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
+    "react-spring": "^9.4.5",
     "tslib": "1.9.3",
-    "typescript": "^4.6.4",
-    "react-spring": "^9.4.5"
+    "typescript": "^4.6.4"
   }
 }
