@@ -1,13 +1,10 @@
 import {
   Box,
-  CircularProgress,
-  Grid,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Stack,
   Typography,
 } from "@mui/material";
 import {
@@ -25,8 +22,12 @@ import {
 } from "../Models/SinglePokemonModels";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
+import {
+  PokemonIcon,
+  PokemonLoadingSpinner,
+} from "chriskuhtz-pokemon-common-components";
 
-const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
+const EvolutionChain = ({ evoUrl, id }: EvolutionChainProps): JSX.Element => {
   const [trigger, result] = useLazyGetEvolutionChainByUrlQuery();
   const navigate = useNavigate();
 
@@ -100,13 +101,7 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
               onClick={() => navigate(`/${e.chainLink.species.name}`)}
             >
               <ListItemIcon>
-                <img
-                  src={
-                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                    extractUrlIndex(e.chainLink.species.url) +
-                    ".png"
-                  }
-                />
+                <PokemonIcon index={extractUrlIndex(e.chainLink.species.url)} />
               </ListItemIcon>
               <ListItemText
                 primary={formatResponseText(e.chainLink.species.name)}
@@ -120,7 +115,7 @@ const EvolutionChain = ({ evoUrl }: EvolutionChainProps): JSX.Element => {
       )}
     </Box>
   ) : (
-    <CircularProgress />
+    <PokemonLoadingSpinner index={id} />
   );
 };
 

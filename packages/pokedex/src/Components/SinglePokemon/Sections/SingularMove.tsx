@@ -1,18 +1,12 @@
-import {
-  Box,
-  CircularProgress,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useLazyGetMoveByUrlQuery } from "chriskuhtz-pokemon-api";
 import { useState } from "react";
 import SingularMoveDetails from "./SingularMoveDetails";
 import { SingularMoveProps } from "../Models/SinglePokemonModels";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
+import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
 
-const SingularMove = ({ move, isLvlUp }: SingularMoveProps) => {
+const SingularMove = ({ move, isLvlUp, id }: SingularMoveProps) => {
   const [showDetails, setShowDetails] = useState<boolean>(false);
 
   const lvl = move?.version_group_details[0].level_learned_at;
@@ -28,7 +22,7 @@ const SingularMove = ({ move, isLvlUp }: SingularMoveProps) => {
     >
       {result.isLoading && (
         <ListItemIcon>
-          <CircularProgress />
+          <PokemonLoadingSpinner index={id} />
         </ListItemIcon>
       )}
       <ListItemText

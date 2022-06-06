@@ -2,7 +2,10 @@ import { Typography } from "@mui/material";
 import { SinglePokemonAbilitiesProps } from "../Models/SinglePokemonModels";
 import SingularAbility from "./SingularAbility";
 
-const SinglePokemonAbilities = ({ abilities }: SinglePokemonAbilitiesProps) => {
+const SinglePokemonAbilities = ({
+  abilities,
+  id,
+}: SinglePokemonAbilitiesProps) => {
   return (
     <>
       <Typography variant="h5">
@@ -14,6 +17,7 @@ const SinglePokemonAbilities = ({ abilities }: SinglePokemonAbilitiesProps) => {
             key={a.ability.url}
             url={a.ability.url}
             isHidden={a.is_hidden}
+            id={id}
           />
         );
       })}

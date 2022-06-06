@@ -1,12 +1,7 @@
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import { useGetSpeciesByUrlQuery } from "chriskuhtz-pokemon-api";
-import { useEffect, useId, useState } from "react";
+import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
+import { useEffect, useState } from "react";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { SinglePokemonSpeciesProps } from "../Models/SinglePokemonModels";
 import EvolutionChain from "./EvolutionChain";
@@ -15,9 +10,8 @@ const SinglePokemonSpecies = ({
   url,
   baseExp,
   heldItems,
+  id,
 }: SinglePokemonSpeciesProps) => {
-  const id = useId();
-
   const [evoUrl, setEvoUrl] = useState<string>("");
 
   const useSpeciesQuery = useGetSpeciesByUrlQuery(url);
@@ -30,7 +24,7 @@ const SinglePokemonSpecies = ({
 
   return useSpeciesQuery.isSuccess ? (
     <>
-      <EvolutionChain evoUrl={evoUrl} />
+      <EvolutionChain evoUrl={evoUrl} id={id} />
       <Divider />
       <Box>
         <Typography variant="h5">Misc</Typography>
@@ -83,7 +77,7 @@ const SinglePokemonSpecies = ({
       </Box>
     </>
   ) : (
-    <CircularProgress />
+    <PokemonLoadingSpinner index={id} />
   );
 };
 

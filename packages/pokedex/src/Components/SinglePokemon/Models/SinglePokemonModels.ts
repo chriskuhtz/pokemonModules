@@ -1,13 +1,16 @@
 //PROPS:
 export interface MoveGroupProps {
+  id: number;
   moves: Move[];
   headline: string;
   isLvlGroup?: boolean;
 }
 export interface EvolutionChainProps {
+  id: number;
   evoUrl: string;
 }
 export interface SinglePokemonAbilitiesProps {
+  id: number;
   abilities: { ability: { url: string }; is_hidden: boolean }[];
 }
 export interface SinglePokemonHeaderProps {
@@ -16,10 +19,12 @@ export interface SinglePokemonHeaderProps {
   name: string;
 }
 export interface SinglePokemonMovesProps {
+  id: number;
   moves: Move[];
 }
 
 export interface SinglePokemonSpeciesProps {
+  id: number;
   url: string;
   baseExp: number;
   heldItems: string[];
@@ -31,10 +36,12 @@ export interface SinglePokemonTypesProps {
   types: string[];
 }
 export interface SingularAbilityProps {
+  id: number;
   url: string;
   isHidden: boolean;
 }
 export interface SingularMoveProps {
+  id: number;
   move?: Move;
   isLvlUp?: boolean;
 }

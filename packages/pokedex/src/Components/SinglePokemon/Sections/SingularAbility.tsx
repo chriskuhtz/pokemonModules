@@ -1,9 +1,10 @@
-import { Box, Chip, CircularProgress, Typography } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import { useGetAbilityByUrlQuery } from "chriskuhtz-pokemon-api";
+import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { SingularAbilityProps } from "../Models/SinglePokemonModels";
 
-const SingularAbility = ({ url, isHidden }: SingularAbilityProps) => {
+const SingularAbility = ({ url, isHidden, id }: SingularAbilityProps) => {
   const { data: abilityData, isLoading } = useGetAbilityByUrlQuery(url);
 
   if (isLoading) {
@@ -14,7 +15,7 @@ const SingularAbility = ({ url, isHidden }: SingularAbilityProps) => {
         alignItems={"center"}
         height="100vh"
       >
-        <CircularProgress />
+        <PokemonLoadingSpinner index={id} />
       </Box>
     );
   }

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Move, SinglePokemonMovesProps } from "../Models/SinglePokemonModels";
 import MoveGroup from "./MoveGroup";
 
-const SinglePokemonMoves = ({ moves }: SinglePokemonMovesProps) => {
+const SinglePokemonMoves = ({ moves, id }: SinglePokemonMovesProps) => {
   const [versionGroupIndex, setVersionGroupIndex] = useState<number>(0);
   const versionGroups = [
     "sword-shield",
@@ -58,13 +58,22 @@ const SinglePokemonMoves = ({ moves }: SinglePokemonMovesProps) => {
     <>
       <Typography variant="h5">Moves:</Typography>
       {lvlUpMoves.length > 0 && (
-        <MoveGroup isLvlGroup headline={"by Level Up:"} moves={lvlUpMoves} />
+        <MoveGroup
+          id={id}
+          isLvlGroup
+          headline={"by Level Up:"}
+          moves={lvlUpMoves}
+        />
       )}
       {machineMoves.length > 0 && (
-        <MoveGroup headline={"by Machine or Tutor:"} moves={machineMoves} />
+        <MoveGroup
+          id={id}
+          headline={"by Machine or Tutor:"}
+          moves={machineMoves}
+        />
       )}
       {eggMoves.length > 0 && (
-        <MoveGroup headline={"by Breeding:"} moves={eggMoves} />
+        <MoveGroup id={id} headline={"by Breeding:"} moves={eggMoves} />
       )}
     </>
   );

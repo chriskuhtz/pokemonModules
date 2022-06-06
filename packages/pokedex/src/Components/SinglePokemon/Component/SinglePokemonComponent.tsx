@@ -1,12 +1,11 @@
-import { Box, CircularProgress, Divider, Stack } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
-import { useEffect } from "react";
 import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+  PokemonIcon,
+  PokemonLoadingSpinner,
+} from "chriskuhtz-pokemon-common-components";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import SinglePokemonAbilities from "../Sections/SinglePokemonAbilities";
 import SinglePokemonHeader from "../Sections/SinglePokemonHeader";
 import SinglePokemonMoves from "../Sections/SinglePokemonMoves";
@@ -32,7 +31,7 @@ const SinglePokemonComponent = (): JSX.Element => {
         alignItems={"center"}
         height="100vh"
       >
-        <CircularProgress />
+        <PokemonLoadingSpinner index={Math.floor(Math.random() * 493)} />
       </Box>
     );
   }
@@ -49,6 +48,7 @@ const SinglePokemonComponent = (): JSX.Element => {
       />
       <Divider />
       <SinglePokemonSpecies
+        id={data.id}
         url={data.species.url}
         baseExp={data.base_experience}
         heldItems={data.held_items.map(
@@ -56,11 +56,11 @@ const SinglePokemonComponent = (): JSX.Element => {
         )}
       />
       <Divider />
-      <SinglePokemonAbilities abilities={data.abilities} />
+      <SinglePokemonAbilities abilities={data.abilities} id={data.id} />
       <Divider />
       <SinglePokemonStats stats={data.stats} />
       <Divider />
-      <SinglePokemonMoves moves={data.moves} />
+      <SinglePokemonMoves moves={data.moves} id={data.id} />
     </Stack>
   );
 };

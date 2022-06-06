@@ -8,6 +8,7 @@ const MoveGroup = ({
   moves,
   headline,
   isLvlGroup,
+  id,
 }: MoveGroupProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -35,7 +36,12 @@ const MoveGroup = ({
         <List>
           {moves.map((m) => {
             return (
-              <SingularMove move={m} key={m?.move.name} isLvlUp={isLvlGroup} />
+              <SingularMove
+                id={id}
+                move={m}
+                key={m?.move.name}
+                isLvlUp={isLvlGroup}
+              />
             );
           })}
         </List>

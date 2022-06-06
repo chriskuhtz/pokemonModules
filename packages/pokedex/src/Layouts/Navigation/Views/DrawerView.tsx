@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Stack,
   Drawer,
   Typography,
   Box,
-  CircularProgress,
   InputAdornment,
   TextField,
-  ListItem,
   ListItemIcon,
   ListItemText,
   List,
@@ -18,6 +16,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
+import {
+  PokemonIcon,
+  PokemonLoadingSpinner,
+} from "chriskuhtz-pokemon-common-components";
 
 const DrawerView = ({
   open,
@@ -40,7 +42,7 @@ const DrawerView = ({
         alignItems={"center"}
         height="100vh"
       >
-        <CircularProgress />
+        <PokemonLoadingSpinner index={25} />
       </Box>
     );
   }
@@ -93,13 +95,7 @@ const DrawerView = ({
                 }}
               >
                 <ListItemIcon>
-                  <img
-                    src={
-                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                      extractUrlIndex(d.url) +
-                      ".png"
-                    }
-                  />
+                  <PokemonIcon index={extractUrlIndex(d.url)} />
                 </ListItemIcon>
                 <ListItemText
                   sx={{ color: d.name === pokemonId ? "primary" : "text" }}

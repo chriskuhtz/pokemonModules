@@ -13,7 +13,7 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
     "chriskuhtz-pokemon-api": "^0.0.17",
-    "chriskuhtz-pokemon-common-components": "^0.0.15",
+    "chriskuhtz-pokemon-common-components": "^0.0.17",
     "pokemon-mui-themes": "^0.0.17",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
