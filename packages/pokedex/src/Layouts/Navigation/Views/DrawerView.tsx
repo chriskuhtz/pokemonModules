@@ -10,6 +10,8 @@ import {
   ListItemText,
   List,
   ListItemButton,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { extractUrlIndex, useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -31,6 +33,9 @@ const DrawerView = ({
   const navigate = useNavigate();
   let { pokemonId } = useParams();
 
+  const theme = useTheme();
+  const isMdorUp = useMediaQuery(theme.breakpoints.up("md"));
+
   const { data, isLoading } = useGetAllPokemonQuery("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchInput, setSearchInput] = useState<string>("");
@@ -47,24 +52,20 @@ const DrawerView = ({
     );
   }
   return (
-    <Drawer variant="persistent" open={open} onClose={() => setOpen(!open)}>
+    <Drawer
+      variant={isMdorUp ? "permanent" : "persistent"}
+      open={open}
+      onClose={() => setOpen(!open)}
+    >
       <Stack
         spacing={2}
         sx={{
-          py: 9,
+          py: 11,
           minWidth: { xs: "100vw", md: 0 },
+          maxWidth: { xs: 0, md: "225px", lg: "300px", xl: "400px" },
           minHeight: "100%",
         }}
       >
-        <Typography variant={"h6"} sx={{ px: { xs: 3, lg: 6 } }}>
-          <a
-            style={{ textDecoration: "none", color: "inherit" }}
-            href="https://github.com/chriskuhtz/pokemonModules"
-          >
-            Github Repo
-          </a>
-        </Typography>
-
         <TextField
           value={searchInput}
           onChange={(e) => {

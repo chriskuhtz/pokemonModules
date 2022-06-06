@@ -15,7 +15,9 @@ const TopBarController = ({
   children: ReactElement;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
+
   const theme = useTheme();
+  const isMdOrDown = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Container maxWidth={false} disableGutters sx={{ minHeight: "100vh" }}>
@@ -26,16 +28,18 @@ const TopBarController = ({
         >
           {" "}
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={() => setOpen(!open)}
-            >
-              <MenuIcon />
-            </IconButton>
+            {isMdOrDown && (
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => setOpen(!open)}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Pokedex 0.0.1
