@@ -3,6 +3,7 @@ import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
 import {
   PokemonIcon,
   PokemonLoadingSpinner,
+  TypeIcon,
 } from "chriskuhtz-pokemon-common-components";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -31,7 +32,7 @@ const SinglePokemonComponent = (): JSX.Element => {
         alignItems={"center"}
         height="100vh"
       >
-        <PokemonLoadingSpinner index={Math.floor(Math.random() * 493)} />
+        <PokemonLoadingSpinner index={25} />
       </Box>
     );
   }

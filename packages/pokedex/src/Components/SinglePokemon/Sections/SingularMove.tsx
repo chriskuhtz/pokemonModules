@@ -4,7 +4,10 @@ import { useState } from "react";
 import SingularMoveDetails from "./SingularMoveDetails";
 import { SingularMoveProps } from "../Models/SinglePokemonModels";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
-import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
+import {
+  PokemonLoadingSpinner,
+  TypeIcon,
+} from "chriskuhtz-pokemon-common-components";
 
 const SingularMove = ({ move, isLvlUp, id }: SingularMoveProps) => {
   const [showDetails, setShowDetails] = useState<boolean>(false);
@@ -19,12 +22,15 @@ const SingularMove = ({ move, isLvlUp, id }: SingularMoveProps) => {
         move?.move.url && trigger(move.move.url);
         setShowDetails(!showDetails);
       }}
+      alignItems="flex-start"
     >
-      {result.isLoading && (
-        <ListItemIcon>
-          <PokemonLoadingSpinner index={id} />
-        </ListItemIcon>
-      )}
+      <ListItemIcon>
+        {result.isLoading && <PokemonLoadingSpinner index={id} />}
+        {result.isSuccess && (
+          <TypeIcon size={40} type={result.data.type.name} />
+        )}
+      </ListItemIcon>
+
       <ListItemText
         primary={
           <Box

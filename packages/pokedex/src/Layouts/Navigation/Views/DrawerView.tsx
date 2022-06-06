@@ -97,7 +97,9 @@ const DrawerView = ({
         <Suspense fallback={<PokemonLoadingSpinner index={25} />}>
           <List>
             {data.results
-              .filter((d: { name: string }) => d.name.includes(searchQuery))
+              .filter((d: { name: string }) =>
+                d.name.includes(searchQuery.toLowerCase())
+              )
               .map((d: { name: string; url: string }) => (
                 <ListItemButton
                   key={d.name}

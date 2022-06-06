@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import { useGetSpeciesByUrlQuery } from "chriskuhtz-pokemon-api";
 import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ const SinglePokemonSpecies = ({
     <>
       <EvolutionChain evoUrl={evoUrl} id={id} />
       <Divider />
-      <Box>
+      <Stack spacing={2}>
         <Typography variant="h5">Misc</Typography>
         <Grid container>
           <Grid item xs={4}>
@@ -74,7 +74,7 @@ const SinglePokemonSpecies = ({
             </Typography>
           </Grid>
         </Grid>
-      </Box>
+      </Stack>
     </>
   ) : (
     <PokemonLoadingSpinner index={id} />
