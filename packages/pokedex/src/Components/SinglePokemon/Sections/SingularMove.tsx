@@ -1,43 +1,36 @@
-import {
-  Box,
-  CircularProgress,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import { Move } from "./SinglePokemonMoves";
-import { useLazyGetMoveByIndexQuery } from "chriskuhtz-pokemon-api";
-import { useEffect, useState } from "react";
+import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { useLazyGetMoveByUrlQuery } from "chriskuhtz-pokemon-api";
+import { useState } from "react";
 import SingularMoveDetails from "./SingularMoveDetails";
+import { SingularMoveProps } from "../Models/SinglePokemonModels";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
+import {
+  PokemonLoadingSpinner,
+  TypeIcon,
+} from "chriskuhtz-pokemon-common-components";
 
-const SingularMove = ({
-  move,
-  isLvlUp,
-}: {
-  move?: Move;
-  isLvlUp?: boolean;
-}) => {
+const SingularMove = ({ move, isLvlUp, id }: SingularMoveProps) => {
   const [showDetails, setShowDetails] = useState<boolean>(false);
-  const splitUrl = move?.move.url.split("/");
-
-  const urlIndex = splitUrl && parseInt(splitUrl[splitUrl.length - 2]);
 
   const lvl = move?.version_group_details[0].level_learned_at;
 
-  const [trigger, result] = useLazyGetMoveByIndexQuery();
+  const [trigger, result] = useLazyGetMoveByUrlQuery();
 
   return (
-    <ListItem
+    <ListItemButton
       onClick={() => {
-        urlIndex && trigger(urlIndex);
+        move?.move.url && trigger(move.move.url);
         setShowDetails(!showDetails);
       }}
+      alignItems="flex-start"
     >
-      {result.isLoading && (
-        <ListItemIcon>
-          <CircularProgress />
-        </ListItemIcon>
-      )}
+      <ListItemIcon>
+        {result.isLoading && <PokemonLoadingSpinner index={id} />}
+        {result.isSuccess && (
+          <TypeIcon size={40} type={result.data.type.name} />
+        )}
+      </ListItemIcon>
+
       <ListItemText
         primary={
           <Box
@@ -45,7 +38,7 @@ const SingularMove = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <strong>{move?.move.name}</strong>
+            <strong>{formatResponseText(move?.move.name || "")}</strong>
             {isLvlUp && `at level ${lvl}`}
           </Box>
         }
@@ -57,7 +50,7 @@ const SingularMove = ({
           )
         }
       />
-    </ListItem>
+    </ListItemButton>
   );
 };
 

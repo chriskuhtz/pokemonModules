@@ -1,39 +1,39 @@
-import { Box, CircularProgress, Grid, Typography } from "@mui/material";
-import { useLazyGetEvolutionChainByIndexQuery } from "chriskuhtz-pokemon-api";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import {
+  useLazyGetEvolutionChainByUrlQuery,
+  extractUrlIndex,
+} from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
+import { determineEvoMethod } from "../Helpers/determineEvoMethod";
+import {
+  EvolutionStage,
+  EvolutionChainProps,
+  ChainLink,
+} from "../Models/SinglePokemonModels";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
+import {
+  PokemonIcon,
+  PokemonLoadingSpinner,
+} from "chriskuhtz-pokemon-common-components";
 
-interface EvolutionDetails {
-  min_level: number;
-  min_happiness: number;
-  item?: { name: string };
-  held_item?: { name: string };
-  trigger: { name: string };
-}
-interface ChainLink {
-  species: { name: string };
-  evolves_to: ChainLink[];
-  is_baby: boolean;
-  evolution_details: EvolutionDetails[];
-}
-interface EvolutionStage {
-  chainLink: ChainLink;
-  stage: string;
-}
-const EvolutionChain = ({
-  evoUrl,
-}: {
-  evoUrl: string | undefined;
-}): JSX.Element => {
-  const splitEvoUrl = evoUrl?.split("/");
-  const evoUrlIndex =
-    (splitEvoUrl && parseInt(splitEvoUrl[splitEvoUrl.length - 2])) || null;
-
-  const [trigger, result] = useLazyGetEvolutionChainByIndexQuery();
+const EvolutionChain = ({ evoUrl, id }: EvolutionChainProps): JSX.Element => {
+  const [trigger, result] = useLazyGetEvolutionChainByUrlQuery();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (evoUrlIndex !== null) trigger(evoUrlIndex);
-  }, [evoUrlIndex]);
+    if (evoUrl !== "") trigger(evoUrl);
+  }, [evoUrl]);
 
   const [evoChain, setEvoChain] = useState<EvolutionStage[]>([]);
 
@@ -75,97 +75,47 @@ const EvolutionChain = ({
     }
   }, [result]);
 
-  const determineEvoMethod = (e: EvolutionStage): string => {
-    if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .min_level
-    )
-      return `At Level ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .min_level
-      }`;
-    else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .min_happiness
-    ) {
-      return `Level Up with Happiness ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .min_happiness
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .item
-    ) {
-      return `Using a ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .item?.name
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .trigger.name === "trade"
-    ) {
-      return `Trade while holding a ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .held_item?.name
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .held_item
-    ) {
-      return `Level Up while holding a ${
-        e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-          .held_item?.name
-      }`;
-    } else if (
-      e.chainLink.evolution_details.length > 0 &&
-      e.chainLink.evolution_details[e.chainLink.evolution_details.length - 1]
-        .trigger.name === "trade"
-    ) {
-      return `Trade Evolution`;
-    }
-    return "unknown evolution method";
-  };
-
   return result.isSuccess ? (
     <Box>
       <Typography variant="h5">Evolution Chain</Typography>
       {evoChain.length > 1 ? (
         evoChain.map((e, i) => (
-          <Grid container key={e.chainLink.species.name}>
-            <Grid item xs={4}>
-              <Typography>
-                <strong>{e.stage}: </strong>
-              </Typography>
-            </Grid>{" "}
-            <Grid item xs={4}>
-              <Typography>
-                <Link
-                  to={`/${e.chainLink.species.name}`}
-                  state={{ pokemon: e.chainLink.species.name }}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {e.chainLink.species.name}
-                </Link>
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography key={e.chainLink.species.name}>
-                <strong>{i !== 0 && determineEvoMethod(e)}</strong>
-              </Typography>
-            </Grid>
-          </Grid>
+          <List key={e.chainLink.species.name}>
+            {i !== 0 && (
+              <ListItem>
+                <ListItemIcon sx={{ ml: 4 }}>
+                  {(i !== evoChain.length - 1 &&
+                    e.stage === evoChain[i + 1].stage) ||
+                  (i !== 0 && e.stage === evoChain[i - 1].stage) ? (
+                    <SubdirectoryArrowRightIcon />
+                  ) : (
+                    <ArrowDownwardIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText
+                  primary={<strong>{determineEvoMethod(e)}</strong>}
+                />
+              </ListItem>
+            )}
+            <ListItemButton
+              onClick={() => navigate(`/${e.chainLink.species.name}`)}
+            >
+              <ListItemIcon>
+                <PokemonIcon index={extractUrlIndex(e.chainLink.species.url)} />
+              </ListItemIcon>
+              <ListItemText
+                primary={formatResponseText(e.chainLink.species.name)}
+                secondary={<strong>{e.stage}</strong>}
+              />
+            </ListItemButton>
+          </List>
         ))
       ) : (
         <Typography>This Pokemon does not evolve</Typography>
       )}
     </Box>
   ) : (
-    <CircularProgress />
+    <PokemonLoadingSpinner index={id} />
   );
 };
 

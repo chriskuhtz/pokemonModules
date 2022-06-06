@@ -1,6 +1,8 @@
-import { Box, CircularProgress, Divider, Stack } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
-import { useLocation } from "react-router-dom";
+import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import SinglePokemonAbilities from "../Sections/SinglePokemonAbilities";
 import SinglePokemonHeader from "../Sections/SinglePokemonHeader";
 import SinglePokemonMoves from "../Sections/SinglePokemonMoves";
@@ -9,8 +11,14 @@ import SinglePokemonStats from "../Sections/SinglePokemonStats";
 import SinglePokemonTypes from "../Sections/SinglePokemonTypes";
 
 const SinglePokemonComponent = (): JSX.Element => {
-  const { state } = useLocation() as { state: { pokemon: string } };
-  const { data, isLoading } = useGetPokemonByNameQuery(state.pokemon);
+  let { pokemonId } = useParams();
+
+  const { data, isLoading } = useGetPokemonByNameQuery(pokemonId);
+
+  useEffect(() => {
+    //console.log(data);
+    window.scrollTo(0, 0);
+  }, [data]);
 
   if (isLoading) {
     return (
@@ -20,7 +28,7 @@ const SinglePokemonComponent = (): JSX.Element => {
         alignItems={"center"}
         height="100vh"
       >
-        <CircularProgress />
+        <PokemonLoadingSpinner index={25} />
       </Box>
     );
   }
@@ -29,7 +37,7 @@ const SinglePokemonComponent = (): JSX.Element => {
       <SinglePokemonHeader
         url={data.sprites.other["official-artwork"].front_default}
         id={data.id}
-        name={data.name.charAt(0).toUpperCase() + data.name.slice(1)}
+        name={data.name}
       />
       <Divider />
       <SinglePokemonTypes
@@ -37,6 +45,7 @@ const SinglePokemonComponent = (): JSX.Element => {
       />
       <Divider />
       <SinglePokemonSpecies
+        id={data.id}
         url={data.species.url}
         baseExp={data.base_experience}
         heldItems={data.held_items.map(
@@ -44,11 +53,11 @@ const SinglePokemonComponent = (): JSX.Element => {
         )}
       />
       <Divider />
-      <SinglePokemonAbilities abilities={data.abilities} />
+      <SinglePokemonAbilities abilities={data.abilities} id={data.id} />
+      <Divider />
+      <SinglePokemonMoves moves={data.moves} id={data.id} />
       <Divider />
       <SinglePokemonStats stats={data.stats} />
-      <Divider />
-      <SinglePokemonMoves moves={data.moves} />
     </Stack>
   );
 };

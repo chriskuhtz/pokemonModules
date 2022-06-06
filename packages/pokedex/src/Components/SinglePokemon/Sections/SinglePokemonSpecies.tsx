@@ -1,33 +1,20 @@
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
-import { useGetSpeciesByIndexQuery } from "chriskuhtz-pokemon-api";
-import { useEffect, useId, useState } from "react";
+import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import { useGetSpeciesByUrlQuery } from "chriskuhtz-pokemon-api";
+import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
+import { useEffect, useState } from "react";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
+import { SinglePokemonSpeciesProps } from "../Models/SinglePokemonModels";
 import EvolutionChain from "./EvolutionChain";
-
-interface SinglePokemonSpecies {
-  url: string;
-  baseExp: number;
-  heldItems: string[];
-}
 
 const SinglePokemonSpecies = ({
   url,
   baseExp,
   heldItems,
-}: SinglePokemonSpecies) => {
-  const id = useId();
+  id,
+}: SinglePokemonSpeciesProps) => {
+  const [evoUrl, setEvoUrl] = useState<string>("");
 
-  const splitUrl = url.split("/");
-  const urlIndex = parseInt(splitUrl[splitUrl.length - 2]);
-
-  const [evoUrl, setEvoUrl] = useState<string | undefined>(undefined);
-
-  const useSpeciesQuery = useGetSpeciesByIndexQuery(urlIndex);
+  const useSpeciesQuery = useGetSpeciesByUrlQuery(url);
 
   useEffect(() => {
     if (useSpeciesQuery.isSuccess) {
@@ -37,9 +24,9 @@ const SinglePokemonSpecies = ({
 
   return useSpeciesQuery.isSuccess ? (
     <>
-      <EvolutionChain evoUrl={evoUrl} />
+      <EvolutionChain evoUrl={evoUrl} id={id} />
       <Divider />
-      <Box>
+      <Stack spacing={2}>
         <Typography variant="h5">Misc</Typography>
         <Grid container>
           <Grid item xs={4}>
@@ -81,14 +68,16 @@ const SinglePokemonSpecies = ({
           </Grid>{" "}
           <Grid item xs={8}>
             <Typography>
-              {heldItems.length > 0 ? heldItems.join(", ") : "none"}
+              {heldItems.length > 0
+                ? heldItems.map((h) => formatResponseText(h)).join(", ")
+                : "none"}
             </Typography>
           </Grid>
         </Grid>
-      </Box>
+      </Stack>
     </>
   ) : (
-    <CircularProgress />
+    <PokemonLoadingSpinner index={id} />
   );
 };
 

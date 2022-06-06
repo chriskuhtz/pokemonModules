@@ -1,19 +1,20 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Collapse, List, Typography } from "@mui/material";
-import { useState } from "react";
-import { Move } from "./SinglePokemonMoves";
+import { useEffect, useState } from "react";
+import { MoveGroupProps } from "../Models/SinglePokemonModels";
 import SingularMove from "./SingularMove";
 
 const MoveGroup = ({
   moves,
   headline,
   isLvlGroup,
-}: {
-  moves: Move[];
-  headline: string;
-  isLvlGroup?: boolean;
-}): JSX.Element => {
+  id,
+}: MoveGroupProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [moves]);
 
   let movesToDisplay = moves;
   if (isLvlGroup) {
@@ -35,7 +36,12 @@ const MoveGroup = ({
         <List>
           {moves.map((m) => {
             return (
-              <SingularMove move={m} key={m?.move.name} isLvlUp={isLvlGroup} />
+              <SingularMove
+                id={id}
+                move={m}
+                key={m?.move.name}
+                isLvlUp={isLvlGroup}
+              />
             );
           })}
         </List>

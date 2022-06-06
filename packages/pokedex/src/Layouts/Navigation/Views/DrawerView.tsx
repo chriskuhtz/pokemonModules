@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { startTransition, Suspense, useState } from "react";
 import {
   Stack,
   Drawer,
   Typography,
   Box,
-  CircularProgress,
   InputAdornment,
   TextField,
+  ListItemIcon,
+  ListItemText,
+  List,
+  ListItemButton,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import { useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
-import { Link, useLocation } from "react-router-dom";
+import { extractUrlIndex, useGetAllPokemonQuery } from "chriskuhtz-pokemon-api";
+import { useNavigate, useParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
+import {
+  PokemonIcon,
+  PokemonLoadingSpinner,
+} from "chriskuhtz-pokemon-common-components";
 
 const DrawerView = ({
   open,
@@ -20,11 +30,15 @@ const DrawerView = ({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
-  const { state } = useLocation() as { state: { pokemon: string } };
+  const navigate = useNavigate();
+  let { pokemonId } = useParams();
+
+  const theme = useTheme();
+  const isMdorUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const { data, isLoading } = useGetAllPokemonQuery("");
-  const [search, setSearch] = useState<string>("");
-
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>("");
   if (isLoading) {
     return (
       <Box
@@ -33,36 +47,35 @@ const DrawerView = ({
         alignItems={"center"}
         height="100vh"
       >
-        <CircularProgress />
+        <PokemonLoadingSpinner index={25} />
       </Box>
     );
   }
   return (
-    <Drawer variant="persistent" open={open} onClose={() => setOpen(!open)}>
+    <Drawer
+      variant={isMdorUp ? "permanent" : "persistent"}
+      open={open}
+      onClose={() => setOpen(!open)}
+    >
       <Stack
         spacing={2}
         sx={{
-          py: 9,
-          px: { xs: 3, lg: 6 },
+          py: 11,
           minWidth: { xs: "100vw", md: 0 },
+          maxWidth: { xs: 0, md: "225px", lg: "300px", xl: "400px" },
           minHeight: "100%",
         }}
       >
-        <Typography variant={"h6"}>
-          <a
-            style={{ textDecoration: "none", color: "inherit" }}
-            href="https://github.com/chriskuhtz/pokemonModules"
-          >
-            Github Repo
-          </a>
-        </Typography>
-
         <TextField
-          id="input-with-icon-textfield"
-          label="Search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ pr: { xs: 6, sm: 0 } }}
+          value={searchInput}
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+
+            startTransition(() => {
+              setSearchQuery(e.target.value);
+            });
+          }}
+          sx={{ px: 2 }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -71,32 +84,54 @@ const DrawerView = ({
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <CloseIcon onClick={() => setSearch("")} />
+                <CloseIcon
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSearchInput("");
+                  }}
+                />
               </InputAdornment>
             ),
           }}
           variant="standard"
         />
-
-        {data.results
-          .filter((d: { name: string }) => d.name.includes(search))
-          .map((d: { name: string }) => (
-            <Typography
-              key={d.name}
-              color={d.name === state.pokemon ? "primary" : "text"}
-              onClick={() => {
-                setOpen(false);
-              }}
-            >
-              <Link
-                to={`/${d.name}`}
-                state={{ pokemon: d.name }}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                {d.name}
-              </Link>
-            </Typography>
-          ))}
+        <Suspense fallback={<PokemonLoadingSpinner index={25} />}>
+          <List>
+            {data.results
+              .filter((d: { name: string }) =>
+                d.name.includes(searchQuery.toLowerCase())
+              )
+              .map((d: { name: string; url: string }) => (
+                <ListItemButton
+                  key={d.name}
+                  onClick={() => {
+                    setOpen(false);
+                    navigate(`/${d.name}`);
+                  }}
+                >
+                  {searchQuery !== "" && (
+                    <ListItemIcon>
+                      <PokemonIcon index={extractUrlIndex(d.url)} />
+                    </ListItemIcon>
+                  )}
+                  <ListItemText
+                    sx={{ color: d.name === pokemonId ? "primary" : "text" }}
+                    primary={
+                      <Typography variant="h5">
+                        #
+                        {extractUrlIndex(d.url) < 10
+                          ? "00" + extractUrlIndex(d.url)
+                          : extractUrlIndex(d.url) < 100
+                          ? "0" + extractUrlIndex(d.url)
+                          : extractUrlIndex(d.url)}{" "}
+                        {formatResponseText(d.name)}
+                      </Typography>
+                    }
+                  />
+                </ListItemButton>
+              ))}
+          </List>
+        </Suspense>
       </Stack>
     </Drawer>
   );

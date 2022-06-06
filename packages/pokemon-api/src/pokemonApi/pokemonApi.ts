@@ -1,5 +1,6 @@
 // Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { extractUrlIndex } from "./Helpers/extractUrlIndex";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
@@ -18,17 +19,17 @@ export const pokemonApi = createApi({
     getAllPokemon: builder.query({
       query: () => `pokemon?limit=1126`,
     }),
-    getAbilityByIndex: builder.query({
-      query: (index: number) => `ability/${index}`,
+    getAbilityByUrl: builder.query({
+      query: (url: string) => `ability/${extractUrlIndex(url)}`,
     }),
-    getMoveByIndex: builder.query({
-      query: (index: number) => `move/${index}`,
+    getMoveByUrl: builder.query({
+      query: (url: string) => `move/${extractUrlIndex(url)}`,
     }),
-    getSpeciesByIndex: builder.query({
-      query: (index: number) => `pokemon-species/${index}`,
+    getSpeciesByUrl: builder.query({
+      query: (url: string) => `pokemon-species/${extractUrlIndex(url)}`,
     }),
-    getEvolutionChainByIndex: builder.query({
-      query: (index: number) => `evolution-chain/${index}`,
+    getEvolutionChainByUrl: builder.query({
+      query: (url: string) => `evolution-chain/${extractUrlIndex(url)}`,
     }),
   }),
 });
@@ -40,10 +41,15 @@ export const {
   useGetGenOnePokemonQuery,
   useGetGenTwoPokemonQuery,
   useGetAllPokemonQuery,
-  useGetAbilityByIndexQuery,
-  useGetMoveByIndexQuery,
-  useLazyGetMoveByIndexQuery,
-  useGetSpeciesByIndexQuery,
-  useGetEvolutionChainByIndexQuery,
-  useLazyGetEvolutionChainByIndexQuery,
+  useGetAbilityByUrlQuery,
+  useLazyGetAbilityByUrlQuery,
+  useLazyGetAllPokemonQuery,
+  useLazyGetGenOnePokemonQuery,
+  useLazyGetGenTwoPokemonQuery,
+  useLazyGetPokemonByNameQuery,
+  useGetEvolutionChainByUrlQuery,
+  useGetMoveByUrlQuery,
+  useGetSpeciesByUrlQuery,
+  useLazyGetEvolutionChainByUrlQuery,
+  useLazyGetMoveByUrlQuery,
 } = pokemonApi;

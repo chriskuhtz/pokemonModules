@@ -1,12 +1,10 @@
 import { LinearProgress, Typography } from "@mui/material";
 import { useId } from "react";
 import constants from "../../../data/constants.json";
+import { formatResponseText } from "../../../Helpers/formatResponseText";
+import { SinglePokemonStatsProps } from "../Models/SinglePokemonModels";
 
-interface SinglePokemonStats {
-  stats: { base_stat: number; stat: { name: string } }[];
-}
-
-const SinglePokemonStats = ({ stats }: SinglePokemonStats) => {
+const SinglePokemonStats = ({ stats }: SinglePokemonStatsProps) => {
   const key = useId();
   return (
     <>
@@ -19,7 +17,7 @@ const SinglePokemonStats = ({ stats }: SinglePokemonStats) => {
 
         return (
           <Typography key={key + mappedStat.name}>
-            {mappedStat.name}: {mappedStat.value}
+            {formatResponseText(mappedStat.name)}: {mappedStat.value}
             <LinearProgress
               variant="determinate"
               value={

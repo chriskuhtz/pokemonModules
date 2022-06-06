@@ -15,9 +15,9 @@ const TopBarController = ({
   children: ReactElement;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
+
   const theme = useTheme();
-  const isSmOrDown = useMediaQuery(theme.breakpoints.down("md"));
-  const isMdOrUp = useMediaQuery(theme.breakpoints.up("md"));
+  const isMdOrDown = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Container maxWidth={false} disableGutters sx={{ minHeight: "100vh" }}>
@@ -28,7 +28,7 @@ const TopBarController = ({
         >
           {" "}
           <Toolbar>
-            {isSmOrDown && (
+            {isMdOrDown && (
               <IconButton
                 size="large"
                 edge="start"
@@ -48,7 +48,7 @@ const TopBarController = ({
         </AppBar>
 
         <Toolbar />
-        <DrawerView open={isMdOrUp || open} setOpen={setOpen} />
+        <DrawerView open={open} setOpen={setOpen} />
         <ContentView>{children}</ContentView>
       </Box>
     </Container>
