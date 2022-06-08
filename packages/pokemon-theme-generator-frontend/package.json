@@ -9,6 +9,7 @@
   "types": "./lib/types.d.ts",
   "scripts": {
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "tsc": "tsc",
     "watch": "tsc --watch"
   },
