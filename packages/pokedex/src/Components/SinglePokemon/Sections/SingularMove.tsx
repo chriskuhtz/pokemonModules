@@ -1,6 +1,9 @@
 import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { useLazyGetMoveByUrlQuery } from "chriskuhtz-pokemon-api";
-import { useState } from "react";
+import {
+  useGetMoveByUrlQuery,
+  useLazyGetMoveByUrlQuery,
+} from "chriskuhtz-pokemon-api";
+import { useEffect, useState } from "react";
 import SingularMoveDetails from "./SingularMoveDetails";
 import { SingularMoveProps } from "../Models/SinglePokemonModels";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
@@ -14,21 +17,21 @@ const SingularMove = ({ move, isLvlUp, id }: SingularMoveProps) => {
 
   const lvl = move?.version_group_details[0].level_learned_at;
 
-  const [trigger, result] = useLazyGetMoveByUrlQuery();
+  const { data, isLoading, isSuccess } = useGetMoveByUrlQuery(
+    move?.move.url || ""
+  );
 
   return (
     <ListItemButton
+      sx={{ mx: -2 }}
       onClick={() => {
-        move?.move.url && trigger(move.move.url);
         setShowDetails(!showDetails);
       }}
       alignItems="flex-start"
     >
       <ListItemIcon>
-        {result.isLoading && <PokemonLoadingSpinner index={id} />}
-        {result.isSuccess && (
-          <TypeIcon size={40} type={result.data.type.name} />
-        )}
+        {isLoading && <PokemonLoadingSpinner index={id} />}
+        {isSuccess && <TypeIcon size={40} type={data.type.name} />}
       </ListItemIcon>
 
       <ListItemText
@@ -43,8 +46,8 @@ const SingularMove = ({ move, isLvlUp, id }: SingularMoveProps) => {
           </Box>
         }
         secondary={
-          result.isSuccess && showDetails ? (
-            <SingularMoveDetails data={result.data} />
+          isSuccess && showDetails ? (
+            <SingularMoveDetails data={data} />
           ) : (
             "more info"
           )
