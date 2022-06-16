@@ -109,11 +109,10 @@ const DrawerView = ({
                     navigate(`/${d.name}`);
                   }}
                 >
-                  {searchQuery !== "" && (
-                    <ListItemIcon>
-                      <PokemonIcon index={extractUrlIndex(d.url)} />
-                    </ListItemIcon>
-                  )}
+                  <ListItemIcon>
+                    <PokemonIcon index={extractUrlIndex(d.url)} />
+                  </ListItemIcon>
+
                   <ListItemText
                     sx={{ color: d.name === pokemonId ? "primary" : "text" }}
                     primary={
