@@ -1,11 +1,4 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { TypeIcon } from "chriskuhtz-pokemon-common-components";
 import { formatResponseText } from "../../../Helpers/formatResponseText";
 import { SinglePokemonTypesProps } from "../Models/SinglePokemonModels";
