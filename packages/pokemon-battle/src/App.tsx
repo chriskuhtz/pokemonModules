@@ -8,6 +8,8 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
@@ -16,13 +18,15 @@ import {
   createOpponentPokemon,
 } from "./Functions/Pokemon/createPokemon";
 import { OpponentPokemon, PlayerPokemon } from "./Models/Pokemon";
-import { TypeIcon } from "chriskuhtz-pokemon-common-components";
 import MoveSetGroup from "./Components/MoveSetGroup/MoveSetGroup";
 import MenuButtonGroup from "./Components/MenuButtonGroup/MenuButtonGroup";
 import TeamButtonGroup from "./Components/TeamButtonGroup/TeamButtonGroup";
 import OpponentPokemonBox from "./Components/OpponentPokemonBox/OpponentPokemonBox";
 import PlayerPokemonBox from "./Components/PlayerPokemonBox/PlayerPokemonBox";
+
 const App = (): JSX.Element => {
+  const theme = useTheme();
+  const smOrUp = useMediaQuery(theme.breakpoints.up("sm"));
   const [playerPokemon, setPlayerPokemon] = useState<
     PlayerPokemon | undefined
   >();
@@ -53,9 +57,9 @@ const App = (): JSX.Element => {
     }
   }, [playerData, opponentData]);
 
-  if (playerPokemon && opponentPokemon) {
+  if (smOrUp && playerPokemon && opponentPokemon) {
     return (
-      <Grid container height={"100vh"}>
+      <Grid container height={window.innerHeight > 820 ? "600px" : "100vh"}>
         <Grid item xs={1} sx={{ border: "1px solid orange" }}>
           <TeamButtonGroup />
         </Grid>
@@ -82,8 +86,11 @@ const App = (): JSX.Element => {
         </Grid>
       </Grid>
     );
+  } else if (smOrUp) {
+    return <div>Something went wrong</div>;
+  } else {
+    return <div>Please turn your phone sideways</div>;
   }
-  return <div>Something went wrong</div>;
 };
 
 export default App;
