@@ -1,16 +1,4 @@
-import { PhotoCamera } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  LinearProgress,
-  Stack,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
 import {
