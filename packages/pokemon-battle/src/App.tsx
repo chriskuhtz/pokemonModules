@@ -47,35 +47,33 @@ const App = (): JSX.Element => {
 
   if (smOrUp && playerPokemon && opponentPokemon) {
     return (
-      <Grid container height={window.innerHeight > 820 ? "600px" : "100vh"}>
-        <Grid item xs={1} sx={{ border: "1px solid orange" }}>
-          <TeamButtonGroup />
-        </Grid>
-        <Grid item xs={10}>
-          <Box height="100%" display={"flex"} flexDirection="column">
-            <Box flexGrow={1}>
-              <Grid container height="100%">
-                <Grid item xs={6} sx={{ border: "1px solid red", p: 2 }}>
-                  <PlayerPokemonBox pokemon={playerPokemon} />
-                </Grid>
-                <Grid item xs={6} sx={{ border: "1px solid blue", p: 2 }}>
-                  <OpponentPokemonBox pokemon={opponentPokemon} />
-                </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{ border: "1px solid green" }}>
-              <MoveSetGroup moves={playerPokemon.moves} />
-            </Box>
-          </Box>
-        </Grid>
+      <Box
+        display={"flex"}
+        height={window.innerHeight > 820 ? "600px" : "100vh"}
+      >
+        <TeamButtonGroup />
 
-        <Grid item xs={1} sx={{ border: "1px solid darkred" }}>
-          <MenuButtonGroup />
-        </Grid>
-      </Grid>
+        <Box flexGrow={1} height="100%" display={"flex"} flexDirection="column">
+          <Box flexGrow={1}>
+            <Grid container height="100%">
+              <Grid item xs={6} sx={{ border: "1px solid red", p: 2 }}>
+                <PlayerPokemonBox pokemon={playerPokemon} />
+              </Grid>
+              <Grid item xs={6} sx={{ border: "1px solid blue", p: 2 }}>
+                <OpponentPokemonBox pokemon={opponentPokemon} />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box sx={{ border: "1px solid green" }}>
+            <MoveSetGroup moves={playerPokemon.moves} />
+          </Box>
+        </Box>
+
+        <MenuButtonGroup />
+      </Box>
     );
   } else if (smOrUp) {
-    return <div>Something went wrong</div>;
+    return <div>Loading ...</div>;
   } else {
     return <div>Please turn your phone sideways</div>;
   }
