@@ -11,20 +11,27 @@ import MenuButtonGroup from "./Components/MenuButtonGroup/MenuButtonGroup";
 import TeamButtonGroup from "./Components/TeamButtonGroup/TeamButtonGroup";
 import OpponentPokemonBox from "./Components/OpponentPokemonBox/OpponentPokemonBox";
 import PlayerPokemonBox from "./Components/PlayerPokemonBox/PlayerPokemonBox";
+import LogBox from "./Components/LogBox/LogBox";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
 const App = (): JSX.Element => {
   const theme = useTheme();
   const smOrUp = useMediaQuery(theme.breakpoints.up("sm"));
+
   const [playerPokemon, setPlayerPokemon] = useState<
     PlayerPokemon | undefined
   >();
+  const { data: playerData, isSuccess: isPlayerSuccess } =
+    useGetPokemonByNameQuery("nidorino");
+
   const [opponentPokemon, setOpponentPokemon] = useState<
     OpponentPokemon | undefined
   >();
-  const { data: playerData, isSuccess: isPlayerSuccess } =
-    useGetPokemonByNameQuery("nidorino");
   const { data: opponentData, isSuccess: isOpponentSuccess } =
     useGetPokemonByNameQuery("gengar");
+
+  const logs = useSelector((state: RootState) => state.logs.value);
 
   useEffect(() => {
     if (playerData && opponentData) {
@@ -56,16 +63,20 @@ const App = (): JSX.Element => {
         <Box flexGrow={1} height="100%" display={"flex"} flexDirection="column">
           <Box flexGrow={1}>
             <Grid container height="100%">
-              <Grid item xs={6} sx={{ border: "1px solid red", p: 2 }}>
+              <Grid item xs={6} sx={{ p: 2 }}>
                 <PlayerPokemonBox pokemon={playerPokemon} />
               </Grid>
-              <Grid item xs={6} sx={{ border: "1px solid blue", p: 2 }}>
+              <Grid item xs={6} sx={{ p: 2 }}>
                 <OpponentPokemonBox pokemon={opponentPokemon} />
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{ border: "1px solid green" }}>
-            <MoveSetGroup moves={playerPokemon.moves} />
+          <Box flexBasis="104px">
+            {logs.length > 0 ? (
+              <LogBox />
+            ) : (
+              <MoveSetGroup moves={playerPokemon.moves} />
+            )}
           </Box>
         </Box>
 
