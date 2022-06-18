@@ -3,12 +3,14 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { pokemonApi } from "chriskuhtz-pokemon-api";
 import { activePokemonReducer } from "./activePokemonSlice";
 import { logReducer } from "./logSlice";
+import { opponentPokemonReducer } from "./opponentPokemonSlice";
 
 export const store = configureStore({
   reducer: {
     // Add the generated reducer as a specific top-level slice
     [pokemonApi.reducerPath]: pokemonApi.reducer,
     activePokemon: activePokemonReducer,
+    opponentPokemon: opponentPokemonReducer,
     logs: logReducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,

@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { removeLog } from "../../store/logSlice";
-import { RootState } from "../../store/store";
+import { removeLog } from "../../Store/logSlice";
+import { RootState } from "../../Store/store";
 
 const LogBox = () => {
   const logs = useSelector((state: RootState) => state.logs.value);
@@ -11,7 +11,7 @@ const LogBox = () => {
     <Box
       onClick={() => dispatch(removeLog())}
       height="100%"
-      sx={{ border: "1px solid black" }}
+      sx={{ borderTop: "1px solid darkgray" }}
       display="flex"
       justifyContent="center"
       alignItems="center"

@@ -1,5 +1,4 @@
-import { PlayerPokemon, Pokemon } from "../../Models/Pokemon";
-import { HPStat, Stat } from "../../Models/Stat";
+import { ActivePokemon, Pokemon } from "../../Models/Pokemon";
 import { hasKey } from "../../Utils/hasKey";
 import {
   calculateInitialHP,
@@ -13,6 +12,7 @@ const createPokemon = (
 ): Pokemon => {
   const createdPokemon: Pokemon = {
     name: pokemon,
+    level: level,
     moves: {
       first: {
         name: "Tackle",
@@ -43,15 +43,15 @@ const createPokemon = (
         powerPoints: { initial: 35, current: 35 },
       },
     },
+    hp: { current: 50, initial: 50 },
     stats: {
-      hp: { current: 50, initial: 50 },
-      attack: { current: 50, initial: 50, modifier: 1 },
-      defense: { current: 50, initial: 50, modifier: 1 },
-      specialAttack: { current: 50, initial: 50, modifier: 1 },
-      specialDefense: { current: 50, initial: 50, modifier: 1 },
-      speed: { current: 50, initial: 50, modifier: 1 },
-      evasion: { current: 1, initial: 1, modifier: 1 },
-      accuracy: { current: 1, initial: 1, modifier: 1 },
+      attack: { initial: 50, modifier: 1 },
+      defense: { initial: 50, modifier: 1 },
+      specialAttack: { initial: 50, modifier: 1 },
+      specialDefense: { initial: 50, modifier: 1 },
+      speed: { initial: 50, modifier: 1 },
+      evasion: { initial: 1, modifier: 1 },
+      accuracy: { initial: 1, modifier: 1 },
     },
   };
 
@@ -62,38 +62,30 @@ const createPokemon = (
   const calculatedStats = formattedStats.map((s) => {
     if (s.key === "hp") {
       const calculatedHP = calculateInitialHP(s.value, level);
-      return {
-        key: s.key,
-        value: { current: calculatedHP, max: calculatedHP },
+      createdPokemon.hp = {
+        current: calculatedHP,
+        initial: calculatedHP,
       };
     } else {
       const calculatedStat = calculateInitialStat(s.value, level);
-      return {
-        key: s.key,
-        value: {
-          current: calculatedStat,
+      if (hasKey(createdPokemon.stats, s.key)) {
+        createdPokemon.stats[s.key] = {
           initial: calculatedStat,
           modifier: 1,
-        },
-      };
+        };
+      }
     }
-  });
-
-  calculatedStats.forEach((s) => {
-    s.key === "hp" &&
-      hasKey(createdPokemon.stats, s.key) &&
-      (createdPokemon.stats[s.key] = s.value as Stat);
   });
 
   return createdPokemon;
 };
 
-export const createPlayerPokemon = (
+export const createActivePokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
   spriteUrl: string,
   pokemon: string,
   level = 5
-): PlayerPokemon => {
+): ActivePokemon => {
   const createdPokemon = createPokemon(stats, pokemon, level);
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };
@@ -103,7 +95,7 @@ export const createOpponentPokemon = (
   spriteUrl: string,
   pokemon: string,
   level = 5
-): PlayerPokemon => {
+): ActivePokemon => {
   const createdPokemon = createPokemon(stats, pokemon, level);
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };

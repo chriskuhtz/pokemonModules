@@ -5,7 +5,7 @@ export interface logState {
 }
 
 const initialState: logState = {
-  value: ["1", "2", "3"],
+  value: [],
 };
 
 export const logSlice = createSlice({
@@ -17,7 +17,6 @@ export const logSlice = createSlice({
     },
     removeLog: (state) => {
       state.value = state.value.slice(1);
-      console.log(state.value);
     },
   },
 });
