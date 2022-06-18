@@ -57,7 +57,7 @@ const App = (): JSX.Element => {
       <Box
         display={"flex"}
         height={window.innerHeight > 820 ? "600px" : "100vh"}
-        borderBottom="solid 1px darkgray"
+        borderBottom={window.innerHeight > 820 ? "solid 1px darkgray" : "none"}
       >
         <TeamButtonGroup />
 
