@@ -1,81 +1,92 @@
-import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
-  createPlayerPokemon,
+  createActivePokemon,
   createOpponentPokemon,
 } from "./Functions/Pokemon/createPokemon";
-import { OpponentPokemon, PlayerPokemon } from "./Models/Pokemon";
 import MoveSetGroup from "./Components/MoveSetGroup/MoveSetGroup";
 import MenuButtonGroup from "./Components/MenuButtonGroup/MenuButtonGroup";
 import TeamButtonGroup from "./Components/TeamButtonGroup/TeamButtonGroup";
 import OpponentPokemonBox from "./Components/OpponentPokemonBox/OpponentPokemonBox";
-import PlayerPokemonBox from "./Components/PlayerPokemonBox/PlayerPokemonBox";
+import ActivePokemonBox from "./Components/ActivePokemonBox/ActivePokemonBox";
+import LogBox from "./Components/LogBox/LogBox";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./Store/store";
+import { setActivePokemon } from "./Store/activePokemonSlice";
+import { setOpponentPokemon } from "./Store/opponentPokemonSlice";
 
 const App = (): JSX.Element => {
   const theme = useTheme();
   const smOrUp = useMediaQuery(theme.breakpoints.up("sm"));
-  const [playerPokemon, setPlayerPokemon] = useState<
-    PlayerPokemon | undefined
-  >();
-  const [opponentPokemon, setOpponentPokemon] = useState<
-    OpponentPokemon | undefined
-  >();
-  const { data: playerData, isSuccess: isPlayerSuccess } =
+
+  const activePokemon = useSelector((state: RootState) => state.activePokemon);
+  const opponentPokemon = useSelector(
+    (state: RootState) => state.opponentPokemon
+  );
+
+  const dispatch = useDispatch();
+
+  const { data: activeData, isSuccess: isActiveSuccess } =
     useGetPokemonByNameQuery("nidorino");
+
   const { data: opponentData, isSuccess: isOpponentSuccess } =
     useGetPokemonByNameQuery("gengar");
 
-  useEffect(() => {
-    if (playerData && opponentData) {
-      setPlayerPokemon(
-        createPlayerPokemon(
-          playerData.stats,
-          playerData.sprites.back_default,
-          playerData.name
-        )
-      );
-      setOpponentPokemon(
-        createOpponentPokemon(
-          opponentData.stats,
-          opponentData.sprites.front_default,
-          opponentData.name
-        )
-      );
-    }
-  }, [playerData, opponentData]);
+  const logs = useSelector((state: RootState) => state.logs.value);
 
-  if (smOrUp && playerPokemon && opponentPokemon) {
+  useEffect(() => {
+    if (activeData && opponentData) {
+      const activePokemon = createActivePokemon(
+        activeData.stats,
+        activeData.sprites.back_default,
+        activeData.name
+      );
+      const opponentPokemon = createOpponentPokemon(
+        opponentData.stats,
+        opponentData.sprites.front_default,
+        opponentData.name
+      );
+      dispatch(setActivePokemon(activePokemon));
+      dispatch(setOpponentPokemon(opponentPokemon));
+    }
+  }, [activeData, opponentData]);
+
+  if (smOrUp && activePokemon && opponentPokemon) {
     return (
-      <Grid container height={window.innerHeight > 820 ? "600px" : "100vh"}>
-        <Grid item xs={1} sx={{ border: "1px solid orange" }}>
-          <TeamButtonGroup />
-        </Grid>
-        <Grid item xs={10}>
-          <Box height="100%" display={"flex"} flexDirection="column">
-            <Box flexGrow={1}>
-              <Grid container height="100%">
-                <Grid item xs={6} sx={{ border: "1px solid red", p: 2 }}>
-                  <PlayerPokemonBox pokemon={playerPokemon} />
-                </Grid>
-                <Grid item xs={6} sx={{ border: "1px solid blue", p: 2 }}>
-                  <OpponentPokemonBox pokemon={opponentPokemon} />
-                </Grid>
-              </Grid>
+      <Box
+        display={"flex"}
+        height={window.innerHeight > 820 ? "600px" : "100vh"}
+        borderBottom={window.innerHeight > 820 ? "solid 1px darkgray" : "none"}
+      >
+        <TeamButtonGroup />
+
+        <Box flexGrow={1} height="100%" display={"flex"} flexDirection="column">
+          <Box height="calc(100% - 104px)" display={"flex"}>
+            <Box
+              maxWidth="50%"
+              minWidth="50%"
+              display="flex"
+              justifyContent="stretch"
+              alignItems={"stretch"}
+            >
+              <ActivePokemonBox />
             </Box>
-            <Box sx={{ border: "1px solid green" }}>
-              <MoveSetGroup moves={playerPokemon.moves} />
+
+            <Box maxWidth="50%" minWidth="50%">
+              <OpponentPokemonBox />
             </Box>
           </Box>
-        </Grid>
+          <Box height="104px">
+            {logs.length > 0 ? <LogBox /> : <MoveSetGroup />}
+          </Box>
+        </Box>
 
-        <Grid item xs={1} sx={{ border: "1px solid darkred" }}>
-          <MenuButtonGroup />
-        </Grid>
-      </Grid>
+        <MenuButtonGroup />
+      </Box>
     );
   } else if (smOrUp) {
-    return <div>Something went wrong</div>;
+    return <div>Loading ...</div>;
   } else {
     return <div>Please turn your phone sideways</div>;
   }

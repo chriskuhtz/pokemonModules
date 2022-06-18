@@ -1,19 +1,12 @@
 import { Move } from "./Move";
-import { HPStat, Stat } from "./Stat";
+import { HPStat, Stats } from "./Stat";
 
 export interface Pokemon {
   name: string;
+  level: number;
   moves: PokemonMoveSet;
-  stats: {
-    hp: HPStat;
-    attack: Stat;
-    defense: Stat;
-    specialAttack: Stat;
-    specialDefense: Stat;
-    speed: Stat;
-    accuracy: Stat;
-    evasion: Stat;
-  };
+  hp: HPStat;
+  stats: Stats;
 }
 
 export interface PokemonMoveSet {
@@ -23,7 +16,7 @@ export interface PokemonMoveSet {
   fourth?: Move;
 }
 
-export interface PlayerPokemon extends Pokemon {
+export interface ActivePokemon extends Pokemon {
   spriteUrl: string;
 }
 

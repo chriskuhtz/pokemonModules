@@ -1,8 +1,14 @@
 import { Grid } from "@mui/material";
-import { PokemonMoveSet } from "../../Models/Pokemon";
+import { useSelector } from "react-redux";
+import { ActivePokemon } from "../../Models/Pokemon";
+import { RootState } from "../../Store/store";
 import MoveButton from "../MoveButton/MoveButton";
 
-const MoveSetGroup = ({ moves }: { moves: PokemonMoveSet }) => {
+const MoveSetGroup = () => {
+  const pokemon: ActivePokemon = useSelector(
+    (state: RootState) => state.activePokemon.value
+  );
+  const moves = pokemon.moves;
   return (
     <Grid container>
       <Grid item xs={6}>

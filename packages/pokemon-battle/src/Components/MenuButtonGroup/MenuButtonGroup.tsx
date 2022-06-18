@@ -3,12 +3,11 @@ import { Stack, IconButton, Tooltip, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
-
+import HealingIcon from "@mui/icons-material/Healing";
 const MenuButtonGroup = () => {
   return (
-    <Stack>
+    <Stack sx={{ borderLeft: "1px solid darkgray" }}>
       <Tooltip disableFocusListener title="Bag" placement="left">
         <IconButton>
           <BusinessCenterIcon fontSize="large" />
@@ -16,7 +15,7 @@ const MenuButtonGroup = () => {
       </Tooltip>
       <Tooltip disableFocusListener title="Potion" placement="left">
         <IconButton>
-          <LocalDrinkIcon fontSize="large" />
+          <HealingIcon fontSize="large" />
         </IconButton>
       </Tooltip>
       <Tooltip disableFocusListener title="throw Pokeball" placement="left">
