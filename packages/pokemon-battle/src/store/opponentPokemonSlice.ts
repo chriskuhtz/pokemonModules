@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 import { OpponentPokemon } from "../Models/Pokemon";
 
 const initialState: { value: OpponentPokemon } = {
@@ -13,6 +14,7 @@ const initialState: { value: OpponentPokemon } = {
         type: "normal",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       second: {
         name: "Tackle",
@@ -20,6 +22,7 @@ const initialState: { value: OpponentPokemon } = {
         type: "steel",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       third: {
         name: "Tackle",
@@ -27,6 +30,7 @@ const initialState: { value: OpponentPokemon } = {
         type: "grass",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       fourth: {
         name: "Tackle",
@@ -34,6 +38,7 @@ const initialState: { value: OpponentPokemon } = {
         type: "electric",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
     },
     hp: { current: 50, initial: 50 },
@@ -55,9 +60,15 @@ export const opponentPokemonSlice = createSlice({
   reducers: {
     setOpponentPokemon: (state, action: PayloadAction<OpponentPokemon>) => {
       state.value = action.payload;
+      //console.log("setOpponentPokemon", state.value);
     },
     applyDamageToOpponentPokemon: (state, action: PayloadAction<number>) => {
-      state.value.hp.current -= action.payload;
+      if (state.value.hp.current - action.payload > 0) {
+        state.value.hp.current -= action.payload;
+      } else {
+        state.value.hp.current = 0;
+      }
+      //console.log("applyDamageToOpponentPokemon", state.value);
     },
   },
 });

@@ -4,4 +4,5 @@ export interface Move {
   type: string;
   powerPoints: { initial: number; current: number };
   moveType: "special" | "physical" | "status" | "stat";
+  target: "opponent" | "self";
 }

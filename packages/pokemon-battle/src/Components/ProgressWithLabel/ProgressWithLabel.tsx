@@ -9,7 +9,7 @@ const ProgressWithLabel = ({
 }: ProgressWithLabelProps) => {
   return (
     <Box display="flex" alignItems={"center"}>
-      <Box width={"20%"}>
+      <Box width={"30%"}>
         <Typography>{label}</Typography>
       </Box>
       <Box sx={{ width: "100%" }}>

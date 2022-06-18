@@ -15,7 +15,6 @@ export const useCalculateDamage = () => {
       dispatch(
         addLog({
           message: "something went wrong, missing data",
-          onDismissal: () => console.log("dismissal works"),
         })
       );
       return 0;

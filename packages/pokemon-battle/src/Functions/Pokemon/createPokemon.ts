@@ -20,6 +20,7 @@ const createPokemon = (
         type: "normal",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       second: {
         name: "Tackle",
@@ -27,6 +28,7 @@ const createPokemon = (
         type: "steel",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       third: {
         name: "Tackle",
@@ -34,6 +36,7 @@ const createPokemon = (
         type: "grass",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       fourth: {
         name: "Tackle",
@@ -41,6 +44,7 @@ const createPokemon = (
         type: "electric",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
     },
     hp: { current: 50, initial: 50 },
@@ -84,7 +88,7 @@ export const createActivePokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
   spriteUrl: string,
   pokemon: string,
-  level = 5
+  level = 100
 ): ActivePokemon => {
   const createdPokemon = createPokemon(stats, pokemon, level);
   return { ...createdPokemon, spriteUrl: spriteUrl };
@@ -94,7 +98,7 @@ export const createOpponentPokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
   spriteUrl: string,
   pokemon: string,
-  level = 5
+  level = 100
 ): ActivePokemon => {
   const createdPokemon = createPokemon(stats, pokemon, level);
   return { ...createdPokemon, spriteUrl: spriteUrl };

@@ -13,6 +13,7 @@ const initialState: { value: ActivePokemon } = {
         type: "normal",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       second: {
         name: "Tackle",
@@ -20,6 +21,7 @@ const initialState: { value: ActivePokemon } = {
         type: "steel",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       third: {
         name: "Tackle",
@@ -27,6 +29,7 @@ const initialState: { value: ActivePokemon } = {
         type: "grass",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
       fourth: {
         name: "Tackle",
@@ -34,6 +37,7 @@ const initialState: { value: ActivePokemon } = {
         type: "electric",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
       },
     },
     hp: { current: 50, initial: 50 },
@@ -55,9 +59,15 @@ export const activePokemonSlice = createSlice({
   reducers: {
     setActivePokemon: (state, action: PayloadAction<ActivePokemon>) => {
       state.value = action.payload;
+      //console.log("setActivePokemon", state.value);
     },
     applyDamageToActivePokemon: (state, action: PayloadAction<number>) => {
-      state.value.hp.current -= action.payload;
+      if (state.value.hp.current - action.payload > 0) {
+        state.value.hp.current -= action.payload;
+      } else {
+        state.value.hp.current = 0;
+      }
+      //console.log("applyDamageToActivePokemon", state.value);
     },
   },
 });
