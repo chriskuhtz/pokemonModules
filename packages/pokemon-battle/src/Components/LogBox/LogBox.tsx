@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { removeLog } from "../../Store/logSlice";
+import { dismissLog } from "../../Store/logSlice";
 import { RootState } from "../../Store/store";
 
 const LogBox = () => {
@@ -9,14 +9,17 @@ const LogBox = () => {
 
   return (
     <Box
-      onClick={() => dispatch(removeLog())}
+      onClick={() => {
+        logs[0].onDismissal && logs[0].onDismissal();
+        dispatch(dismissLog());
+      }}
       height="100%"
       sx={{ borderTop: "1px solid darkgray" }}
       display="flex"
       justifyContent="center"
       alignItems="center"
     >
-      <Typography variant="h5">{logs[0]}</Typography>
+      <Typography variant="h5">{logs[0].message}</Typography>
     </Box>
   );
 };

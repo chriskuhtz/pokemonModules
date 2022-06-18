@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export interface Log {
+  message: string;
+  onDismissal?: Function;
+}
 export interface logState {
-  value: string[];
+  value: Log[];
 }
 
 const initialState: logState = {
@@ -12,16 +16,16 @@ export const logSlice = createSlice({
   name: "log",
   initialState,
   reducers: {
-    addLog: (state, action: PayloadAction<string>) => {
+    addLog: (state, action: PayloadAction<Log>) => {
       state.value.push(action.payload);
     },
-    removeLog: (state) => {
+    dismissLog: (state) => {
       state.value = state.value.slice(1);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addLog, removeLog } = logSlice.actions;
+export const { addLog, dismissLog } = logSlice.actions;
 
 export const logReducer = logSlice.reducer;

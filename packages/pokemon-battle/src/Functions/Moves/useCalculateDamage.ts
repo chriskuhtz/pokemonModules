@@ -11,9 +11,13 @@ export const useCalculateDamage = () => {
     attack: number,
     defense: number
   ) => {
-    console.log(level, move, attack, defense);
     if (level === -1 || attack === -1 || defense === -1) {
-      dispatch(addLog("something went wrong, missing data"));
+      dispatch(
+        addLog({
+          message: "something went wrong, missing data",
+          onDismissal: () => console.log("dismissal works"),
+        })
+      );
       return 0;
     }
     //https://bulbapedia.bulbagarden.net/wiki/Damage
@@ -23,7 +27,7 @@ export const useCalculateDamage = () => {
     const damage = Math.floor(
       (levelFactor * move.damage * statFactor) / 50 + 2
     );
-    console.log(levelFactor, statFactor, damage);
+
     return damage;
   };
 
