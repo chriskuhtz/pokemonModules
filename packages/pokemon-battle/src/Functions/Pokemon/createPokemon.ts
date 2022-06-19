@@ -19,25 +19,41 @@ const createPokemon = (
     level: level,
     moves: {
       first: {
-        name: "Tackle",
-        damage: 35,
-        type: "ground",
-        moveType: "physical",
-        powerPoints: { initial: 35, current: 35 },
-        target: "opponent",
-      },
-      second: {
-        name: "Growl",
-        statChange: { stats: ["attack"], modifier: 1 },
+        name: "Howl",
+        statChange: {
+          stats: ["attack", "defense", "speed", "specialAttack"],
+          modifier: 1,
+          chance: 1,
+          target: "self",
+        },
         type: "normal",
         moveType: "stat",
         powerPoints: { initial: 35, current: 35 },
         target: "self",
       },
+      second: {
+        name: "Leer",
+        statChange: {
+          stats: ["defense"],
+          modifier: -6,
+          chance: 1,
+          target: "opponent",
+        },
+        type: "normal",
+        moveType: "stat",
+        powerPoints: { initial: 35, current: 35 },
+        target: "opponent",
+      },
       third: {
-        name: "Tackle",
+        name: "Metal Claw",
+        statChange: {
+          stats: ["attack"],
+          modifier: 1,
+          chance: 0.3,
+          target: "self",
+        },
         damage: 35,
-        type: "grass",
+        type: "steel",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
         target: "opponent",
@@ -53,13 +69,13 @@ const createPokemon = (
     },
     hp: { current: 50, initial: 50 },
     stats: {
-      attack: { initial: 50, modifier: 1 },
-      defense: { initial: 50, modifier: 1 },
-      specialAttack: { initial: 50, modifier: 1 },
-      specialDefense: { initial: 50, modifier: 1 },
-      speed: { initial: 50, modifier: 1 },
-      evasion: { initial: 1, modifier: 1 },
-      accuracy: { initial: 1, modifier: 1 },
+      attack: { initial: 50, modifier: 0 },
+      defense: { initial: 50, modifier: 0 },
+      specialAttack: { initial: 50, modifier: 0 },
+      specialDefense: { initial: 50, modifier: 0 },
+      speed: { initial: 50, modifier: 0 },
+      evasion: { initial: 1, modifier: 0 },
+      accuracy: { initial: 1, modifier: 0 },
     },
   };
 
@@ -79,7 +95,7 @@ const createPokemon = (
       if (hasKey(createdPokemon.stats, s.key)) {
         createdPokemon.stats[s.key] = {
           initial: calculatedStat,
-          modifier: 1,
+          modifier: 0,
         };
       }
     }

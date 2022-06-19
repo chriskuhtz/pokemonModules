@@ -1,20 +1,25 @@
 import { useDispatch } from "react-redux";
-import { clearLogs, addLog } from "../../Store/logSlice";
+import { clearLogs, addLog, Log } from "../../Store/logSlice";
 
 export const useGameOver = () => {
   const dispatch = useDispatch();
 
-  const gameOver = () => {
+  const gameOverLoop = () => {
     dispatch(
-      addLog({
-        message: "game over",
-        //temporary recursive loop, until an actual end of match is implemented
-        onDismissal: () => {
-          dispatch(clearLogs());
-          gameOver();
-        },
-      })
+      addLog({ message: "game over", onDismissal: () => gameOverLoop() })
     );
+  };
+  const gameOver = (): { logs: Log[] } => {
+    const logs: Log[] = [];
+    logs.push({
+      message: "game over",
+      onDismissal: () => {
+        dispatch(clearLogs());
+        gameOverLoop();
+      },
+    });
+
+    return { logs: logs };
   };
 
   return { gameOver };
