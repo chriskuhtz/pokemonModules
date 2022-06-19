@@ -1,33 +1,9 @@
-import { useDispatch } from "react-redux";
 import { Move } from "../../Models/Move";
 import { Pokemon } from "../../Models/Pokemon";
-import { typeChart, TypeEffectiveness } from "../../Utils/Constants/typeChart";
-import { hasKey } from "../../Utils/hasKey";
+import { useDetermineTypeFactor } from "./useDetermineTypeFactor";
 
 export const useCalculateDamage = () => {
-  const isStab = (moveType: string, attacker: Pokemon) => {
-    if ([attacker.primaryType, attacker.secondaryType].includes(moveType)) {
-      return true;
-    } else return false;
-  };
-
-  const determineTypeFactor = (moveType: string, type: string) => {
-    let typeFactor = 1;
-
-    const typeEffectiveness: TypeEffectiveness | false =
-      hasKey(typeChart, moveType) && typeChart[moveType];
-
-    if (typeEffectiveness && typeEffectiveness.super.includes(type)) {
-      typeFactor = 2;
-    }
-    if (typeEffectiveness && typeEffectiveness.notvery.includes(type)) {
-      typeFactor = 0.5;
-    }
-    if (typeEffectiveness && typeEffectiveness.noEffect.includes(type)) {
-      typeFactor = 0;
-    }
-    return typeFactor;
-  };
+  const { determineTypeFactor, isStab } = useDetermineTypeFactor();
   const calculateDamage = (
     level: number,
     move: Move,
@@ -39,6 +15,7 @@ export const useCalculateDamage = () => {
     //https://bulbapedia.bulbagarden.net/wiki/Damage
     let message = undefined;
 
+    const moveDamageFactor = move.damage ?? 0;
     const levelFactor = (2 * level) / 5 + 2;
     const statFactor = attack / defense;
     const typeFactor = determineTypeFactor(move.type, defender.primaryType);
@@ -50,7 +27,7 @@ export const useCalculateDamage = () => {
     const randomFactor = 0.85 + Math.random() * 0.15;
 
     const damage = Math.floor(
-      ((levelFactor * move.damage * statFactor) / 50 + 2) *
+      ((levelFactor * moveDamageFactor * statFactor) / 50 + 2) *
         stabFactor *
         randomFactor *
         typeFactor *
