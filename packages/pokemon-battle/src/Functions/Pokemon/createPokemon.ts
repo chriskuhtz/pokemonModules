@@ -8,16 +8,20 @@ import {
 const createPokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
   pokemon: string,
-  level = 5
+  level = 5,
+  primaryType: string,
+  secondaryType?: string
 ): Pokemon => {
   const createdPokemon: Pokemon = {
     name: pokemon,
+    primaryType: primaryType,
+    secondaryType: secondaryType,
     level: level,
     moves: {
       first: {
         name: "Tackle",
         damage: 35,
-        type: "normal",
+        type: "ground",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
         target: "opponent",
@@ -25,7 +29,7 @@ const createPokemon = (
       second: {
         name: "Tackle",
         damage: 35,
-        type: "steel",
+        type: "ice",
         moveType: "physical",
         powerPoints: { initial: 35, current: 35 },
         target: "opponent",
@@ -88,9 +92,16 @@ export const createActivePokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
   spriteUrl: string,
   pokemon: string,
+  types: { slot: number; type: { name: string } }[],
   level = 100
 ): ActivePokemon => {
-  const createdPokemon = createPokemon(stats, pokemon, level);
+  const createdPokemon = createPokemon(
+    stats,
+    pokemon,
+    level,
+    types[0].type.name,
+    types[1].type.name
+  );
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };
 
@@ -98,8 +109,15 @@ export const createOpponentPokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
   spriteUrl: string,
   pokemon: string,
+  types: { slot: number; type: { name: string } }[],
   level = 100
 ): ActivePokemon => {
-  const createdPokemon = createPokemon(stats, pokemon, level);
+  const createdPokemon = createPokemon(
+    stats,
+    pokemon,
+    level,
+    types[0].type.name,
+    types[1].type.name
+  );
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };

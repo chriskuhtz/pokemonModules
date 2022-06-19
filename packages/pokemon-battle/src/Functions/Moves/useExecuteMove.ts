@@ -35,19 +35,21 @@ export const useExecuteMove = () => {
 
     // handle normal damaging move
     if (["physical", "special"].includes(move.moveType)) {
-      const damage = calculateDamage(
+      const calculatedDamage = calculateDamage(
         user.level,
         move,
         user.stats.attack.initial,
-        target.stats.defense.initial
+        target.stats.defense.initial,
+        user,
+        target
       );
 
       if (target === opponentPokemon) {
         dispatch(
           addLog({
-            message: `${user.name} used ${move.name}`,
+            message: `${user.name} used ${move.name}. ${calculatedDamage.message}`,
             onDismissal: () => {
-              dispatch(applyDamageToOpponentPokemon(damage));
+              dispatch(applyDamageToOpponentPokemon(calculatedDamage.damage));
             },
           })
         );
@@ -55,14 +57,14 @@ export const useExecuteMove = () => {
       if (target === activePokemon) {
         dispatch(
           addLog({
-            message: `${user.name} used ${move.name}`,
+            message: `${user.name} used ${move.name}. ${calculatedDamage.message}`,
             onDismissal: () => {
-              dispatch(applyDamageToActivePokemon(damage));
+              dispatch(applyDamageToActivePokemon(calculatedDamage.damage));
             },
           })
         );
       }
-      if (target.hp.current - damage <= 0) {
+      if (target.hp.current - calculatedDamage.damage <= 0) {
         gameOver();
         return;
       }

@@ -3,6 +3,8 @@ import { HPStat, Stats } from "./Stat";
 
 export interface Pokemon {
   name: string;
+  primaryType: string;
+  secondaryType?: string;
   level: number;
   moves: PokemonMoveSet;
   hp: HPStat;
