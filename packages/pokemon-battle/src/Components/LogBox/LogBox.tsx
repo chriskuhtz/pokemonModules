@@ -19,7 +19,10 @@ const LogBox = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Typography variant="h5">{logs[0].message}</Typography>
+      <Box textAlign={"center"}>
+        <Typography variant="h5">{logs[0].message}</Typography>
+        <Typography variant="h6">{logs[0].secondary}</Typography>
+      </Box>
     </Box>
   );
 };

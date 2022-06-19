@@ -64,7 +64,7 @@ export const useCalculateDamage = () => {
     } else if (typeFactor * secondaryTypeFactor > 1) {
       message = "It is very effective.";
     } else {
-      message = undefined;
+      message = "";
     }
 
     return { damage: damage, message: message };
