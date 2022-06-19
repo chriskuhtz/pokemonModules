@@ -27,12 +27,12 @@ const createPokemon = (
         target: "opponent",
       },
       second: {
-        name: "Tackle",
-        damage: 35,
-        type: "ice",
-        moveType: "physical",
+        name: "Growl",
+        statChange: { stats: ["attack"], modifier: 1 },
+        type: "normal",
+        moveType: "stat",
         powerPoints: { initial: 35, current: 35 },
-        target: "opponent",
+        target: "self",
       },
       third: {
         name: "Tackle",
