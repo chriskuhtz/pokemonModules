@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OpponentPokemon } from "../Models/Pokemon";
+import { StatChange } from "../Models/Stat";
 import { fallbackPokemon } from "../Utils/Constants/fallbackPokemon";
+import { hasKey } from "../Utils/hasKey";
 
 const initialState: { value: OpponentPokemon } = {
   value: fallbackPokemon,
@@ -22,11 +24,33 @@ export const opponentPokemonSlice = createSlice({
       }
       //console.log("applyDamageToOpponentPokemon", state.value);
     },
+    applyStatChangeToOpponentPokemon: (
+      state,
+      action: PayloadAction<StatChange>
+    ) => {
+      action.payload.stats.forEach((s) => {
+        if (hasKey(state.value.stats, s)) {
+          if (state.value.stats[s].modifier + action.payload.modifier < -6) {
+            state.value.stats[s].modifier = -6;
+          } else if (
+            state.value.stats[s].modifier + action.payload.modifier >
+            6
+          ) {
+            state.value.stats[s].modifier = 6;
+          } else {
+            state.value.stats[s].modifier += action.payload.modifier;
+          }
+        } else console.error("what kind of stat is this", s);
+      });
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { applyDamageToOpponentPokemon, setOpponentPokemon } =
-  opponentPokemonSlice.actions;
+export const {
+  applyDamageToOpponentPokemon,
+  setOpponentPokemon,
+  applyStatChangeToOpponentPokemon,
+} = opponentPokemonSlice.actions;
 
 export const opponentPokemonReducer = opponentPokemonSlice.reducer;

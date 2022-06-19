@@ -24,13 +24,13 @@ const OpponentPokemonBox = () => {
       <Card variant="outlined" sx={{ px: 1, m: 1, overflowY: "scroll" }}>
         <Stack>
           <Typography variant="h5">{pokemon.name}</Typography>
+          <ModifierBox stats={pokemon.stats} />
           <Typography>Lvl:{pokemon.level}</Typography>
           <ProgressWithLabel
             label={`${pokemon.hp.current} / ${pokemon.hp.initial}`}
             value={(pokemon.hp.current / pokemon.hp.initial) * 100}
             healthBar
           />
-          <ModifierBox stats={pokemon.stats} />
         </Stack>
       </Card>
     </Box>
