@@ -47,7 +47,8 @@ export const useExecuteMove = () => {
       if (target === opponentPokemon) {
         dispatch(
           addLog({
-            message: `${user.name} used ${move.name}. ${calculatedDamage.message}`,
+            message: `${user.name} used ${move.name}. `,
+            secondary: `${calculatedDamage.message}`,
             onDismissal: () => {
               dispatch(applyDamageToOpponentPokemon(calculatedDamage.damage));
             },
@@ -57,7 +58,8 @@ export const useExecuteMove = () => {
       if (target === activePokemon) {
         dispatch(
           addLog({
-            message: `${user.name} used ${move.name}. ${calculatedDamage.message}`,
+            message: `${user.name} used ${move.name}.`,
+            secondary: `${calculatedDamage.message}`,
             onDismissal: () => {
               dispatch(applyDamageToActivePokemon(calculatedDamage.damage));
             },

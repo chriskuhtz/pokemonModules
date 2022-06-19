@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Log {
   message: string;
+  secondary?: string;
   onDismissal?: Function;
 }
 export interface logState {
