@@ -22,13 +22,13 @@ const ActivePokemonBox = () => {
       <Card variant="outlined" sx={{ px: 1, m: 1, overflowY: "scroll" }}>
         <Stack>
           <Typography variant="h5">{pokemon.name}</Typography>
-
+          <ModifierBox stats={pokemon.stats} />
           <ProgressWithLabel
             label={`${pokemon.hp.current} / ${pokemon.hp.initial}`}
             value={(pokemon.hp.current / pokemon.hp.initial) * 100}
             healthBar
           />
-          <ModifierBox stats={pokemon.stats} />
+
           <ProgressWithLabel label={`Lvl: ${pokemon.level}`} value={60} />
         </Stack>
       </Card>
