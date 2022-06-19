@@ -1,23 +1,42 @@
 import { Move } from "../../Models/Move";
 import { Pokemon } from "../../Models/Pokemon";
+import { Log } from "../../Store/logSlice";
 import { useDetermineTypeFactor } from "./useDetermineTypeFactor";
 
 export const useCalculateDamage = () => {
   const { determineTypeFactor, isStab } = useDetermineTypeFactor();
+
   const calculateDamage = (
     level: number,
     move: Move,
-    attack: number,
-    defense: number,
     attacker: Pokemon,
     defender: Pokemon
-  ): { damage: number; message?: string } => {
+  ): { damage: number; logs: Log[] } => {
     //https://bulbapedia.bulbagarden.net/wiki/Damage
-    let message = undefined;
+    let logs: Log[] = [];
 
     const moveDamageFactor = move.damage ?? 0;
     const levelFactor = (2 * level) / 5 + 2;
-    const statFactor = attack / defense;
+    const attackStat =
+      move.moveType === "physical"
+        ? attacker.stats.attack
+        : attacker.stats.specialAttack;
+    const defenseStat =
+      move.moveType === "physical"
+        ? defender.stats.defense
+        : defender.stats.specialDefense;
+    const modifiedAttackStat =
+      attackStat.modifier >= 0
+        ? attackStat.initial + attackStat.initial * 0.5 * attackStat.modifier
+        : attackStat.initial + attackStat.initial * 0.15 * attackStat.modifier;
+    const modifiedDefenseStat =
+      defenseStat.modifier >= 0
+        ? defenseStat.initial + defenseStat.initial * 0.5 * defenseStat.modifier
+        : defenseStat.initial +
+          defenseStat.initial * 0.15 * defenseStat.modifier;
+
+    const statFactor = modifiedAttackStat / modifiedDefenseStat;
+
     const typeFactor = determineTypeFactor(move.type, defender.primaryType);
     const secondaryTypeFactor =
       defender.secondaryType && typeFactor !== 0
@@ -35,16 +54,14 @@ export const useCalculateDamage = () => {
     );
 
     if (typeFactor === 0 || secondaryTypeFactor === 0) {
-      message = "It has no effect.";
+      logs.push({ message: "It has no effect." });
     } else if (typeFactor * secondaryTypeFactor < 1) {
-      message = "It is not very effective.";
+      logs.push({ message: "It is not very effective." });
     } else if (typeFactor * secondaryTypeFactor > 1) {
-      message = "It is very effective.";
-    } else {
-      message = "";
+      logs.push({ message: "It is very effective." });
     }
 
-    return { damage: damage, message: message };
+    return { damage: damage, logs: logs };
   };
 
   return { calculateDamage };
