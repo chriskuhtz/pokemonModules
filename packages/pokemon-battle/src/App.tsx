@@ -28,10 +28,10 @@ const App = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const { data: activeData, isSuccess: isActiveSuccess } =
-    useGetPokemonByNameQuery("nidorino");
+    useGetPokemonByNameQuery("nidoking");
 
   const { data: opponentData, isSuccess: isOpponentSuccess } =
-    useGetPokemonByNameQuery("gengar");
+    useGetPokemonByNameQuery("dragonite");
 
   const logs = useSelector((state: RootState) => state.logs.value);
 
@@ -40,12 +40,14 @@ const App = (): JSX.Element => {
       const activePokemon = createActivePokemon(
         activeData.stats,
         activeData.sprites.back_default,
-        activeData.name
+        activeData.name,
+        activeData.types
       );
       const opponentPokemon = createOpponentPokemon(
         opponentData.stats,
         opponentData.sprites.front_default,
-        opponentData.name
+        opponentData.name,
+        opponentData.types
       );
       dispatch(setActivePokemon(activePokemon));
       dispatch(setOpponentPokemon(opponentPokemon));

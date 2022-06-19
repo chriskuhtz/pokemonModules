@@ -1,10 +1,6 @@
 import { Box, Card, Stack, Typography } from "@mui/material";
-import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createActivePokemon } from "../../Functions/Pokemon/createPokemon";
+import { useSelector } from "react-redux";
 import { ActivePokemon } from "../../Models/Pokemon";
-import { setActivePokemon } from "../../Store/activePokemonSlice";
 import { RootState } from "../../Store/store";
 import ModifierBox from "../ModifierBox/ModifierBox";
 import ProgressWithLabel from "../ProgressWithLabel/ProgressWithLabel";
@@ -13,23 +9,6 @@ const ActivePokemonBox = () => {
   const pokemon: ActivePokemon = useSelector(
     (state: RootState) => state.activePokemon.value
   );
-
-  const dispatch = useDispatch();
-
-  const { data: activeData, isSuccess: isActiveSuccess } =
-    useGetPokemonByNameQuery("nidorino");
-
-  useEffect(() => {
-    if (activeData) {
-      const activePokemon = createActivePokemon(
-        activeData.stats,
-        activeData.sprites.back_default,
-        activeData.name
-      );
-
-      dispatch(setActivePokemon(activePokemon));
-    }
-  }, [activeData]);
 
   return (
     <Box
