@@ -1,5 +1,8 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
+import {
+  useGetAllPokemonQuery,
+  useGetPokemonByNameQuery,
+} from "chriskuhtz-pokemon-api";
 import { useEffect, useState } from "react";
 import {
   createActivePokemon,
@@ -21,24 +24,40 @@ const App = (): JSX.Element => {
   const theme = useTheme();
   const smOrUp = useMediaQuery(theme.breakpoints.up("sm"));
 
-  const activePokemon = useSelector((state: RootState) => state.activePokemon);
-  const opponentPokemon = useSelector(
-    (state: RootState) => state.opponentPokemon
-  );
-
   const dispatch = useDispatch();
 
   const logs = useSelector((state: RootState) => state.logs.value);
 
-  const { data: activeData } = useGetPokemonByNameQuery("nidoking");
+  //get two random pokemon for the fight
+  const { data: allPokemonData } = useGetAllPokemonQuery("");
+  const [randomPokemon, setRandomPokemon] = useState(["pikachu", "eevee"]);
+  useEffect(() => {
+    if (allPokemonData) {
+      const randomActive =
+        allPokemonData.results[Math.floor(Math.random() * 493)].name;
+      const randomOpponent =
+        allPokemonData.results[Math.floor(Math.random() * 493)].name;
+
+      setRandomPokemon([randomActive, randomOpponent]);
+    }
+  }, [allPokemonData]);
+
+  //all hooks,selectors etc for active Pokemon
+  const activePokemon = useSelector((state: RootState) => state.activePokemon);
+  const { data: activeData } = useGetPokemonByNameQuery(randomPokemon[0]);
   const [activeMoveUrls, setActiveMoveUrls] = useState<string[]>([]);
   const { fetchMoves: fetchActiveMoves, moves: activeMoves } = useFetchMoves();
 
-  const { data: opponentData } = useGetPokemonByNameQuery("dragonite");
+  //all hooks,selectors etc for opponent Pokemon
+  const opponentPokemon = useSelector(
+    (state: RootState) => state.opponentPokemon
+  );
+  const { data: opponentData } = useGetPokemonByNameQuery(randomPokemon[1]);
   const [opponentMoveUrls, setOpponentMoveUrls] = useState<string[]>([]);
   const { fetchMoves: fetchOpponentMoves, moves: opponentMoves } =
     useFetchMoves();
 
+  //extract the move urls after the pokemon is loaded
   useEffect(() => {
     if (
       activeData &&
@@ -59,6 +78,7 @@ const App = (): JSX.Element => {
     }
   }, [activeData, activeMoveUrls, opponentData, opponentMoveUrls]);
 
+  //load the move data from the urls
   useEffect(() => {
     if (activeMoveUrls.length !== 0 && opponentMoveUrls.length !== 0) {
       fetchActiveMoves(activeMoveUrls);
@@ -66,6 +86,7 @@ const App = (): JSX.Element => {
     }
   }, [activeMoveUrls, opponentMoveUrls]);
 
+  //create Pokemon Objects out of the pokemon and move data
   useEffect(() => {
     if (
       activeData &&
