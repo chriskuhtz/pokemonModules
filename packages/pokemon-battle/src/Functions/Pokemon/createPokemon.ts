@@ -1,6 +1,5 @@
 import { LoadedMove, PriorityEnum, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
-import { fallbackPokemon } from "../../Utils/Constants/fallbackPokemon";
 import { hasKey } from "../../Utils/hasKey";
 import {
   calculateInitialHP,
@@ -141,7 +140,7 @@ export const createActivePokemon = (
     level,
     moves,
     types[0].type.name,
-    types[1].type.name
+    types[1]?.type?.name ?? undefined
   );
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };
@@ -160,7 +159,7 @@ export const createOpponentPokemon = (
     level,
     moves,
     types[0].type.name,
-    types[1].type.name
+    types[1]?.type?.name ?? undefined
   );
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };
