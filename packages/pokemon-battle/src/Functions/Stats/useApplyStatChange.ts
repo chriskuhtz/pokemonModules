@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Move } from "../../Models/Move";
+import { Move, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 import { StatChange } from "../../Models/Stat";
 import { applyStatChangeToActivePokemon } from "../../Store/activePokemonSlice";
@@ -13,7 +13,7 @@ export const useApplyStatChange = () => {
     stats: [],
     modifier: 0,
     chance: 0,
-    target: "self",
+    target: TargetEnum.USER,
   };
   const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ export const useApplyStatChange = () => {
     target: ActivePokemon | OpponentPokemon
   ): { logs: Log[] } => {
     const logs: Log[] = [];
-    if (move.statChange && move.statChange.target === "self") {
+    if (move.statChange && move.statChange.target === TargetEnum.USER) {
       const onDismissal = (statChange: StatChange) =>
         user === activePokemon
           ? dispatch(applyStatChangeToActivePokemon(statChange))

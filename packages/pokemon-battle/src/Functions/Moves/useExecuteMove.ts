@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Move } from "../../Models/Move";
+import { Move, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 import { applyDamageToActivePokemon } from "../../Store/activePokemonSlice";
 import { addMultipleLogs, Log } from "../../Store/logSlice";
@@ -30,7 +30,7 @@ export const useExecuteMove = () => {
     let damage = 0;
     //determine target
     let target = opponentPokemon;
-    if (move.target === "self") {
+    if (move.target === TargetEnum.USER) {
       target = user;
     } else if (user === opponentPokemon && move.target === "opponent") {
       target = activePokemon;
@@ -45,7 +45,7 @@ export const useExecuteMove = () => {
     });
 
     // handle normal damaging move
-    if (["physical", "special"].includes(move.moveType)) {
+    if (["physical", "special"].includes(move.damage_class)) {
       const calculatedDamage = calculateDamage(user.level, move, user, target);
       damage = calculatedDamage.damage;
       const damageLogs = calculatedDamage.logs;
@@ -83,7 +83,6 @@ export const useExecuteMove = () => {
       logs = logs.concat(isGameOver.logs);
     }
 
-    console.log(logs);
     dispatch(addMultipleLogs(logs));
   };
 

@@ -1,6 +1,6 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useGetPokemonByNameQuery } from "chriskuhtz-pokemon-api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   createActivePokemon,
   createOpponentPokemon,
@@ -27,13 +27,23 @@ const App = (): JSX.Element => {
 
   const dispatch = useDispatch();
 
-  const { data: activeData, isSuccess: isActiveSuccess } =
-    useGetPokemonByNameQuery("nidoking");
-
-  const { data: opponentData, isSuccess: isOpponentSuccess } =
-    useGetPokemonByNameQuery("dragonite");
-
   const logs = useSelector((state: RootState) => state.logs.value);
+
+  const { data: activeData } = useGetPokemonByNameQuery("nidoking");
+
+  const { data: opponentData } = useGetPokemonByNameQuery("dragonite");
+
+  const [activeMoveUrls, setActiveMoveUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (activeData) {
+      setActiveMoveUrls(
+        activeData.moves.slice(0, 4).map((m: { move: { url: string } }) => {
+          return m.move.url;
+        })
+      );
+    }
+  }, [activeData]);
 
   useEffect(() => {
     if (activeData && opponentData) {
@@ -41,13 +51,15 @@ const App = (): JSX.Element => {
         activeData.stats,
         activeData.sprites.back_default,
         activeData.name,
-        activeData.types
+        activeData.types,
+        []
       );
       const opponentPokemon = createOpponentPokemon(
         opponentData.stats,
         opponentData.sprites.front_default,
         opponentData.name,
-        opponentData.types
+        opponentData.types,
+        []
       );
       dispatch(setActivePokemon(activePokemon));
       dispatch(setOpponentPokemon(opponentPokemon));

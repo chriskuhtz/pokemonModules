@@ -15,14 +15,14 @@ export const useCalculateDamage = () => {
     //https://bulbapedia.bulbagarden.net/wiki/Damage
     let logs: Log[] = [];
 
-    const moveDamageFactor = move.damage ?? 0;
+    const moveDamageFactor = move.power ?? 0;
     const levelFactor = (2 * level) / 5 + 2;
     const attackStat =
-      move.moveType === "physical"
+      move.damage_class === "physical"
         ? attacker.stats.attack
         : attacker.stats.specialAttack;
     const defenseStat =
-      move.moveType === "physical"
+      move.damage_class === "physical"
         ? defender.stats.defense
         : defender.stats.specialDefense;
     const modifiedAttackStat =

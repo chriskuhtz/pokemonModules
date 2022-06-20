@@ -1,3 +1,4 @@
+import { PriorityEnum, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 
 export const fallbackPokemon: OpponentPokemon | ActivePokemon = {
@@ -7,36 +8,28 @@ export const fallbackPokemon: OpponentPokemon | ActivePokemon = {
   spriteUrl: "",
   moves: {
     first: {
-      name: "Tackle",
-      damage: 35,
+      name: "tackle",
+      power: 40,
+
       type: "normal",
-      moveType: "physical",
       powerPoints: { initial: 35, current: 35 },
-      target: "opponent",
-    },
-    second: {
-      name: "Tackle",
-      damage: 35,
-      type: "steel",
-      moveType: "physical",
-      powerPoints: { initial: 35, current: 35 },
-      target: "opponent",
-    },
-    third: {
-      name: "Tackle",
-      damage: 35,
-      type: "grass",
-      moveType: "physical",
-      powerPoints: { initial: 35, current: 35 },
-      target: "opponent",
-    },
-    fourth: {
-      name: "Tackle",
-      damage: 35,
-      type: "electric",
-      moveType: "physical",
-      powerPoints: { initial: 35, current: 35 },
-      target: "opponent",
+      damage_class: "physical",
+      target: TargetEnum.OPPONENT,
+      priority: PriorityEnum.STANDARD,
+      accuracy: 100,
+      meta: {
+        max_hits: null,
+        min_hits: null,
+        max_turns: null,
+        min_turns: null,
+        ailment: { name: "none" },
+        ailment_chance: 0,
+        crit_rate: 0,
+        flinch_chance: 0,
+        drain: 0,
+        healing: 0,
+        stat_chance: 0,
+      },
     },
   },
   hp: { current: 50, initial: 50 },

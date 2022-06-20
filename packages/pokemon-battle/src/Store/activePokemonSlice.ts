@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ActivePokemon } from "../Models/Pokemon";
-import { StatChange, StatEnum } from "../Models/Stat";
+import { StatChange } from "../Models/Stat";
 import { fallbackPokemon } from "../Utils/Constants/fallbackPokemon";
 import { hasKey } from "../Utils/hasKey";
 
