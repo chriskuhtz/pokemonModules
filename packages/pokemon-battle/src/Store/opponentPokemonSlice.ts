@@ -14,7 +14,6 @@ export const opponentPokemonSlice = createSlice({
   reducers: {
     setOpponentPokemon: (state, action: PayloadAction<OpponentPokemon>) => {
       state.value = action.payload;
-      //console.log("setOpponentPokemon", state.value);
     },
     applyDamageToOpponentPokemon: (state, action: PayloadAction<number>) => {
       if (state.value.hp.current - action.payload > 0) {
@@ -22,7 +21,6 @@ export const opponentPokemonSlice = createSlice({
       } else {
         state.value.hp.current = 0;
       }
-      //console.log("applyDamageToOpponentPokemon", state.value);
     },
     applyStatChangeToOpponentPokemon: (
       state,

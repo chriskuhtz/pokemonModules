@@ -1,4 +1,5 @@
-import { ActivePokemon, Pokemon } from "../../Models/Pokemon";
+import { LoadedMove, PriorityEnum, TargetEnum } from "../../Models/Move";
+import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
 import { hasKey } from "../../Utils/hasKey";
 import {
   calculateInitialHP,
@@ -7,64 +8,42 @@ import {
 
 const createPokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
-  pokemon: string,
+  name: string,
   level = 5,
+  moves: LoadedMove[],
   primaryType: string,
   secondaryType?: string
 ): Pokemon => {
-  const createdPokemon: Pokemon = {
-    name: pokemon,
+  const createdPokemon: ActivePokemon | OpponentPokemon = {
+    name: name,
     primaryType: primaryType,
     secondaryType: secondaryType,
     level: level,
+    spriteUrl: "",
     moves: {
       first: {
-        name: "Howl",
-        statChange: {
-          stats: ["attack", "defense", "speed", "specialAttack"],
-          modifier: 1,
-          chance: 1,
-          target: "self",
-        },
+        name: "tackle",
+        power: 40,
+
         type: "normal",
-        moveType: "stat",
         powerPoints: { initial: 35, current: 35 },
-        target: "self",
-      },
-      second: {
-        name: "Leer",
-        statChange: {
-          stats: ["defense"],
-          modifier: -6,
-          chance: 1,
-          target: "opponent",
+        damage_class: "physical",
+        target: TargetEnum.OPPONENT,
+        priority: PriorityEnum.STANDARD,
+        accuracy: 100,
+        meta: {
+          max_hits: null,
+          min_hits: null,
+          max_turns: null,
+          min_turns: null,
+          ailment: { name: "none" },
+          ailment_chance: 0,
+          crit_rate: 0,
+          flinch_chance: 0,
+          drain: 0,
+          healing: 0,
+          stat_chance: 0,
         },
-        type: "normal",
-        moveType: "stat",
-        powerPoints: { initial: 35, current: 35 },
-        target: "opponent",
-      },
-      third: {
-        name: "Metal Claw",
-        statChange: {
-          stats: ["attack"],
-          modifier: 1,
-          chance: 0.3,
-          target: "self",
-        },
-        damage: 35,
-        type: "steel",
-        moveType: "physical",
-        powerPoints: { initial: 35, current: 35 },
-        target: "opponent",
-      },
-      fourth: {
-        name: "Tackle",
-        damage: 35,
-        type: "electric",
-        moveType: "physical",
-        powerPoints: { initial: 35, current: 35 },
-        target: "opponent",
       },
     },
     hp: { current: 50, initial: 50 },
@@ -100,7 +79,50 @@ const createPokemon = (
       }
     }
   });
+  const formatMoves = () => {
+    return moves.map((m: LoadedMove) => {
+      return {
+        name: m.name,
+        power: m.power,
+        statChange:
+          m.stat_changes.length > 0
+            ? {
+                target: ["selected-pokemon", "all-other-pokemon"].includes(
+                  m.target.name
+                )
+                  ? TargetEnum.OPPONENT
+                  : TargetEnum.USER,
+                chance: m.meta.stat_chance,
+                modifier: m.stat_changes[0].change,
+                stats: m.stat_changes.map((s) => s.stat.name),
+              }
+            : undefined,
+        type: m.type.name,
+        powerPoints: { initial: m.pp, current: m.pp },
+        damage_class: m.damage_class.name,
+        target: ["selected-pokemon", "all-other-pokemon"].includes(
+          m.target.name
+        )
+          ? TargetEnum.OPPONENT
+          : TargetEnum.USER,
+        priority: m.priority,
+        accuracy: m.accuracy,
+        meta: m.meta,
+      };
+    });
+  };
 
+  const formattedMoves = formatMoves();
+  createdPokemon.moves.first = formattedMoves[0];
+  if (formattedMoves[1]) {
+    createdPokemon.moves.second = formattedMoves[1];
+  }
+  if (formattedMoves[2]) {
+    createdPokemon.moves.third = formattedMoves[2];
+  }
+  if (formattedMoves[3]) {
+    createdPokemon.moves.fourth = formattedMoves[3];
+  }
   return createdPokemon;
 };
 
@@ -109,14 +131,16 @@ export const createActivePokemon = (
   spriteUrl: string,
   pokemon: string,
   types: { slot: number; type: { name: string } }[],
+  moves: LoadedMove[],
   level = 100
 ): ActivePokemon => {
   const createdPokemon = createPokemon(
     stats,
     pokemon,
     level,
+    moves,
     types[0].type.name,
-    types[1].type.name
+    types[1]?.type?.name ?? undefined
   );
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };
@@ -126,14 +150,16 @@ export const createOpponentPokemon = (
   spriteUrl: string,
   pokemon: string,
   types: { slot: number; type: { name: string } }[],
+  moves: LoadedMove[],
   level = 100
 ): ActivePokemon => {
   const createdPokemon = createPokemon(
     stats,
     pokemon,
     level,
+    moves,
     types[0].type.name,
-    types[1].type.name
+    types[1]?.type?.name ?? undefined
   );
   return { ...createdPokemon, spriteUrl: spriteUrl };
 };
