@@ -60,11 +60,8 @@ export const useExecuteMove = () => {
             };
 
       //if calculateDamage does not return logs, apply the damage on the previous log
-      if (damageLogs.length === 0) {
-        logs[0].onDismissal = onDismissal;
-      } else {
-        damageLogs[0].onDismissal = onDismissal;
-      }
+
+      logs[0].onDismissal = onDismissal;
 
       logs = logs.concat(damageLogs);
     }
