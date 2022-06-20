@@ -14,7 +14,6 @@ export const activePokemonSlice = createSlice({
   reducers: {
     setActivePokemon: (state, action: PayloadAction<ActivePokemon>) => {
       state.value = action.payload;
-      //console.log("setActivePokemon", state.value);
     },
     applyDamageToActivePokemon: (state, action: PayloadAction<number>) => {
       if (state.value.hp.current - action.payload > 0) {
@@ -22,7 +21,6 @@ export const activePokemonSlice = createSlice({
       } else {
         state.value.hp.current = 0;
       }
-      //console.log("applyDamageToActivePokemon", state.value);
     },
     applyStatChangeToActivePokemon: (
       state,

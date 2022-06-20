@@ -17,7 +17,6 @@ export const useFetchMoves = () => {
         // @ts-ignore
         .map((r) => r.value.data);
 
-      console.log(onlyFulfilled);
       setMoves(onlyFulfilled);
     });
   };
