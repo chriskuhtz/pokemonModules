@@ -17,8 +17,8 @@ const App = (): JSX.Element => {
   if (smOrUp) {
     return (
       <BattleScreen
-        activePokemon={activePokemon.value}
-        opponentPokemon={opponentPokemon.value}
+        activePokemon={activePokemon}
+        opponentPokemon={opponentPokemon}
       />
     );
   } else {

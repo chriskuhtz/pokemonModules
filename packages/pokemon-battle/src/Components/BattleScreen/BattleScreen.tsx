@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
+import { setActivePokemon } from "../../Store/activePokemonSlice";
+import { setOpponentPokemon } from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
 import { fallbackPokemon } from "../../Utils/Constants/fallbackPokemon";
 import ActivePokemonBox from "../ActivePokemonBox/ActivePokemonBox";
@@ -15,10 +17,14 @@ const BattleScreen = ({
   activePokemon,
   opponentPokemon,
 }: {
-  activePokemon: Pokemon;
-  opponentPokemon: Pokemon;
+  activePokemon: ActivePokemon;
+  opponentPokemon: OpponentPokemon;
 }) => {
   const logs = useSelector((state: RootState) => state.logs.value);
+  const dispatch = useDispatch();
+
+  dispatch(setActivePokemon(activePokemon));
+  dispatch(setOpponentPokemon(opponentPokemon));
 
   if (
     activePokemon.name !== fallbackPokemon.name &&

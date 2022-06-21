@@ -4,9 +4,11 @@ import {
 } from "chriskuhtz-pokemon-api";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ActivePokemon } from "../../Models/Pokemon";
 import { setActivePokemon } from "../../Store/activePokemonSlice";
 import { setOpponentPokemon } from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
+import { fallbackPokemon } from "../../Utils/Constants/fallbackPokemon";
 import { createActivePokemon, createOpponentPokemon } from "./createPokemon";
 import { useFetchMoves } from "./useFetchMoves";
 
@@ -27,15 +29,16 @@ export const useCreateTwoRandomPokemon = () => {
   }, [allPokemonData]);
 
   //all hooks,selectors etc for active Pokemon
-  const activePokemon = useSelector((state: RootState) => state.activePokemon);
+  const [activePokemon, setActivePokemon] =
+    useState<ActivePokemon>(fallbackPokemon);
   const { data: activeData } = useGetPokemonByNameQuery(randomPokemon[0]);
   const [activeMoveUrls, setActiveMoveUrls] = useState<string[]>([]);
   const { fetchMoves: fetchActiveMoves, moves: activeMoves } = useFetchMoves();
 
   //all hooks,selectors etc for opponent Pokemon
-  const opponentPokemon = useSelector(
-    (state: RootState) => state.opponentPokemon
-  );
+
+  const [opponentPokemon, setOpponentPokemon] =
+    useState<ActivePokemon>(fallbackPokemon);
   const { data: opponentData } = useGetPokemonByNameQuery(randomPokemon[1]);
   const [opponentMoveUrls, setOpponentMoveUrls] = useState<string[]>([]);
   const { fetchMoves: fetchOpponentMoves, moves: opponentMoves } =
@@ -78,22 +81,22 @@ export const useCreateTwoRandomPokemon = () => {
       activeMoves.length !== 0 &&
       opponentMoves.length !== 0
     ) {
-      const activePokemon = createActivePokemon(
+      const createdActivePokemon = createActivePokemon(
         activeData.stats,
         activeData.sprites.back_default,
         activeData.name,
         activeData.types,
         activeMoves
       );
-      const opponentPokemon = createOpponentPokemon(
+      const createdOpponentPokemon = createOpponentPokemon(
         opponentData.stats,
         opponentData.sprites.front_default,
         opponentData.name,
         opponentData.types,
         opponentMoves
       );
-      dispatch(setActivePokemon(activePokemon));
-      dispatch(setOpponentPokemon(opponentPokemon));
+      setActivePokemon(createdActivePokemon);
+      setOpponentPokemon(createdOpponentPokemon);
     }
   }, [activeData, opponentData, opponentMoves, activeMoves]);
 
