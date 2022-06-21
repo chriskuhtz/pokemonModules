@@ -1,12 +1,8 @@
 import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
-import {
-  PokemonIcon,
-  PokemonLoadingSpinner,
-} from "chriskuhtz-pokemon-common-components";
+import { PokemonIcon } from "chriskuhtz-pokemon-common-components";
 
 import BattleScreen from "./Components/BattleScreen/BattleScreen";
 import { useCreateTwoRandomPokemon } from "./Functions/Pokemon/useCreateTwoRandomPokemon";
-import { fallbackPokemon } from "./Utils/Constants/fallbackPokemon";
 
 const App = (): JSX.Element => {
   const theme = useTheme();

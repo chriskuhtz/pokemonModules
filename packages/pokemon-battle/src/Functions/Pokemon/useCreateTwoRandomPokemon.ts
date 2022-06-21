@@ -3,17 +3,12 @@ import {
   useGetPokemonByNameQuery,
 } from "chriskuhtz-pokemon-api";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { ActivePokemon } from "../../Models/Pokemon";
-import { setActivePokemon } from "../../Store/activePokemonSlice";
-import { setOpponentPokemon } from "../../Store/opponentPokemonSlice";
-import { RootState } from "../../Store/store";
 import { fallbackPokemon } from "../../Utils/Constants/fallbackPokemon";
 import { createActivePokemon, createOpponentPokemon } from "./createPokemon";
 import { useFetchMoves } from "./useFetchMoves";
 
 export const useCreateTwoRandomPokemon = () => {
-  const dispatch = useDispatch();
   //get two random pokemon for the fight
   const { data: allPokemonData } = useGetAllPokemonQuery("");
   const [randomPokemon, setRandomPokemon] = useState(["pikachu", "eevee"]);
