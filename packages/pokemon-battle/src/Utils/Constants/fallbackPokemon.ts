@@ -2,7 +2,7 @@ import { PriorityEnum, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 
 export const fallbackPokemon: OpponentPokemon | ActivePokemon = {
-  name: "nidorino",
+  name: "Fallback",
   primaryType: "poison",
   level: 10,
   spriteUrl: "",
