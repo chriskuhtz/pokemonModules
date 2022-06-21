@@ -1,5 +1,8 @@
-import { Box, useMediaQuery, useTheme } from "@mui/material";
-import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
+import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  PokemonIcon,
+  PokemonLoadingSpinner,
+} from "chriskuhtz-pokemon-common-components";
 
 import BattleScreen from "./Components/BattleScreen/BattleScreen";
 import { useCreateTwoRandomPokemon } from "./Functions/Pokemon/useCreateTwoRandomPokemon";
@@ -11,13 +14,14 @@ const App = (): JSX.Element => {
 
   const { activePokemon, opponentPokemon } = useCreateTwoRandomPokemon();
 
-  if (
-    smOrUp &&
-    activePokemon.value.name !== fallbackPokemon.name &&
-    opponentPokemon.value.name !== fallbackPokemon.name
-  ) {
-    return <BattleScreen />;
-  } else if (smOrUp) {
+  if (smOrUp) {
+    return (
+      <BattleScreen
+        activePokemon={activePokemon.value}
+        opponentPokemon={opponentPokemon.value}
+      />
+    );
+  } else {
     return (
       <Box
         display={"flex"}
@@ -25,11 +29,13 @@ const App = (): JSX.Element => {
         alignItems={"center"}
         height="100vh"
       >
-        <PokemonLoadingSpinner index={25} />
+        <Stack alignItems={"center"}>
+          <PokemonIcon index={25} />
+
+          <Typography variant="h5">Please turn your phone sideways.</Typography>
+        </Stack>
       </Box>
     );
-  } else {
-    return <div>Please turn your phone sideways</div>;
   }
 };
 
