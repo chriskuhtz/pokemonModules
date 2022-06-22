@@ -4,7 +4,7 @@ To showcase and improve my skills as an advanced frontend developer, i want to c
 
 Pokemon is perfect for this, because of the topics extensive data and possible functionalities. For example remaking the battle system using frontend state handling).
 
-"Standalone" Modules can consume assistance modules and can also be deployed. 
+"Standalone" Modules can consume support modules and can also be deployed. 
 
 It is also possible to import "Standalone" Modules into other "Standalone" Modules, to create larger applications.
 
