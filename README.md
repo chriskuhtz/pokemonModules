@@ -10,24 +10,25 @@ It is also possible to import "Standalone" Modules into other "Standalone" Modul
 
 For example, the pokedex module will be integrated into any future module in which the user might need information about a Pokemon.
 
-## Monorepo Standalone Modules:
+![](monorepo.drawio.png)
 
-### Blog and Documentation
-https://pokemonmodules-blog.netlify.app/
+## Standalone Modules:
 
 ### Pokedex
 https://pokemonmodules-pokedex.netlify.app/
 
-## Monorepo Assistance Modules:
+### Battle System (designed for sideways smartphone, responsive for Desktop, but not too pretty)
+https://pokemonmodules-battlesystem.netlify.app/
 
-### pokemon api
-Redux Toolkit Query wrapper for pokeapi.co.
+### Color Theme Generator
+https://pokemonmodules-theme-generator.netlify.app/
 
-### common components
-provides small, reusable react components, e.g. "< PokemonIcon id={number} / >", which takes the id of a pokemon and returns an < img / > tag with its 96x96 px Icon.
+### Blog and Documentation
+https://pokemonmodules-blog.netlify.app/
 
-### pokemon mui themes
-contains Material UI theme overrides based on the colors of Pokemon. Picking the perfect Color Theme is the hardest part of any project, so why not let the professionals do the work. Every Pokemon is designed by an entire team of master designers and most have a clear primary color and a fitting accent color.
+
+
+
 
 ## Legacy Modules:
 These are older Projects that will soon be refactored and integrated into the monorepo.
@@ -37,9 +38,5 @@ https://pokemonmodules-mapmaker.netlify.app/
 
 github: https://github.com/chriskuhtz/pokemonMapMaker
 
-### Battle System
-https://pokemonmodules-battlesystem.netlify.app/
-
-github: https://github.com/chriskuhtz/pokemonBattle
 
 
