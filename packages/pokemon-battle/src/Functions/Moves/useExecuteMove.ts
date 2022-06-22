@@ -67,7 +67,10 @@ export const useExecuteMove = () => {
     }
 
     //handle stat change move
-    if (move.statChange && move.statChange.chance >= Math.random()) {
+    if (
+      (move.statChange && move.statChange.chance >= Math.random()) ||
+      move.statChange?.chance === 0
+    ) {
       const statChanges = applyStatChange(move, user, target);
       logs = logs.concat(statChanges.logs);
     } else if (move.statChange && move.statChange.chance < Math.random()) {
