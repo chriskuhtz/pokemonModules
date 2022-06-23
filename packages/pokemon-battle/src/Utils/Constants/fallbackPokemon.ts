@@ -14,7 +14,7 @@ export const fallbackPokemon: OpponentPokemon | ActivePokemon = {
       type: "normal",
       powerPoints: { initial: 35, current: 35 },
       damage_class: "physical",
-      target: TargetEnum.OPPONENT,
+      target: TargetEnum.TARGET,
       priority: PriorityEnum.STANDARD,
       accuracy: 100,
       meta: {

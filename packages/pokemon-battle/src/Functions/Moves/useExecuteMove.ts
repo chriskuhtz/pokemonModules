@@ -1,9 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Move, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
-import { applyDamageToActivePokemon } from "../../Store/activePokemonSlice";
+import {
+  applyDamageToActivePokemon,
+  updateActiveUiState,
+} from "../../Store/activePokemonSlice";
 import { addMultipleLogs, Log } from "../../Store/logSlice";
-import { applyDamageToOpponentPokemon } from "../../Store/opponentPokemonSlice";
+import {
+  applyDamageToOpponentPokemon,
+  opponentPokemonSlice,
+  updateOpponentUiState,
+} from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
 import { useApplyStatChange } from "../Stats/useApplyStatChange";
 import { useGameOver } from "../Turn/useGameOver";
@@ -23,21 +30,33 @@ export const useExecuteMove = () => {
     (state: RootState) => state.opponentPokemon.value
   );
 
-  const executeMove = (move: Move, user: ActivePokemon | OpponentPokemon) => {
+  const executeMove = (move: Move, mover: "active" | "opponent") => {
     //collect all relevant logs in the right order, before dispatching to store
     let logs: Log[] = [];
     //damage
     let damage = 0;
     //determine target
     let target = opponentPokemon;
-    if (move.target === TargetEnum.USER) {
-      target = user;
-    } else if (user === opponentPokemon && move.target === "opponent") {
-      target = activePokemon;
-    } else if (user === activePokemon && move.target === "opponent") {
-      target = opponentPokemon;
+    let user = activePokemon;
+
+    if (move.target === TargetEnum.SELF) {
+      if (mover === "active") {
+        target = opponentPokemon;
+        user = activePokemon;
+      } else if (mover === "opponent") {
+        target = opponentPokemon;
+        user = opponentPokemon;
+      }
+    } else if (move.target === TargetEnum.TARGET) {
+      if (mover === "active") {
+        target = opponentPokemon;
+        user = activePokemon;
+      } else if (mover === "opponent") {
+        target = activePokemon;
+        user = opponentPokemon;
+      }
     } else {
-      console.log("no target condition hit, target remains on default");
+      console.error("no target condition hit, target remains on default");
     }
 
     logs.push({
@@ -49,20 +68,23 @@ export const useExecuteMove = () => {
       const calculatedDamage = calculateDamage(user.level, move, user, target);
       damage = calculatedDamage.damage;
       const damageLogs = calculatedDamage.logs;
+      console.log(user, move, damage);
+      //dispatch the damage to the store value
+      target === opponentPokemon
+        ? dispatch(applyDamageToOpponentPokemon(damage))
+        : dispatch(applyDamageToActivePokemon(damage));
 
+      //update the ui after the log is dismissed
       const onDismissal =
         target === opponentPokemon
           ? () => {
-              dispatch(applyDamageToOpponentPokemon(damage));
+              dispatch(updateOpponentUiState());
             }
           : () => {
-              dispatch(applyDamageToActivePokemon(damage));
+              dispatch(updateActiveUiState());
             };
-
-      //if calculateDamage does not return logs, apply the damage on the previous log
-
+      //update the logs
       logs[0].onDismissal = onDismissal;
-
       logs = logs.concat(damageLogs);
     }
 

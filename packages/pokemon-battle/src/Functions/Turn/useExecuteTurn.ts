@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Move } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
+import { Log } from "../../Store/logSlice";
 import { RootState } from "../../Store/store";
 import { useExecuteMove } from "../Moves/useExecuteMove";
 import { useDetermineFirstUser } from "./useDetermineFirstMover";
@@ -14,6 +16,7 @@ export const useExecuteTurn = () => {
   const opponentPokemon: OpponentPokemon = useSelector(
     (state: RootState) => state.opponentPokemon.value
   );
+  const logs: Log[] = useSelector((state: RootState) => state.logs.value);
 
   const executeTurn = (move: Move) => {
     //decide opponent move
@@ -23,18 +26,18 @@ export const useExecuteTurn = () => {
     const first = firstMover;
     //execute first move
     if (firstMover === "active") {
-      executeMove(move, activePokemon);
+      executeMove(move, "active");
     } else if (firstMover === "opponent") {
       if (opponentMove) {
-        executeMove(opponentMove, opponentPokemon);
+        executeMove(opponentMove, "opponent");
       }
     }
 
     //execute second move
     if (opponentMove && firstMover === "active") {
-      executeMove(opponentMove, opponentPokemon);
+      executeMove(opponentMove, "opponent");
     } else if (firstMover === "opponent") {
-      executeMove(move, activePokemon);
+      executeMove(move, "active");
     }
   };
 

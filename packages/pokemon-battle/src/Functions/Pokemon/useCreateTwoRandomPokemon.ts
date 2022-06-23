@@ -26,7 +26,7 @@ export const useCreateTwoRandomPokemon = () => {
   //all hooks,selectors etc for active Pokemon
   const [activePokemon, setActivePokemon] =
     useState<ActivePokemon>(fallbackPokemon);
-  const { data: activeData } = useGetPokemonByNameQuery(randomPokemon[0]);
+  const { data: activeData } = useGetPokemonByNameQuery("swellow");
   const [activeMoveUrls, setActiveMoveUrls] = useState<string[]>([]);
   const { fetchMoves: fetchActiveMoves, moves: activeMoves } = useFetchMoves();
 
@@ -34,7 +34,7 @@ export const useCreateTwoRandomPokemon = () => {
 
   const [opponentPokemon, setOpponentPokemon] =
     useState<ActivePokemon>(fallbackPokemon);
-  const { data: opponentData } = useGetPokemonByNameQuery(randomPokemon[1]);
+  const { data: opponentData } = useGetPokemonByNameQuery("bidoof");
   const [opponentMoveUrls, setOpponentMoveUrls] = useState<string[]>([]);
   const { fetchMoves: fetchOpponentMoves, moves: opponentMoves } =
     useFetchMoves();
