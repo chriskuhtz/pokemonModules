@@ -9,7 +9,7 @@ import { useDetermineFirstUser } from "./useDetermineFirstMover";
 
 export const useExecuteTurn = () => {
   const { executeMove } = useExecuteMove();
-  const { firstMover } = useDetermineFirstUser();
+  const { determineFirstMover } = useDetermineFirstUser();
   const activePokemon: ActivePokemon = useSelector(
     (state: RootState) => state.activePokemon.value
   );
@@ -23,20 +23,20 @@ export const useExecuteTurn = () => {
     const opponentMove: Move = opponentPokemon.moves.first;
 
     //decide who goes first
-    const first = firstMover;
+    const first = determineFirstMover(move, opponentMove);
     //execute first move
-    if (firstMover === "active") {
+    if (first === "active") {
       executeMove(move, "active");
-    } else if (firstMover === "opponent") {
+    } else if (first === "opponent") {
       if (opponentMove) {
         executeMove(opponentMove, "opponent");
       }
     }
 
     //execute second move
-    if (opponentMove && firstMover === "active") {
+    if (opponentMove && first === "active") {
       executeMove(opponentMove, "opponent");
-    } else if (firstMover === "opponent") {
+    } else if (first === "opponent") {
       executeMove(move, "active");
     }
   };
