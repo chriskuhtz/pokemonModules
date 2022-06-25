@@ -40,12 +40,20 @@ export interface Meta {
   drain: number | null;
   healing: number | null;
   stat_chance: number;
+  category?: { name: string };
 }
 
 export enum TargetEnum {
-  USER = "user",
-  OPPONENT = "opponent",
+  SELF = "user",
+  TARGET = "opponent",
 }
+export const LoadedOpponentTargets = [
+  "selected-pokemon",
+  "all-other-pokemon",
+  "all-opponents",
+];
+export const LoadedUserTargets = [];
+
 export enum PriorityEnum {
   STANDARD = 0,
   FIRST = 1,

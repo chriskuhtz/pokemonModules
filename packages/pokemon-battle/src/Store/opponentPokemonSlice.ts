@@ -4,8 +4,9 @@ import { StatChange } from "../Models/Stat";
 import { fallbackPokemon } from "../Utils/Constants/fallbackPokemon";
 import { hasKey } from "../Utils/hasKey";
 
-const initialState: { value: OpponentPokemon } = {
+const initialState: { value: OpponentPokemon; uiState: OpponentPokemon } = {
   value: fallbackPokemon,
+  uiState: fallbackPokemon,
 };
 
 export const opponentPokemonSlice = createSlice({
@@ -41,6 +42,9 @@ export const opponentPokemonSlice = createSlice({
         } else console.error("what kind of stat is this", s);
       });
     },
+    updateOpponentUiState: (state) => {
+      state.uiState = state.value;
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   applyDamageToOpponentPokemon,
   setOpponentPokemon,
   applyStatChangeToOpponentPokemon,
+  updateOpponentUiState,
 } = opponentPokemonSlice.actions;
 
 export const opponentPokemonReducer = opponentPokemonSlice.reducer;

@@ -7,7 +7,7 @@ import ProgressWithLabel from "../ProgressWithLabel/ProgressWithLabel";
 
 const OpponentPokemonBox = () => {
   const pokemon: OpponentPokemon = useSelector(
-    (state: RootState) => state.opponentPokemon.value
+    (state: RootState) => state.opponentPokemon.uiState
   );
 
   return (
