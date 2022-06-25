@@ -15,7 +15,13 @@ export const useCalculateDamage = () => {
     //https://bulbapedia.bulbagarden.net/wiki/Damage
     let logs: Log[] = [];
 
+    const isCriticalHit = (1 + (move.meta.crit_rate ?? 0)) / 16 > Math.random();
+
+    if (isCriticalHit) {
+      logs.push({ message: "Critical Hit!" });
+    }
     const moveDamageFactor = move.power ?? 0;
+    const criticalFactor = isCriticalHit ? 1.5 : 1;
     const levelFactor = (2 * level) / 5 + 2;
     const attackStat =
       move.damage_class === "physical"
@@ -35,7 +41,15 @@ export const useCalculateDamage = () => {
         : defenseStat.initial +
           defenseStat.initial * 0.15 * defenseStat.modifier;
 
-    const statFactor = modifiedAttackStat / modifiedDefenseStat;
+    const criticalModifiedAttackStat =
+      modifiedAttackStat > attackStat.initial
+        ? modifiedAttackStat
+        : attackStat.initial;
+    const criticalModifiedDefenseStat =
+      modifiedDefenseStat > defenseStat.initial
+        ? defenseStat.initial
+        : modifiedDefenseStat;
+    const statFactor = criticalModifiedAttackStat / criticalModifiedDefenseStat;
 
     const typeFactor = determineTypeFactor(move.type, defender.primaryType);
     const secondaryTypeFactor =
@@ -50,7 +64,8 @@ export const useCalculateDamage = () => {
         stabFactor *
         randomFactor *
         typeFactor *
-        secondaryTypeFactor
+        secondaryTypeFactor *
+        criticalFactor
     );
 
     if (typeFactor === 0 || secondaryTypeFactor === 0) {
