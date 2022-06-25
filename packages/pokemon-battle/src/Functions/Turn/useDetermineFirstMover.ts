@@ -22,6 +22,9 @@ export const useDetermineFirstUser = () => {
     ) {
       firstMover = "opponent";
     }
+    if (opponentMove.priority < activeMove.priority) {
+      firstMover = "active";
+    }
     return firstMover;
   };
 
