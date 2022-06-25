@@ -23,7 +23,5 @@ export const accuracyCheck = (
   const moveFactor = move.accuracy;
   const adjustedAccuracy = (moveFactor / evasionFactor) * accuracyFactor;
 
-  console.log("accuracyCheck", accuracyCheck);
-
-  return adjustedAccuracy >= move.accuracy;
+  return adjustedAccuracy >= Math.random() * 100;
 };
