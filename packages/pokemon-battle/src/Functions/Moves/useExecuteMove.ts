@@ -14,7 +14,8 @@ import {
 import { RootState } from "../../Store/store";
 import { useApplyStatChange } from "../Stats/useApplyStatChange";
 import { useGameOver } from "../Turn/useGameOver";
-import { useCalculateDamage } from "./useCalculateDamage";
+import { useCalculateDamage } from "../Damage/useCalculateDamage";
+import { accuracyCheck } from "./accuracyCheck";
 
 export const useExecuteMove = () => {
   const { gameOver } = useGameOver();
@@ -63,47 +64,60 @@ export const useExecuteMove = () => {
       message: `${user.name} used ${move.name}. `,
     });
 
-    // handle normal damaging move
-    if (["physical", "special"].includes(move.damage_class)) {
-      const calculatedDamage = calculateDamage(user.level, move, user, target);
-      damage = calculatedDamage.damage;
-      const damageLogs = calculatedDamage.logs;
-      console.log(user, move, damage);
-      //dispatch the damage to the store value
-      target === opponentPokemon
-        ? dispatch(applyDamageToOpponentPokemon(damage))
-        : dispatch(applyDamageToActivePokemon(damage));
+    //check for accuracy
+    const moveWillHit: boolean =
+      accuracyCheck(move, target.stats.evasion, user.stats.accuracy) ||
+      target === user;
 
-      //update the ui after the log is dismissed
-      const onDismissal =
+    //only execute move if accuracy check passes
+    if (moveWillHit) {
+      // handle normal damaging move
+      if (["physical", "special"].includes(move.damage_class)) {
+        const calculatedDamage = calculateDamage(
+          user.level,
+          move,
+          user,
+          target
+        );
+        damage = calculatedDamage.damage;
+        const damageLogs = calculatedDamage.logs;
+        console.log(user, move, damage);
+        //dispatch the damage to the store value
         target === opponentPokemon
-          ? () => {
-              dispatch(updateOpponentUiState());
-            }
-          : () => {
-              dispatch(updateActiveUiState());
-            };
-      //update the logs
-      logs[0].onDismissal = onDismissal;
-      logs = logs.concat(damageLogs);
-    }
+          ? dispatch(applyDamageToOpponentPokemon(damage))
+          : dispatch(applyDamageToActivePokemon(damage));
 
-    //handle stat change move
-    if (
-      (move.statChange && move.statChange.chance >= Math.random()) ||
-      move.statChange?.chance === 0
-    ) {
-      const statChanges = applyStatChange(move, user, target);
-      logs = logs.concat(statChanges.logs);
-    } else if (move.statChange && move.statChange.chance < Math.random()) {
-      console.log("failed chance check");
-    }
+        //update the ui after the log is dismissed
+        const onDismissal =
+          target === opponentPokemon
+            ? () => {
+                dispatch(updateOpponentUiState());
+              }
+            : () => {
+                dispatch(updateActiveUiState());
+              };
+        //update the logs
+        logs[0].onDismissal = onDismissal;
+        logs = logs.concat(damageLogs);
+      }
 
-    //check if one contender fainted
-    if (target.hp.current - damage <= 0) {
-      const isGameOver = gameOver();
-      logs = logs.concat(isGameOver.logs);
-    }
+      //handle stat change move
+      if (
+        (move.statChange && move.statChange.chance >= Math.random()) ||
+        move.statChange?.chance === 0
+      ) {
+        const statChanges = applyStatChange(move, user, target);
+        logs = logs.concat(statChanges.logs);
+      } else if (move.statChange && move.statChange.chance < Math.random()) {
+        console.log("failed chance check");
+      }
+
+      //check if one contender fainted
+      if (target.hp.current - damage <= 0) {
+        const isGameOver = gameOver();
+        logs = logs.concat(isGameOver.logs);
+      }
+    } else logs.push({ message: "it missed" });
 
     dispatch(addMultipleLogs(logs));
   };
