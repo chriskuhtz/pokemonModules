@@ -5,11 +5,13 @@ import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 import { Log } from "../../Store/logSlice";
 import { RootState } from "../../Store/store";
 import { useExecuteMove } from "../Moves/useExecuteMove";
+import { useApplyEndOfTurnEffects } from "./useApplyEndOfTurnEffects";
 import { useDetermineFirstUser } from "./useDetermineFirstMover";
 
 export const useExecuteTurn = () => {
   const { executeMove } = useExecuteMove();
   const { determineFirstMover } = useDetermineFirstUser();
+  const { applyEndOfTurnEffects } = useApplyEndOfTurnEffects();
   const activePokemon: ActivePokemon = useSelector(
     (state: RootState) => state.activePokemon.value
   );
@@ -39,6 +41,10 @@ export const useExecuteTurn = () => {
     } else if (first === "opponent") {
       executeMove(move, "active");
     }
+
+    //check for end of turn damage
+    applyEndOfTurnEffects(opponentPokemon, "opponent");
+    applyEndOfTurnEffects(activePokemon, "active");
   };
 
   return { executeTurn };
