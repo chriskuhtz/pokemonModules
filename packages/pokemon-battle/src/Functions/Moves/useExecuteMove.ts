@@ -16,6 +16,7 @@ import { useApplyStatChange } from "../Stats/useApplyStatChange";
 import { useGameOver } from "../Turn/useGameOver";
 import { useCalculateDamage } from "../Damage/useCalculateDamage";
 import { accuracyCheck } from "./accuracyCheck";
+import { determineUserAndTarget } from "./determineUserAndTarget";
 
 export const useExecuteMove = () => {
   const { gameOver } = useGameOver();
@@ -37,28 +38,12 @@ export const useExecuteMove = () => {
     //damage
     let damage = 0;
     //determine target
-    let target = opponentPokemon;
-    let user = activePokemon;
-
-    if (move.target === TargetEnum.SELF) {
-      if (mover === "active") {
-        target = opponentPokemon;
-        user = activePokemon;
-      } else if (mover === "opponent") {
-        target = opponentPokemon;
-        user = opponentPokemon;
-      }
-    } else if (move.target === TargetEnum.TARGET) {
-      if (mover === "active") {
-        target = opponentPokemon;
-        user = activePokemon;
-      } else if (mover === "opponent") {
-        target = activePokemon;
-        user = opponentPokemon;
-      }
-    } else {
-      console.error("no target condition hit, target remains on default");
-    }
+    const { user, target } = determineUserAndTarget(
+      move,
+      mover,
+      activePokemon,
+      opponentPokemon
+    );
 
     logs.push({
       message: `${user.name} used ${move.name}. `,
@@ -72,7 +57,10 @@ export const useExecuteMove = () => {
     //only execute move if accuracy check passes
     if (moveWillHit) {
       // handle normal damaging move
-      if (["physical", "special"].includes(move.damage_class)) {
+      if (
+        ["physical", "special"].includes(move.damage_class) &&
+        move.power !== null
+      ) {
         const calculatedDamage = calculateDamage(
           user.level,
           move,
