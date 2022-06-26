@@ -47,9 +47,7 @@ export const activePokemonSlice = createSlice({
       state,
       action: PayloadAction<StatusConditionEnum>
     ) => {
-      if (action.payload === StatusConditionEnum.PARALYSIS) {
-        state.value.statusConditions.paralyzed = true;
-      }
+      state.value.statusConditions.primaryCondition = action.payload;
     },
     updateActiveUiState: (state) => {
       state.uiState = state.value;

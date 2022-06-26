@@ -1,5 +1,6 @@
 import { Move } from "../../Models/Move";
 import { Pokemon } from "../../Models/Pokemon";
+import { StatusConditionEnum } from "../../Models/StatusConditions";
 import { Log } from "../../Store/logSlice";
 import { calculateModifiedStat } from "../Stats/calculateModifiedStat";
 import { useDetermineTypeFactor } from "./useDetermineTypeFactor";
@@ -23,6 +24,12 @@ export const useCalculateDamage = () => {
     }
     const moveDamageFactor = move.power ?? 0;
     const criticalFactor = isCriticalHit ? 1.5 : 1;
+    const burnFactor =
+      move.damage_class === "physical" &&
+      attacker.statusConditions.primaryCondition === StatusConditionEnum.BURN &&
+      !isCriticalHit
+        ? 0.5
+        : 1;
     const levelFactor = (2 * level) / 5 + 2;
     const attackStat =
       move.damage_class === "physical"
@@ -59,7 +66,8 @@ export const useCalculateDamage = () => {
         randomFactor *
         typeFactor *
         secondaryTypeFactor *
-        criticalFactor
+        criticalFactor *
+        burnFactor
     );
 
     if (typeFactor === 0 || secondaryTypeFactor === 0) {

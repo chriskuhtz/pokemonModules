@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Move } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
+import { StatusConditionEnum } from "../../Models/StatusConditions";
 import { RootState } from "../../Store/store";
 import { calculateModifiedStat } from "../Stats/calculateModifiedStat";
 
@@ -17,7 +18,11 @@ export const useDetermineFirstUser = () => {
 
     const modifiedSpeed = calculateModifiedStat(speed);
 
-    const paraFactor = pokemon.statusConditions.paralyzed ? 0.5 : 1;
+    const paraFactor =
+      pokemon.statusConditions.primaryCondition ===
+      StatusConditionEnum.PARALYSIS
+        ? 0.5
+        : 1;
 
     const calculatedSpeed = modifiedSpeed * paraFactor;
 

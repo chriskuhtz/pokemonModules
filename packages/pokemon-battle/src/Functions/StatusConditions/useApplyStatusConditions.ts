@@ -28,13 +28,16 @@ export const useApplyStatusConditions = () => {
     const logs: Log[] = [];
 
     if (
+      !target.statusConditions.primaryCondition &&
       move.meta.ailment_chance &&
       move.meta.ailment_chance >= Math.random() * 100
     ) {
+      //PARALYSIS
       if (
         !["electric", "ground"].includes(target.primaryType) &&
         !["electric", "ground"].includes(target.secondaryType ?? "") &&
-        !target.statusConditions.paralyzed &&
+        target.statusConditions.primaryCondition !==
+          StatusConditionEnum.PARALYSIS &&
         move.meta.ailment.name === StatusConditionEnum.PARALYSIS
       ) {
         user === activePokemon
@@ -55,6 +58,34 @@ export const useApplyStatusConditions = () => {
 
         logs.push({
           message: `${target.name} was paralyzed!`,
+          onDismissal: onDismissal,
+        });
+      }
+      //BURN
+      if (
+        target.primaryType !== "fire" &&
+        target.secondaryType !== "fire" &&
+        target.statusConditions.primaryCondition !== StatusConditionEnum.BURN &&
+        move.meta.ailment.name === StatusConditionEnum.BURN
+      ) {
+        user === activePokemon
+          ? dispatch(
+              applyStatusConditionToOpponentPokemon(
+                move.meta.ailment.name as StatusConditionEnum
+              )
+            )
+          : dispatch(
+              applyStatusConditionToActivePokemon(
+                move.meta.ailment.name as StatusConditionEnum
+              )
+            );
+        const onDismissal = () =>
+          user === activePokemon
+            ? dispatch(updateOpponentUiState())
+            : dispatch(updateActiveUiState());
+
+        logs.push({
+          message: `${target.name} was burned!`,
           onDismissal: onDismissal,
         });
       }

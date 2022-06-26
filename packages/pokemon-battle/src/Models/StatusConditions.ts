@@ -1,7 +1,8 @@
 export interface StatusConditions {
-  paralyzed?: boolean;
+  primaryCondition?: StatusConditionEnum;
 }
 
 export enum StatusConditionEnum {
   PARALYSIS = "paralysis",
+  BURN = "burn",
 }
