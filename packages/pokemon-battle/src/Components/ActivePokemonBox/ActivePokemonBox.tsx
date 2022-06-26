@@ -18,7 +18,6 @@ const ActivePokemonBox = () => {
       justifyContent={"space-between"}
       flexDirection="column"
     >
-      <img height="150px" width="150px" src={pokemon.spriteUrl} />
       <Card variant="outlined" sx={{ px: 1, m: 1, overflowY: "scroll" }}>
         <Stack>
           <Typography variant="h5">{pokemon.name}</Typography>
@@ -34,7 +33,8 @@ const ActivePokemonBox = () => {
 
           <ProgressWithLabel label={`Lvl: ${pokemon.level}`} value={60} />
         </Stack>
-      </Card>
+      </Card>{" "}
+      <img height="150px" width="150px" src={pokemon.spriteUrl} />
     </Box>
   );
 };
