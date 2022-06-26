@@ -1,13 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { ActivePokemon } from "../Models/Pokemon";
 import { StatChange } from "../Models/Stat";
 import { StatusConditionEnum } from "../Models/StatusConditions";
 import { fallbackPokemon } from "../Utils/Constants/fallbackPokemon";
 import { hasKey } from "../Utils/hasKey";
 
-const initialState: { value: ActivePokemon; uiState: ActivePokemon } = {
+const initialState: { value: ActivePokemon } = {
   value: fallbackPokemon,
-  uiState: fallbackPokemon,
 };
 
 export const activePokemonSlice = createSlice({
@@ -23,6 +22,7 @@ export const activePokemonSlice = createSlice({
       } else {
         state.value.hp.current = 0;
       }
+      console.log(current(state.value));
     },
     applyStatChangeToActivePokemon: (
       state,
@@ -49,9 +49,6 @@ export const activePokemonSlice = createSlice({
     ) => {
       state.value.statusConditions.primaryCondition = action.payload;
     },
-    updateActiveUiState: (state) => {
-      state.uiState = state.value;
-    },
   },
 });
 
@@ -61,7 +58,6 @@ export const {
   setActivePokemon,
   applyStatChangeToActivePokemon,
   applyStatusConditionToActivePokemon,
-  updateActiveUiState,
 } = activePokemonSlice.actions;
 
 export const activePokemonReducer = activePokemonSlice.reducer;

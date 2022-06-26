@@ -3,14 +3,8 @@ import { PokemonLoadingSpinner } from "chriskuhtz-pokemon-common-components";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
-import {
-  setActivePokemon,
-  updateActiveUiState,
-} from "../../Store/activePokemonSlice";
-import {
-  setOpponentPokemon,
-  updateOpponentUiState,
-} from "../../Store/opponentPokemonSlice";
+import { setActivePokemon } from "../../Store/activePokemonSlice";
+import { setOpponentPokemon } from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
 import { fallbackPokemon } from "../../Utils/Constants/fallbackPokemon";
 import ActivePokemonBox from "../ActivePokemonBox/ActivePokemonBox";
@@ -32,9 +26,7 @@ const BattleScreen = ({
 
   useEffect(() => {
     dispatch(setActivePokemon(activePokemon));
-    dispatch(updateActiveUiState());
     dispatch(setOpponentPokemon(opponentPokemon));
-    dispatch(updateOpponentUiState());
   }, [activePokemon, opponentPokemon]);
 
   if (

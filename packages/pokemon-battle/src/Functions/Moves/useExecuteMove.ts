@@ -1,16 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Move, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
-import {
-  applyDamageToActivePokemon,
-  updateActiveUiState,
-} from "../../Store/activePokemonSlice";
+import { applyDamageToActivePokemon } from "../../Store/activePokemonSlice";
 import { addMultipleLogs, Log } from "../../Store/logSlice";
-import {
-  applyDamageToOpponentPokemon,
-  opponentPokemonSlice,
-  updateOpponentUiState,
-} from "../../Store/opponentPokemonSlice";
+import { applyDamageToOpponentPokemon } from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
 import { useApplyStatChange } from "../Stats/useApplyStatChange";
 import { useGameOver } from "../Turn/useGameOver";
@@ -81,22 +74,20 @@ export const useExecuteMove = () => {
       const damageLogs = calculatedDamage.logs;
       console.log(user, move, damage);
       //dispatch the damage to the store value
-      target === opponentPokemon
-        ? dispatch(applyDamageToOpponentPokemon(damage))
-        : dispatch(applyDamageToActivePokemon(damage));
 
       //update the ui after the log is dismissed
-      const onDismissal =
+      const onDismissal = () =>
         target === opponentPokemon
-          ? () => {
-              dispatch(updateOpponentUiState());
-            }
-          : () => {
-              dispatch(updateActiveUiState());
-            };
+          ? dispatch(applyDamageToOpponentPokemon(damage))
+          : dispatch(applyDamageToActivePokemon(damage));
       //update the logs
       logs[0].onDismissal = onDismissal;
       logs = logs.concat(damageLogs);
+    }
+    //check if one contender fainted
+    if (target.hp.current - damage <= 0) {
+      const gameIsOver = gameOver();
+      logs = logs.concat(gameIsOver.logs);
     }
     //handle statuscondition moves
     if (move.meta.ailment.name !== "none") {
@@ -112,12 +103,6 @@ export const useExecuteMove = () => {
       logs = logs.concat(statChanges.logs);
     } else if (move.statChange && move.statChange.chance < Math.random()) {
       console.log("failed chance check");
-    }
-
-    //check if one contender fainted
-    if (target.hp.current - damage <= 0) {
-      const gameIsOver = gameOver();
-      logs = logs.concat(gameIsOver.logs);
     }
 
     dispatch(addMultipleLogs(logs));

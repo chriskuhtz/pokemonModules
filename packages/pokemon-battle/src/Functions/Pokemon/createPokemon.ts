@@ -5,6 +5,7 @@ import {
   TargetEnum,
 } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
+import { StatusConditionEnum } from "../../Models/StatusConditions";
 import { hasKey } from "../../Utils/hasKey";
 import {
   calculateInitialHP,

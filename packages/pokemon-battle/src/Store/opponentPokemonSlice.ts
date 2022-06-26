@@ -5,9 +5,8 @@ import { StatusConditionEnum } from "../Models/StatusConditions";
 import { fallbackPokemon } from "../Utils/Constants/fallbackPokemon";
 import { hasKey } from "../Utils/hasKey";
 
-const initialState: { value: OpponentPokemon; uiState: OpponentPokemon } = {
+const initialState: { value: OpponentPokemon } = {
   value: fallbackPokemon,
-  uiState: fallbackPokemon,
 };
 
 export const opponentPokemonSlice = createSlice({
@@ -23,6 +22,7 @@ export const opponentPokemonSlice = createSlice({
       } else {
         state.value.hp.current = 0;
       }
+      console.log(current(state.value));
     },
     applyStatChangeToOpponentPokemon: (
       state,
@@ -49,9 +49,6 @@ export const opponentPokemonSlice = createSlice({
     ) => {
       state.value.statusConditions.primaryCondition = action.payload;
     },
-    updateOpponentUiState: (state) => {
-      state.uiState = state.value;
-    },
   },
 });
 
@@ -61,7 +58,6 @@ export const {
   setOpponentPokemon,
   applyStatChangeToOpponentPokemon,
   applyStatusConditionToOpponentPokemon,
-  updateOpponentUiState,
 } = opponentPokemonSlice.actions;
 
 export const opponentPokemonReducer = opponentPokemonSlice.reducer;

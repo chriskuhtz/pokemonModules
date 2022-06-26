@@ -1,6 +1,6 @@
 import { IconButton, Tooltip, Box } from "@mui/material";
 import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
-
+import CatchingPokemonIcon from "@mui/icons-material/CatchingPokemon";
 const TeamButtonGroup = () => {
   return (
     <Box
@@ -13,7 +13,7 @@ const TeamButtonGroup = () => {
       {[0, 1, 2, 3, 4, 5].map((t) => (
         <Tooltip key={t} disableFocusListener title="Switch" placement="right">
           <IconButton>
-            <SportsBasketballIcon fontSize="large" />
+            <CatchingPokemonIcon fontSize="large" />
           </IconButton>
         </Tooltip>
       ))}

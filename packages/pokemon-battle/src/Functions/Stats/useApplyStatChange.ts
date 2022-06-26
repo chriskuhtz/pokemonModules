@@ -2,15 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Move, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 import { StatChange } from "../../Models/Stat";
-import {
-  applyStatChangeToActivePokemon,
-  updateActiveUiState,
-} from "../../Store/activePokemonSlice";
+import { applyStatChangeToActivePokemon } from "../../Store/activePokemonSlice";
 import { Log } from "../../Store/logSlice";
-import {
-  applyStatChangeToOpponentPokemon,
-  updateOpponentUiState,
-} from "../../Store/opponentPokemonSlice";
+import { applyStatChangeToOpponentPokemon } from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
 import { hasKey } from "../../Utils/hasKey";
 
@@ -30,11 +24,6 @@ export const useApplyStatChange = () => {
   ): { logs: Log[] } => {
     const logs: Log[] = [];
     if (move.statChange && move.statChange.target === TargetEnum.SELF) {
-      const onDismissal = () =>
-        user === activePokemon
-          ? dispatch(updateActiveUiState())
-          : dispatch(updateOpponentUiState());
-
       move.statChange.stats.forEach((s) => {
         if (move.statChange && hasKey(user.stats, s)) {
           if (user.stats[s].modifier === -6) {
@@ -48,11 +37,10 @@ export const useApplyStatChange = () => {
           } else {
             //dispatch the statChange to the store value
             const statChange = { ...move.statChange, stats: [s] } as StatChange;
-            if (user === activePokemon) {
-              dispatch(applyStatChangeToActivePokemon(statChange));
-            } else if (user === opponentPokemon) {
-              dispatch(applyStatChangeToOpponentPokemon(statChange));
-            }
+            const onDismissal = () =>
+              user === activePokemon
+                ? dispatch(applyStatChangeToActivePokemon(statChange))
+                : dispatch(applyStatChangeToOpponentPokemon(statChange));
 
             logs.push({
               message: `${user.name} ${
@@ -70,11 +58,6 @@ export const useApplyStatChange = () => {
       move.statChange &&
       move.statChange.target === TargetEnum.TARGET
     ) {
-      const onDismissal = () =>
-        target === activePokemon
-          ? dispatch(updateActiveUiState())
-          : dispatch(updateOpponentUiState());
-
       move.statChange.stats.forEach((s) => {
         if (move.statChange && hasKey(target.stats, s)) {
           if (target.stats[s].modifier === -6) {
@@ -88,11 +71,10 @@ export const useApplyStatChange = () => {
           } else {
             //dispatch the statChange to the store value
             const statChange = { ...move.statChange, stats: [s] } as StatChange;
-            if (target === activePokemon) {
-              dispatch(applyStatChangeToActivePokemon(statChange));
-            } else if (target === opponentPokemon) {
-              dispatch(applyStatChangeToOpponentPokemon(statChange));
-            }
+            const onDismissal = () =>
+              target === activePokemon
+                ? dispatch(applyStatChangeToActivePokemon(statChange))
+                : dispatch(applyStatChangeToOpponentPokemon(statChange));
 
             logs.push({
               message: `${user.name} ${
