@@ -98,6 +98,11 @@ export const useExecuteMove = () => {
       logs[0].onDismissal = onDismissal;
       logs = logs.concat(damageLogs);
     }
+    //check if one contender fainted
+    if (target.hp.current - damage <= 0) {
+      const gameIsOver = gameOver();
+      logs = logs.concat(gameIsOver.logs);
+    }
     //handle statuscondition moves
     if (move.meta.ailment.name !== "none") {
       const statusConditions = applyStatusConditions(move, user, target);
@@ -112,12 +117,6 @@ export const useExecuteMove = () => {
       logs = logs.concat(statChanges.logs);
     } else if (move.statChange && move.statChange.chance < Math.random()) {
       console.log("failed chance check");
-    }
-
-    //check if one contender fainted
-    if (target.hp.current - damage <= 0) {
-      const gameIsOver = gameOver();
-      logs = logs.concat(gameIsOver.logs);
     }
 
     dispatch(addMultipleLogs(logs));
