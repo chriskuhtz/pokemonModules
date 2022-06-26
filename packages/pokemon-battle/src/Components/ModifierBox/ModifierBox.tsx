@@ -1,7 +1,10 @@
 import { Box, Chip } from "@mui/material";
 import { useId } from "react";
 import { Stats } from "../../Models/Stat";
-import { StatusConditions } from "../../Models/StatusConditions";
+import {
+  StatusConditionEnum,
+  StatusConditions,
+} from "../../Models/StatusConditions";
 
 const ModifierBox = ({
   stats,
@@ -13,8 +16,11 @@ const ModifierBox = ({
   const uuid = useId();
   return (
     <Box>
-      {statusConditions.paralyzed && (
+      {statusConditions.primaryCondition === StatusConditionEnum.PARALYSIS && (
         <Chip sx={{ mr: 0.25, mt: 0.25 }} label={`paralyzed`} color="warning" />
+      )}
+      {statusConditions.primaryCondition === StatusConditionEnum.BURN && (
+        <Chip sx={{ mr: 0.25, mt: 0.25 }} label={`burned`} color="error" />
       )}
       {Object.entries(stats)
         .filter((o) => o[1].modifier && o[1].modifier !== 0)

@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { ActivePokemon } from "../../Models/Pokemon";
 import { RootState } from "../../Store/store";
 import ModifierBox from "../ModifierBox/ModifierBox";
+import OpponentPokemonBox from "../OpponentPokemonBox/OpponentPokemonBox";
+import OpponentPokemonCard from "../OpponentPokemonCard/OpponentPokemonCard";
 import ProgressWithLabel from "../ProgressWithLabel/ProgressWithLabel";
 
 const ActivePokemonBox = () => {
@@ -18,22 +20,7 @@ const ActivePokemonBox = () => {
       justifyContent={"space-between"}
       flexDirection="column"
     >
-      <Card variant="outlined" sx={{ px: 1, m: 1, overflowY: "scroll" }}>
-        <Stack>
-          <Typography variant="h5">{pokemon.name}</Typography>
-          <ModifierBox
-            stats={pokemon.stats}
-            statusConditions={pokemon.statusConditions}
-          />
-          <ProgressWithLabel
-            label={`${pokemon.hp.current} / ${pokemon.hp.initial}`}
-            value={(pokemon.hp.current / pokemon.hp.initial) * 100}
-            healthBar
-          />
-
-          <ProgressWithLabel label={`Lvl: ${pokemon.level}`} value={60} />
-        </Stack>
-      </Card>{" "}
+      <OpponentPokemonCard />
       <img height="150px" width="150px" src={pokemon.spriteUrl} />
     </Box>
   );

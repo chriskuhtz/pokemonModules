@@ -2,6 +2,7 @@ import { Box, Card, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { OpponentPokemon } from "../../Models/Pokemon";
 import { RootState } from "../../Store/store";
+import ActivePokemonCard from "../ActivePokemonCard/ActivePokemonCard";
 import ModifierBox from "../ModifierBox/ModifierBox";
 import ProgressWithLabel from "../ProgressWithLabel/ProgressWithLabel";
 
@@ -21,21 +22,7 @@ const OpponentPokemonBox = () => {
       <Box alignSelf={"flex-end"}>
         <img height="150px" width="150px" src={pokemon.spriteUrl} />
       </Box>
-      <Card variant="outlined" sx={{ px: 1, m: 1, overflowY: "scroll" }}>
-        <Stack>
-          <Typography variant="h5">{pokemon.name}</Typography>
-          <ModifierBox
-            stats={pokemon.stats}
-            statusConditions={pokemon.statusConditions}
-          />
-          <ProgressWithLabel
-            label={`${pokemon.hp.current} / ${pokemon.hp.initial}`}
-            value={(pokemon.hp.current / pokemon.hp.initial) * 100}
-            healthBar
-          />
-          <Typography>Lvl:{pokemon.level}</Typography>
-        </Stack>
-      </Card>
+      <ActivePokemonCard />
     </Box>
   );
 };
