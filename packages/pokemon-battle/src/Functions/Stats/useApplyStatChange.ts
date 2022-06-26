@@ -49,10 +49,8 @@ export const useApplyStatChange = () => {
             //dispatch the statChange to the store value
             const statChange = { ...move.statChange, stats: [s] } as StatChange;
             if (user === activePokemon) {
-              console.log("apply the statchange to user");
               dispatch(applyStatChangeToActivePokemon(statChange));
             } else if (user === opponentPokemon) {
-              console.log("apply the statchange to oppo");
               dispatch(applyStatChangeToOpponentPokemon(statChange));
             }
 
@@ -91,10 +89,8 @@ export const useApplyStatChange = () => {
             //dispatch the statChange to the store value
             const statChange = { ...move.statChange, stats: [s] } as StatChange;
             if (target === activePokemon) {
-              console.log("apply the statchange to user");
               dispatch(applyStatChangeToActivePokemon(statChange));
             } else if (target === opponentPokemon) {
-              console.log("apply the statchange to oppo");
               dispatch(applyStatChangeToOpponentPokemon(statChange));
             }
 
