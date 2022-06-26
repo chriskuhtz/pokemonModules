@@ -18,11 +18,13 @@ import { useCalculateDamage } from "../Damage/useCalculateDamage";
 import { accuracyCheck } from "./accuracyCheck";
 import { determineUserAndTarget } from "./determineUserAndTarget";
 import { paralysisCheck } from "./paralysisCheck";
+import { useApplyStatusConditions } from "../StatusConditions/useApplyStatusConditions";
 
 export const useExecuteMove = () => {
   const { gameOver } = useGameOver();
   const { calculateDamage } = useCalculateDamage();
   const { applyStatChange } = useApplyStatChange();
+  const { applyStatusConditions } = useApplyStatusConditions();
 
   const dispatch = useDispatch();
 
@@ -63,59 +65,60 @@ export const useExecuteMove = () => {
     const moveWillHit: boolean =
       accuracyCheck(move, target.stats.evasion, user.stats.accuracy) ||
       target === user;
+    if (!moveWillHit) {
+      logs.push({ message: "it missed" });
+      dispatch(addMultipleLogs(logs));
+      return;
+    }
 
-    //only execute move if accuracy check passes
-    if (moveWillHit) {
-      // handle normal damaging move
-      if (
-        ["physical", "special"].includes(move.damage_class) &&
-        move.power !== null
-      ) {
-        const calculatedDamage = calculateDamage(
-          user.level,
-          move,
-          user,
-          target
-        );
-        damage = calculatedDamage.damage;
-        const damageLogs = calculatedDamage.logs;
-        console.log(user, move, damage);
-        //dispatch the damage to the store value
+    // handle normal damaging move
+    if (
+      ["physical", "special"].includes(move.damage_class) &&
+      move.power !== null
+    ) {
+      const calculatedDamage = calculateDamage(user.level, move, user, target);
+      damage = calculatedDamage.damage;
+      const damageLogs = calculatedDamage.logs;
+      console.log(user, move, damage);
+      //dispatch the damage to the store value
+      target === opponentPokemon
+        ? dispatch(applyDamageToOpponentPokemon(damage))
+        : dispatch(applyDamageToActivePokemon(damage));
+
+      //update the ui after the log is dismissed
+      const onDismissal =
         target === opponentPokemon
-          ? dispatch(applyDamageToOpponentPokemon(damage))
-          : dispatch(applyDamageToActivePokemon(damage));
+          ? () => {
+              dispatch(updateOpponentUiState());
+            }
+          : () => {
+              dispatch(updateActiveUiState());
+            };
+      //update the logs
+      logs[0].onDismissal = onDismissal;
+      logs = logs.concat(damageLogs);
+    }
+    //handle statuscondition moves
+    if (move.meta.ailment.name !== "none") {
+      const statusConditions = applyStatusConditions(move, user, target);
+      logs = logs.concat(statusConditions.logs);
+    }
+    //handle stat change move
+    if (
+      (move.statChange && move.statChange.chance >= Math.random()) ||
+      move.statChange?.chance === 0
+    ) {
+      const statChanges = applyStatChange(move, user, target);
+      logs = logs.concat(statChanges.logs);
+    } else if (move.statChange && move.statChange.chance < Math.random()) {
+      console.log("failed chance check");
+    }
 
-        //update the ui after the log is dismissed
-        const onDismissal =
-          target === opponentPokemon
-            ? () => {
-                dispatch(updateOpponentUiState());
-              }
-            : () => {
-                dispatch(updateActiveUiState());
-              };
-        //update the logs
-        logs[0].onDismissal = onDismissal;
-        logs = logs.concat(damageLogs);
-      }
-
-      //handle stat change move
-      if (
-        (move.statChange && move.statChange.chance >= Math.random()) ||
-        move.statChange?.chance === 0
-      ) {
-        const statChanges = applyStatChange(move, user, target);
-        logs = logs.concat(statChanges.logs);
-      } else if (move.statChange && move.statChange.chance < Math.random()) {
-        console.log("failed chance check");
-      }
-
-      //check if one contender fainted
-      if (target.hp.current - damage <= 0) {
-        const isGameOver = gameOver();
-        logs = logs.concat(isGameOver.logs);
-      }
-    } else logs.push({ message: "it missed" });
+    //check if one contender fainted
+    if (target.hp.current - damage <= 0) {
+      const gameIsOver = gameOver();
+      logs = logs.concat(gameIsOver.logs);
+    }
 
     dispatch(addMultipleLogs(logs));
   };

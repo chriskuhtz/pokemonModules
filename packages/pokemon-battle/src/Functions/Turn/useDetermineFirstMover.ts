@@ -25,7 +25,6 @@ export const useDetermineFirstUser = () => {
   };
   const determineFirstMover = (activeMove: Move, opponentMove: Move) => {
     let firstMover: "active" | "opponent" = "active";
-    console.log(calcSpeed(opponentPokemon), calcSpeed(activePokemon));
     if (
       opponentMove.priority > activeMove.priority ||
       calcSpeed(opponentPokemon) > calcSpeed(activePokemon)

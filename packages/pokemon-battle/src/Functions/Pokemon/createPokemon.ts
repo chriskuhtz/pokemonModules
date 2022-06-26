@@ -61,6 +61,7 @@ const createPokemon = (
       evasion: { initial: 1, modifier: 0 },
       accuracy: { initial: 1, modifier: 0 },
     },
+    statusConditions: {},
   };
 
   // calculate the stats according to the level
