@@ -22,7 +22,11 @@ export const useApplyEndOfTurnEffects = () => {
           pokemon.statusConditions.primaryCondition
         )
       ) {
-        const damage = Math.round(pokemon.hp.initial / 16);
+        const conditionFactor =
+          pokemon.statusConditions.primaryCondition === StatusConditionEnum.BURN
+            ? 16
+            : 8;
+        const damage = Math.round(pokemon.hp.initial / conditionFactor);
         console.log(damage);
         logs.push({
           message: `${pokemon.name} was hurt by ${
