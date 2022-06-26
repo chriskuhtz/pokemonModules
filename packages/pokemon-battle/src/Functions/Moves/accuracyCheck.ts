@@ -8,7 +8,7 @@ export const accuracyCheck = (
   accuracy: Stat
 ): boolean => {
   if (move.accuracy === null) {
-    console.log("move cant miss");
+    console.log(`${move.name} cant miss`);
     return true;
   }
   const evasionFactor = calculateModifiedStat(evasion);
