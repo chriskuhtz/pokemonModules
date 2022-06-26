@@ -22,7 +22,10 @@ const ActivePokemonBox = () => {
       <Card variant="outlined" sx={{ px: 1, m: 1, overflowY: "scroll" }}>
         <Stack>
           <Typography variant="h5">{pokemon.name}</Typography>
-          <ModifierBox stats={pokemon.stats} />
+          <ModifierBox
+            stats={pokemon.stats}
+            statusConditions={pokemon.statusConditions}
+          />
           <ProgressWithLabel
             label={`${pokemon.hp.current} / ${pokemon.hp.initial}`}
             value={(pokemon.hp.current / pokemon.hp.initial) * 100}
