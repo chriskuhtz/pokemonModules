@@ -17,6 +17,7 @@ import { useGameOver } from "../Turn/useGameOver";
 import { useCalculateDamage } from "../Damage/useCalculateDamage";
 import { accuracyCheck } from "./accuracyCheck";
 import { determineUserAndTarget } from "./determineUserAndTarget";
+import { paralysisCheck } from "./paralysisCheck";
 
 export const useExecuteMove = () => {
   const { gameOver } = useGameOver();
@@ -45,6 +46,15 @@ export const useExecuteMove = () => {
       opponentPokemon
     );
 
+    //check for paralysis
+    const fullyParalyzed = paralysisCheck(user);
+    if (fullyParalyzed) {
+      logs.push({
+        message: `${user.name} is fully paralyzed. `,
+      });
+      dispatch(addMultipleLogs(logs));
+      return;
+    }
     logs.push({
       message: `${user.name} used ${move.name}. `,
     });
