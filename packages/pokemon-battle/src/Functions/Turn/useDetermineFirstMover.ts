@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Move } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 import { RootState } from "../../Store/store";
+import { calculateModifiedStat } from "../Stats/calculateModifiedStat";
 
 export const useDetermineFirstUser = () => {
   const activePokemon: ActivePokemon = useSelector(
@@ -11,14 +12,22 @@ export const useDetermineFirstUser = () => {
     (state: RootState) => state.opponentPokemon.value
   );
 
+  const calcSpeed = (pokemon: OpponentPokemon | ActivePokemon): number => {
+    const speed = pokemon.stats.speed;
+
+    const modifiedSpeed = calculateModifiedStat(speed);
+
+    const paraFactor = pokemon.statusConditions.paralyzed ? 0.5 : 1;
+
+    const calculatedSpeed = modifiedSpeed * paraFactor;
+
+    return calculatedSpeed;
+  };
   const determineFirstMover = (activeMove: Move, opponentMove: Move) => {
     let firstMover: "active" | "opponent" = "active";
-
     if (
       opponentMove.priority > activeMove.priority ||
-      opponentPokemon.stats.speed.initial *
-        opponentPokemon.stats.speed.modifier >
-        activePokemon.stats.speed.initial * activePokemon.stats.speed.modifier
+      calcSpeed(opponentPokemon) > calcSpeed(activePokemon)
     ) {
       firstMover = "opponent";
     }

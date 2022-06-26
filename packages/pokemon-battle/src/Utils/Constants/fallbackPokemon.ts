@@ -42,4 +42,5 @@ export const fallbackPokemon: OpponentPokemon | ActivePokemon = {
     evasion: { initial: 1, modifier: 0 },
     accuracy: { initial: 1, modifier: 0 },
   },
+  statusConditions: {},
 };

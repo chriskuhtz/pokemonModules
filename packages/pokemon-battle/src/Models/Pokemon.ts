@@ -1,5 +1,6 @@
 import { Move } from "./Move";
 import { HPStat, Stats } from "./Stat";
+import { StatusConditions } from "./StatusConditions";
 
 export interface Pokemon {
   name: string;
@@ -9,6 +10,7 @@ export interface Pokemon {
   moves: PokemonMoveSet;
   hp: HPStat;
   stats: Stats;
+  statusConditions: StatusConditions;
 }
 
 export interface PokemonMoveSet {

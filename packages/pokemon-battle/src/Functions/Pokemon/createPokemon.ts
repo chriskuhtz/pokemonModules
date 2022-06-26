@@ -61,6 +61,7 @@ const createPokemon = (
       evasion: { initial: 1, modifier: 0 },
       accuracy: { initial: 1, modifier: 0 },
     },
+    statusConditions: {},
   };
 
   // calculate the stats according to the level
@@ -126,7 +127,6 @@ const createPokemon = (
   if (formattedMoves[3]) {
     createdPokemon.moves.fourth = formattedMoves[3];
   }
-  console.log(formatMoves());
   return createdPokemon;
 };
 
@@ -138,7 +138,6 @@ export const createActivePokemon = (
   moves: LoadedMove[],
   level = 100
 ): ActivePokemon => {
-  console.log(moves);
   const createdPokemon = createPokemon(
     stats,
     pokemon,

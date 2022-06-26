@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { OpponentPokemon } from "../Models/Pokemon";
 import { StatChange } from "../Models/Stat";
+import { StatusConditionEnum } from "../Models/StatusConditions";
 import { fallbackPokemon } from "../Utils/Constants/fallbackPokemon";
 import { hasKey } from "../Utils/hasKey";
 
@@ -42,6 +43,14 @@ export const opponentPokemonSlice = createSlice({
         } else console.error("what kind of stat is this", s);
       });
     },
+    applyStatusConditionToOpponentPokemon: (
+      state,
+      action: PayloadAction<StatusConditionEnum>
+    ) => {
+      if (action.payload === StatusConditionEnum.PARALYSIS) {
+        state.value.statusConditions.paralyzed = true;
+      }
+    },
     updateOpponentUiState: (state) => {
       state.uiState = state.value;
     },
@@ -53,6 +62,7 @@ export const {
   applyDamageToOpponentPokemon,
   setOpponentPokemon,
   applyStatChangeToOpponentPokemon,
+  applyStatusConditionToOpponentPokemon,
   updateOpponentUiState,
 } = opponentPokemonSlice.actions;
 
