@@ -1,6 +1,7 @@
 import { Move } from "../../Models/Move";
 import { Pokemon } from "../../Models/Pokemon";
 import { Log } from "../../Store/logSlice";
+import { calculateModifiedStat } from "../Stats/calculateModifiedStat";
 import { useDetermineTypeFactor } from "./useDetermineTypeFactor";
 
 export const useCalculateDamage = () => {
@@ -31,15 +32,8 @@ export const useCalculateDamage = () => {
       move.damage_class === "physical"
         ? defender.stats.defense
         : defender.stats.specialDefense;
-    const modifiedAttackStat =
-      attackStat.modifier >= 0
-        ? attackStat.initial + attackStat.initial * 0.5 * attackStat.modifier
-        : attackStat.initial + attackStat.initial * 0.15 * attackStat.modifier;
-    const modifiedDefenseStat =
-      defenseStat.modifier >= 0
-        ? defenseStat.initial + defenseStat.initial * 0.5 * defenseStat.modifier
-        : defenseStat.initial +
-          defenseStat.initial * 0.15 * defenseStat.modifier;
+    const modifiedAttackStat = calculateModifiedStat(attackStat);
+    const modifiedDefenseStat = calculateModifiedStat(defenseStat);
 
     const criticalModifiedAttackStat =
       modifiedAttackStat > attackStat.initial

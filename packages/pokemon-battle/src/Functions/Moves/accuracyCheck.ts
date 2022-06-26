@@ -1,5 +1,6 @@
 import { Move } from "../../Models/Move";
 import { Stat } from "../../Models/Stat";
+import { calculateModifiedStat } from "../Stats/calculateModifiedStat";
 
 export const accuracyCheck = (
   move: Move,
@@ -10,16 +11,8 @@ export const accuracyCheck = (
     console.log("move cant miss");
     return true;
   }
-  const evasionFactor =
-    evasion.modifier >= 0
-      ? evasion.initial + evasion.initial * 0.5 * evasion.modifier
-      : evasion.initial + evasion.initial * 0.15 * evasion.modifier;
-
-  const accuracyFactor =
-    accuracy.modifier >= 0
-      ? accuracy.initial + accuracy.initial * 0.5 * accuracy.modifier
-      : accuracy.initial + accuracy.initial * 0.15 * accuracy.modifier;
-
+  const evasionFactor = calculateModifiedStat(evasion);
+  const accuracyFactor = calculateModifiedStat(accuracy);
   const moveFactor = move.accuracy;
   const adjustedAccuracy = (moveFactor / evasionFactor) * accuracyFactor;
 
