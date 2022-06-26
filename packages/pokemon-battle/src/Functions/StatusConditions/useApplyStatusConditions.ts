@@ -2,15 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Move } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 import { StatusConditionEnum } from "../../Models/StatusConditions";
-import {
-  applyStatusConditionToActivePokemon,
-  updateActiveUiState,
-} from "../../Store/activePokemonSlice";
+import { applyStatusConditionToActivePokemon } from "../../Store/activePokemonSlice";
 import { Log } from "../../Store/logSlice";
-import {
-  applyStatusConditionToOpponentPokemon,
-  updateOpponentUiState,
-} from "../../Store/opponentPokemonSlice";
+import { applyStatusConditionToOpponentPokemon } from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
 
 export const useApplyStatusConditions = () => {
@@ -36,26 +30,20 @@ export const useApplyStatusConditions = () => {
       if (
         !["electric", "ground"].includes(target.primaryType) &&
         !["electric", "ground"].includes(target.secondaryType ?? "") &&
-        target.statusConditions.primaryCondition !==
-          StatusConditionEnum.PARALYSIS &&
         move.meta.ailment.name === StatusConditionEnum.PARALYSIS
       ) {
-        user === activePokemon
-          ? dispatch(
-              applyStatusConditionToOpponentPokemon(
-                move.meta.ailment.name as StatusConditionEnum
-              )
-            )
-          : dispatch(
-              applyStatusConditionToActivePokemon(
-                move.meta.ailment.name as StatusConditionEnum
-              )
-            );
         const onDismissal = () =>
           user === activePokemon
-            ? dispatch(updateOpponentUiState())
-            : dispatch(updateActiveUiState());
-
+            ? dispatch(
+                applyStatusConditionToOpponentPokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              )
+            : dispatch(
+                applyStatusConditionToActivePokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              );
         logs.push({
           message: `${target.name} was paralyzed!`,
           onDismissal: onDismissal,
@@ -65,27 +53,47 @@ export const useApplyStatusConditions = () => {
       if (
         target.primaryType !== "fire" &&
         target.secondaryType !== "fire" &&
-        target.statusConditions.primaryCondition !== StatusConditionEnum.BURN &&
         move.meta.ailment.name === StatusConditionEnum.BURN
       ) {
-        user === activePokemon
-          ? dispatch(
-              applyStatusConditionToOpponentPokemon(
-                move.meta.ailment.name as StatusConditionEnum
-              )
-            )
-          : dispatch(
-              applyStatusConditionToActivePokemon(
-                move.meta.ailment.name as StatusConditionEnum
-              )
-            );
         const onDismissal = () =>
           user === activePokemon
-            ? dispatch(updateOpponentUiState())
-            : dispatch(updateActiveUiState());
+            ? dispatch(
+                applyStatusConditionToOpponentPokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              )
+            : dispatch(
+                applyStatusConditionToActivePokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              );
 
         logs.push({
           message: `${target.name} was burned!`,
+          onDismissal: onDismissal,
+        });
+      }
+      //POISON
+      if (
+        !["poison", "steel"].includes(target.primaryType) &&
+        !["poison", "steel"].includes(target.secondaryType ?? "") &&
+        move.meta.ailment.name === StatusConditionEnum.BURN
+      ) {
+        const onDismissal = () =>
+          user === activePokemon
+            ? dispatch(
+                applyStatusConditionToOpponentPokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              )
+            : dispatch(
+                applyStatusConditionToActivePokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              );
+
+        logs.push({
+          message: `${target.name} was poisoned!`,
           onDismissal: onDismissal,
         });
       }
