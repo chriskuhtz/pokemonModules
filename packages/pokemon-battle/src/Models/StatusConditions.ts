@@ -5,4 +5,5 @@ export interface StatusConditions {
 export enum StatusConditionEnum {
   PARALYSIS = "paralysis",
   BURN = "burn",
+  POISON = "poison",
 }
