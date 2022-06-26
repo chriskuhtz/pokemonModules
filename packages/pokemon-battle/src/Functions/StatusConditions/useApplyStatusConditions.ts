@@ -29,9 +29,11 @@ export const useApplyStatusConditions = () => {
 
     if (
       move.meta.ailment_chance &&
-      move.meta.ailment_chance >= Math.random() * 10
+      move.meta.ailment_chance >= Math.random() * 100
     ) {
       if (
+        !["electric", "ground"].includes(target.primaryType) &&
+        !["electric", "ground"].includes(target.secondaryType ?? "") &&
         !target.statusConditions.paralyzed &&
         move.meta.ailment.name === StatusConditionEnum.PARALYSIS
       ) {
