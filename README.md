@@ -1,4 +1,13 @@
+
+
 # pokemonModules
+
+## Latest Release: 
+### Battle System: picking random moves the pokemon can learn, instead of first four
+### Battle System: let opponent AI pick random move
+
+## Next Release: 
+### Battle System: Status Condition Sleep
 
 To showcase and improve my skills as an advanced frontend developer, i want to create one large continuous project, instead of multiple small ones.
 
