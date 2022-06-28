@@ -22,7 +22,7 @@ export const activePokemonSlice = createSlice({
       } else {
         state.value.hp.current = 0;
       }
-      console.log(current(state.value));
+      // console.log(current(state.value));
     },
     applyStatChangeToActivePokemon: (
       state,

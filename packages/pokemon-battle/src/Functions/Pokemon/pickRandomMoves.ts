@@ -3,7 +3,6 @@
 export const pickRandomMoves = (
   moves: { move: { url: string } }[]
 ): string[] => {
-  console.log(moves);
   if (moves.length <= 4) {
     return moves.map((m: { move: { url: string } }) => {
       return m.move.url;
@@ -14,7 +13,7 @@ export const pickRandomMoves = (
   while (i < 4) {
     const randomIndex = Math.round(Math.random() * (moves.length - 1));
     let nextMove = moves[randomIndex];
-    console.log(nextMove, randomIndex);
+
     if (!pickedMoves.includes(nextMove.move.url)) {
       pickedMoves.push(nextMove.move.url);
       i++;

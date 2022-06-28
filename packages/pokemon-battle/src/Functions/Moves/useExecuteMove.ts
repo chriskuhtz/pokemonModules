@@ -72,7 +72,7 @@ export const useExecuteMove = () => {
       const calculatedDamage = calculateDamage(user.level, move, user, target);
       damage = calculatedDamage.damage;
       const damageLogs = calculatedDamage.logs;
-      console.log(user, move, damage);
+      // console.log(user, move, damage);
       //dispatch the damage to the store value
 
       //update the ui after the log is dismissed
