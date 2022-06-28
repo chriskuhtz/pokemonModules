@@ -5,6 +5,7 @@ import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
 import { Log } from "../../Store/logSlice";
 import { RootState } from "../../Store/store";
 import { useExecuteMove } from "../Moves/useExecuteMove";
+import { decideOpponentMove } from "./decideOpponentMove";
 import { useApplyEndOfTurnEffects } from "./useApplyEndOfTurnEffects";
 import { useDetermineFirstUser } from "./useDetermineFirstMover";
 
@@ -22,7 +23,7 @@ export const useExecuteTurn = () => {
 
   const executeTurn = (move: Move) => {
     //decide opponent move
-    const opponentMove: Move = opponentPokemon.moves.first;
+    const opponentMove: Move = decideOpponentMove(opponentPokemon.moves);
 
     //decide who goes first
     const first = determineFirstMover(move, opponentMove);

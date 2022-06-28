@@ -4,15 +4,17 @@ import { clearLogs, addLog, Log } from "../../Store/logSlice";
 export const useGameOver = () => {
   const dispatch = useDispatch();
 
+  const gameOverMessage = "game over, reload your page to play again";
+
   const gameOverLoop = () => {
     dispatch(
-      addLog({ message: "game over", onDismissal: () => gameOverLoop() })
+      addLog({ message: gameOverMessage, onDismissal: () => gameOverLoop() })
     );
   };
   const gameOver = (): { logs: Log[] } => {
     const logs: Log[] = [];
     logs.push({
-      message: "game over",
+      message: gameOverMessage,
       onDismissal: () => {
         dispatch(clearLogs());
         gameOverLoop();

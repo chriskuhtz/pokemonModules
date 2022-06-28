@@ -6,18 +6,19 @@ import { useState, useEffect } from "react";
 import { ActivePokemon } from "../../Models/Pokemon";
 import { fallbackPokemon } from "../../Utils/Constants/fallbackPokemon";
 import { createActivePokemon, createOpponentPokemon } from "./createPokemon";
+import { pickRandomMoves } from "./pickRandomMoves";
 import { useFetchMoves } from "./useFetchMoves";
 
 export const useCreateTwoRandomPokemon = () => {
   //get two random pokemon for the fight
   const { data: allPokemonData } = useGetAllPokemonQuery("");
-  const [randomPokemon, setRandomPokemon] = useState(["pikachu", "eevee"]);
+  const [randomPokemon, setRandomPokemon] = useState(["caterpie", "eevee"]);
   useEffect(() => {
     if (allPokemonData) {
       const randomActive =
-        allPokemonData.results[Math.floor(Math.random() * 493)].name;
+        allPokemonData.results[Math.floor(Math.random() * 809)].name;
       const randomOpponent =
-        allPokemonData.results[Math.floor(Math.random() * 493)].name;
+        allPokemonData.results[Math.floor(Math.random() * 809)].name;
 
       setRandomPokemon([randomActive, randomOpponent]);
     }
@@ -47,18 +48,16 @@ export const useCreateTwoRandomPokemon = () => {
       opponentData &&
       opponentMoveUrls.length === 0
     ) {
-      setActiveMoveUrls(
-        activeData.moves.slice(0, 4).map((m: { move: { url: string } }) => {
-          return m.move.url;
-        })
-      );
-      setOpponentMoveUrls(
-        opponentData.moves.slice(1, 5).map((m: { move: { url: string } }) => {
-          return m.move.url;
-        })
-      );
+      setActiveMoveUrls(pickRandomMoves(activeData.moves));
+      setOpponentMoveUrls(pickRandomMoves(opponentData.moves));
     }
-  }, [activeData, activeMoveUrls, opponentData, opponentMoveUrls]);
+  }, [
+    activeData,
+    activeMoveUrls,
+    opponentData,
+    opponentMoveUrls,
+    pickRandomMoves,
+  ]);
 
   //load the move data from the urls
   useEffect(() => {

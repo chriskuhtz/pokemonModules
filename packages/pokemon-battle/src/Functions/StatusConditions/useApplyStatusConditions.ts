@@ -77,7 +77,7 @@ export const useApplyStatusConditions = () => {
       if (
         !["poison", "steel"].includes(target.primaryType) &&
         !["poison", "steel"].includes(target.secondaryType ?? "") &&
-        move.meta.ailment.name === StatusConditionEnum.BURN
+        move.meta.ailment.name === StatusConditionEnum.POISON
       ) {
         const onDismissal = () =>
           user === activePokemon
