@@ -20,7 +20,7 @@ const OpponentPokemonBox = () => {
       flexDirection="column"
     >
       <Box alignSelf={"flex-end"}>
-        <img height="150px" width="150px" src={pokemon.spriteUrl} />
+        <img height="140px" width="140px" src={pokemon.spriteUrl} />
       </Box>
       <ActivePokemonCard />
     </Box>
