@@ -3,9 +3,10 @@
 # pokemonModules
 
 ## Next Release: 
-Battle System: Status Condition Freeze
+Battle System: Redux Store Bugfix (status conditions are not updated before second move is calculated, e.g. Pokemon is frozen, but can still execute its move if it goes second)
 
 ## 02.07.2022:  
+Battle System: Status Condition Freeze
 Battle System: Status Condition Sleep
 
 ## 25.06.2022: 
