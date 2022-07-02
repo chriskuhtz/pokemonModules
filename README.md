@@ -2,12 +2,17 @@
 
 # pokemonModules
 
-## Latest Release: 
-### Battle System: picking random moves the pokemon can learn, instead of first four
-### Battle System: let opponent AI pick random move
-
 ## Next Release: 
-### Battle System: Status Condition Sleep
+Battle System: Status Condition Freeze
+
+## 02.07.2022:  
+Battle System: Status Condition Sleep
+
+## 25.06.2022: 
+Battle System: picking random moves the pokemon can learn, instead of first four
+Battle System: let opponent AI pick random move
+
+
 
 ## Overview:
 
