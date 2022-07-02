@@ -12,12 +12,14 @@ import { accuracyCheck } from "./accuracyCheck";
 import { determineUserAndTarget } from "./determineUserAndTarget";
 import { paralysisCheck } from "./paralysisCheck";
 import { useApplyStatusConditions } from "../StatusConditions/useApplyStatusConditions";
+import { useDetermineTypeFactor } from "../Damage/useDetermineTypeFactor";
 
 export const useExecuteMove = () => {
   const { gameOver } = useGameOver();
   const { calculateDamage } = useCalculateDamage();
   const { applyStatChange } = useApplyStatChange();
   const { applyStatusConditions } = useApplyStatusConditions();
+  const { determineTypeFactor } = useDetermineTypeFactor();
 
   const dispatch = useDispatch();
 
@@ -50,9 +52,25 @@ export const useExecuteMove = () => {
       dispatch(addMultipleLogs(logs));
       return;
     }
+
+    //log the move
     logs.push({
       message: `${user.name} used ${move.name}. `,
     });
+
+    //check if the move affects the opponent
+    if (target !== user) {
+      const typeFactor = determineTypeFactor(move.type, target.primaryType);
+      const secondaryTypeFactor =
+        target.secondaryType && typeFactor !== 0
+          ? determineTypeFactor(move.type, target.secondaryType)
+          : 1;
+      if (typeFactor === 0 || secondaryTypeFactor === 0) {
+        logs.push({ message: "It has no effect." });
+        dispatch(addMultipleLogs(logs));
+        return;
+      }
+    }
 
     //check for accuracy
     const moveWillHit: boolean =
