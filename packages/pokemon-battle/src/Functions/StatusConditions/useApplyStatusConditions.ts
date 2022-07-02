@@ -22,12 +22,24 @@ export const useApplyStatusConditions = () => {
     console.log(move);
     const logs: Log[] = [];
 
-    const willHit =
-      move.meta.ailment_chance === 0 ||
-      (move.meta.ailment_chance &&
-        move.meta.ailment_chance >= Math.random() * 100);
+    const willHit = true;
+    // move.meta.ailment_chance === 0 ||
+    // (move.meta.ailment_chance &&
+    //   move.meta.ailment_chance >= Math.random() * 100);
 
-    console.log(willHit);
+    const onDismissal = () =>
+      user === activePokemon
+        ? dispatch(
+            applyStatusConditionToOpponentPokemon(
+              move.meta.ailment.name as StatusConditionEnum
+            )
+          )
+        : dispatch(
+            applyStatusConditionToActivePokemon(
+              move.meta.ailment.name as StatusConditionEnum
+            )
+          );
+
     if (!target.statusConditions.primaryCondition && willHit) {
       //PARALYSIS
       if (
@@ -35,18 +47,6 @@ export const useApplyStatusConditions = () => {
         !["electric", "ground"].includes(target.secondaryType ?? "") &&
         move.meta.ailment.name === StatusConditionEnum.PARALYSIS
       ) {
-        const onDismissal = () =>
-          user === activePokemon
-            ? dispatch(
-                applyStatusConditionToOpponentPokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              )
-            : dispatch(
-                applyStatusConditionToActivePokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              );
         logs.push({
           message: `${target.name} was paralyzed!`,
           onDismissal: onDismissal,
@@ -58,19 +58,6 @@ export const useApplyStatusConditions = () => {
         target.secondaryType !== "fire" &&
         move.meta.ailment.name === StatusConditionEnum.BURN
       ) {
-        const onDismissal = () =>
-          user === activePokemon
-            ? dispatch(
-                applyStatusConditionToOpponentPokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              )
-            : dispatch(
-                applyStatusConditionToActivePokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              );
-
         logs.push({
           message: `${target.name} was burned!`,
           onDismissal: onDismissal,
@@ -82,19 +69,6 @@ export const useApplyStatusConditions = () => {
         !["poison", "steel"].includes(target.secondaryType ?? "") &&
         move.meta.ailment.name === StatusConditionEnum.POISON
       ) {
-        const onDismissal = () =>
-          user === activePokemon
-            ? dispatch(
-                applyStatusConditionToOpponentPokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              )
-            : dispatch(
-                applyStatusConditionToActivePokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              );
-
         logs.push({
           message: `${target.name} was poisoned!`,
           onDismissal: onDismissal,
@@ -102,21 +76,19 @@ export const useApplyStatusConditions = () => {
       }
       //SLEEP
       if (move.meta.ailment.name === StatusConditionEnum.SLEEP) {
-        const onDismissal = () =>
-          user === activePokemon
-            ? dispatch(
-                applyStatusConditionToOpponentPokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              )
-            : dispatch(
-                applyStatusConditionToActivePokemon(
-                  move.meta.ailment.name as StatusConditionEnum
-                )
-              );
-
         logs.push({
           message: `${target.name} fell asleep!`,
+          onDismissal: onDismissal,
+        });
+      }
+      //FREEZE
+      if (
+        target.primaryType !== "ice" &&
+        target.secondaryType !== "ice" &&
+        move.meta.ailment.name === StatusConditionEnum.FREEZE
+      ) {
+        logs.push({
+          message: `${target.name} was frozen!`,
           onDismissal: onDismissal,
         });
       }

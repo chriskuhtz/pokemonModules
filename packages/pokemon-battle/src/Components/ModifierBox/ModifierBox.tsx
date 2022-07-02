@@ -46,6 +46,9 @@ const ModifierBox = ({
       {statusConditions.primaryCondition === StatusConditionEnum.SLEEP && (
         <Chip sx={{ mr: 0.25, mt: 0.25 }} label={<HotelIcon />} />
       )}
+      {statusConditions.primaryCondition === StatusConditionEnum.FREEZE && (
+        <Chip sx={{ mr: 0.25, mt: 0.25 }} color="info" label={<AcUnitIcon />} />
+      )}
       {Object.entries(stats)
         .filter((o) => o[1].modifier && o[1].modifier !== 0)
         .map((o) => (

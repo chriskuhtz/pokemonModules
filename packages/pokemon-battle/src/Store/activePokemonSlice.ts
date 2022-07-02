@@ -64,8 +64,11 @@ export const activePokemonSlice = createSlice({
         if (state.value.statusConditions.sleepCounter > 1) {
           state.value.statusConditions.sleepCounter -= 1;
         } else if (state.value.statusConditions.sleepCounter === 1) {
-          state.value.statusConditions = {};
+          state.value.statusConditions.primaryCondition = undefined;
+          state.value.statusConditions.sleepCounter = undefined;
         }
+      } else if (action.payload === StatusConditionEnum.FREEZE) {
+        state.value.statusConditions.primaryCondition = undefined;
       }
     },
   },

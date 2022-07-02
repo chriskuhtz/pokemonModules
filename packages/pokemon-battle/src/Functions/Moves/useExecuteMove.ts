@@ -1,19 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Move, TargetEnum } from "../../Models/Move";
 import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
-import { applyDamageToActivePokemon } from "../../Store/activePokemonSlice";
+import {
+  applyDamageToActivePokemon,
+  reduceStatusCounterForActivePokemon,
+} from "../../Store/activePokemonSlice";
 import { addMultipleLogs, Log } from "../../Store/logSlice";
-import { applyDamageToOpponentPokemon } from "../../Store/opponentPokemonSlice";
+import {
+  applyDamageToOpponentPokemon,
+  reduceStatusCounterForOpponentPokemon,
+} from "../../Store/opponentPokemonSlice";
 import { RootState } from "../../Store/store";
 import { useApplyStatChange } from "../Stats/useApplyStatChange";
 import { useGameOver } from "../Turn/useGameOver";
 import { useCalculateDamage } from "../Damage/useCalculateDamage";
 import { accuracyCheck } from "./accuracyCheck";
 import { determineUserAndTarget } from "./determineUserAndTarget";
-import { paralysisCheck } from "./paralysisCheck";
 import { useApplyStatusConditions } from "../StatusConditions/useApplyStatusConditions";
 import { useDetermineTypeFactor } from "../Damage/useDetermineTypeFactor";
-import { useCheckForSleep } from "../StatusConditions/useCheckForSleep";
+import { useCheckForStatusCondition } from "../StatusConditions/useCheckForStatusCondition";
+import { StatusConditionEnum } from "../../Models/StatusConditions";
 
 export const useExecuteMove = () => {
   const { gameOver } = useGameOver();
@@ -21,7 +27,8 @@ export const useExecuteMove = () => {
   const { applyStatChange } = useApplyStatChange();
   const { applyStatusConditions } = useApplyStatusConditions();
   const { determineTypeFactor } = useDetermineTypeFactor();
-  const { checkForSleep } = useCheckForSleep();
+  const { checkForSleep, checkForFreeze, checkForParalysis } =
+    useCheckForStatusCondition();
 
   const dispatch = useDispatch();
 
@@ -46,17 +53,14 @@ export const useExecuteMove = () => {
     );
 
     //check for paralysis
-    const fullyParalyzed = paralysisCheck(user);
-    if (fullyParalyzed) {
-      logs.push({
-        message: `${user.name} is fully paralyzed. `,
-      });
-      dispatch(addMultipleLogs(logs));
-      return;
-    }
+    const isPokemonParalyzed = checkForParalysis(mover);
+    if (isPokemonParalyzed) return;
     //check for sleep
-    const isActiveAsleep = checkForSleep(mover);
-    if (isActiveAsleep) return;
+    const isPokemonAsleep = checkForSleep(mover);
+    if (isPokemonAsleep) return;
+    //check for freeze
+    const isPokemonFrozen = checkForFreeze(mover, move);
+    if (isPokemonFrozen) return;
     //log the move
     logs.push({
       message: `${user.name} used ${move.name}. `,
@@ -84,6 +88,26 @@ export const useExecuteMove = () => {
       logs.push({ message: "it missed" });
       dispatch(addMultipleLogs(logs));
       return;
+    }
+    //check for defrost
+    if (
+      target.statusConditions.primaryCondition === StatusConditionEnum.FREEZE &&
+      move.type === "fire" &&
+      move.target === TargetEnum.TARGET
+    ) {
+      logs.push({
+        message: `${target.name} was thawed out. `,
+        onDismissal: () =>
+          mover === "opponent"
+            ? dispatch(
+                reduceStatusCounterForActivePokemon(StatusConditionEnum.FREEZE)
+              )
+            : dispatch(
+                reduceStatusCounterForOpponentPokemon(
+                  StatusConditionEnum.FREEZE
+                )
+              ),
+      });
     }
 
     // handle normal damaging move
