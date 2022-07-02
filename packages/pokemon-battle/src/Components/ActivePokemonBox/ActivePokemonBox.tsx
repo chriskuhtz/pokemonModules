@@ -1,17 +1,23 @@
-import { Box, Card, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 import { ActivePokemon } from "../../Models/Pokemon";
 import { RootState } from "../../Store/store";
-import ModifierBox from "../ModifierBox/ModifierBox";
-import OpponentPokemonBox from "../OpponentPokemonBox/OpponentPokemonBox";
 import OpponentPokemonCard from "../OpponentPokemonCard/OpponentPokemonCard";
-import ProgressWithLabel from "../ProgressWithLabel/ProgressWithLabel";
 
 const ActivePokemonBox = () => {
   const pokemon: ActivePokemon = useSelector(
     (state: RootState) => state.activePokemon.value
   );
-
+  const theme = useTheme();
+  const isMdOrUp = useMediaQuery(theme.breakpoints.up("md"));
+  const size = isMdOrUp ? "200px" : "140px";
   return (
     <Box
       width={"100%"}
@@ -21,7 +27,14 @@ const ActivePokemonBox = () => {
       flexDirection="column"
     >
       <OpponentPokemonCard />
-      <img height="140px" width="140px" src={pokemon.spriteUrl} />
+      <Box
+        flexGrow={1}
+        display={"flex"}
+        justifyContent={{ xs: "flex-start", md: "center" }}
+        alignItems={{ xs: "flex-end", md: "center" }}
+      >
+        <img height={size} width={size} src={pokemon.spriteUrl} />
+      </Box>
     </Box>
   );
 };
