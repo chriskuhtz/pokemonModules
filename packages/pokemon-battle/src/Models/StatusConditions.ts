@@ -8,4 +8,5 @@ export enum StatusConditionEnum {
   BURN = "burn",
   POISON = "poison",
   SLEEP = "sleep",
+  FREEZE = "freeze",
 }
