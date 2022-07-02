@@ -20,6 +20,10 @@ export const pickRandomMoves = (
     }
   }
 
-  const onlyTheseMoves = ["https://pokeapi.co/api/v2/move/147/"];
+  // const onlyTheseMoves = [
+  //   "https://pokeapi.co/api/v2/move/8/",
+  //   "https://pokeapi.co/api/v2/move/7/",
+  // ];
+  // return onlyTheseMoves;
   return pickedMoves;
 };
