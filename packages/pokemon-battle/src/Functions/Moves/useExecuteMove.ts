@@ -13,6 +13,7 @@ import { determineUserAndTarget } from "./determineUserAndTarget";
 import { paralysisCheck } from "./paralysisCheck";
 import { useApplyStatusConditions } from "../StatusConditions/useApplyStatusConditions";
 import { useDetermineTypeFactor } from "../Damage/useDetermineTypeFactor";
+import { useCheckForSleep } from "../StatusConditions/useCheckForSleep";
 
 export const useExecuteMove = () => {
   const { gameOver } = useGameOver();
@@ -20,6 +21,7 @@ export const useExecuteMove = () => {
   const { applyStatChange } = useApplyStatChange();
   const { applyStatusConditions } = useApplyStatusConditions();
   const { determineTypeFactor } = useDetermineTypeFactor();
+  const { checkForSleep } = useCheckForSleep();
 
   const dispatch = useDispatch();
 
@@ -52,7 +54,9 @@ export const useExecuteMove = () => {
       dispatch(addMultipleLogs(logs));
       return;
     }
-
+    //check for sleep
+    const isActiveAsleep = checkForSleep(mover);
+    if (isActiveAsleep) return;
     //log the move
     logs.push({
       message: `${user.name} used ${move.name}. `,
