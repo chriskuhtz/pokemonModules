@@ -16,9 +16,9 @@ export const useCreateTwoRandomPokemon = () => {
   useEffect(() => {
     if (allPokemonData) {
       const randomActive =
-        allPokemonData.results[Math.floor(Math.random() * 809)].name;
+        allPokemonData.results[Math.floor(Math.random() * 721)].name;
       const randomOpponent =
-        allPokemonData.results[Math.floor(Math.random() * 809)].name;
+        allPokemonData.results[Math.floor(Math.random() * 721)].name;
 
       setRandomPokemon([randomActive, randomOpponent]);
     }

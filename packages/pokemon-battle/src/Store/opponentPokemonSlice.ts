@@ -48,6 +48,25 @@ export const opponentPokemonSlice = createSlice({
       action: PayloadAction<StatusConditionEnum>
     ) => {
       state.value.statusConditions.primaryCondition = action.payload;
+      if (action.payload === StatusConditionEnum.SLEEP) {
+        state.value.statusConditions.sleepCounter =
+          2 + Math.round(Math.random() * 3);
+      }
+    },
+    reduceStatusCounterForOpponentPokemon: (
+      state,
+      action: PayloadAction<StatusConditionEnum>
+    ) => {
+      if (
+        action.payload === StatusConditionEnum.SLEEP &&
+        state.value.statusConditions.sleepCounter
+      ) {
+        if (state.value.statusConditions.sleepCounter > 1) {
+          state.value.statusConditions.sleepCounter -= 1;
+        } else if (state.value.statusConditions.sleepCounter === 1) {
+          state.value.statusConditions = {};
+        }
+      }
     },
   },
 });
@@ -58,6 +77,7 @@ export const {
   setOpponentPokemon,
   applyStatChangeToOpponentPokemon,
   applyStatusConditionToOpponentPokemon,
+  reduceStatusCounterForOpponentPokemon,
 } = opponentPokemonSlice.actions;
 
 export const opponentPokemonReducer = opponentPokemonSlice.reducer;

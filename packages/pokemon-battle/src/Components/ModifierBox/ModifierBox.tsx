@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Chip,
-  createTheme,
-  ThemeProvider,
-  useTheme,
-} from "@mui/material";
-import { orange } from "@mui/material/colors";
+import { Box, Chip } from "@mui/material";
 import { useId } from "react";
 import { Stats } from "../../Models/Stat";
 import {
@@ -19,7 +11,6 @@ import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import HotelIcon from "@mui/icons-material/Hotel";
-//187,89,193
 
 const ModifierBox = ({
   stats,
@@ -51,6 +42,9 @@ const ModifierBox = ({
           label={<CoronavirusIcon />}
           color="secondary"
         />
+      )}
+      {statusConditions.primaryCondition === StatusConditionEnum.SLEEP && (
+        <Chip sx={{ mr: 0.25, mt: 0.25 }} label={<HotelIcon />} />
       )}
       {Object.entries(stats)
         .filter((o) => o[1].modifier && o[1].modifier !== 0)

@@ -19,13 +19,16 @@ export const useApplyStatusConditions = () => {
     user: ActivePokemon | OpponentPokemon,
     target: ActivePokemon | OpponentPokemon
   ): { logs: Log[] } => {
+    console.log(move);
     const logs: Log[] = [];
 
-    if (
-      !target.statusConditions.primaryCondition &&
-      move.meta.ailment_chance &&
-      move.meta.ailment_chance >= Math.random() * 100
-    ) {
+    const willHit =
+      move.meta.ailment_chance === 0 ||
+      (move.meta.ailment_chance &&
+        move.meta.ailment_chance >= Math.random() * 100);
+
+    console.log(willHit);
+    if (!target.statusConditions.primaryCondition && willHit) {
       //PARALYSIS
       if (
         !["electric", "ground"].includes(target.primaryType) &&
@@ -94,6 +97,26 @@ export const useApplyStatusConditions = () => {
 
         logs.push({
           message: `${target.name} was poisoned!`,
+          onDismissal: onDismissal,
+        });
+      }
+      //SLEEP
+      if (move.meta.ailment.name === StatusConditionEnum.SLEEP) {
+        const onDismissal = () =>
+          user === activePokemon
+            ? dispatch(
+                applyStatusConditionToOpponentPokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              )
+            : dispatch(
+                applyStatusConditionToActivePokemon(
+                  move.meta.ailment.name as StatusConditionEnum
+                )
+              );
+
+        logs.push({
+          message: `${target.name} fell asleep!`,
           onDismissal: onDismissal,
         });
       }
