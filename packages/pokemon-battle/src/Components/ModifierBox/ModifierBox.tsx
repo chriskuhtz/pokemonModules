@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Chip,
-  createTheme,
-  ThemeProvider,
-  useTheme,
-} from "@mui/material";
-import { orange } from "@mui/material/colors";
+import { Box, Chip } from "@mui/material";
 import { useId } from "react";
 import { Stats } from "../../Models/Stat";
 import {
@@ -19,7 +11,6 @@ import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import HotelIcon from "@mui/icons-material/Hotel";
-//187,89,193
 
 const ModifierBox = ({
   stats,
