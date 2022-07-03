@@ -30,7 +30,7 @@ const ActivePokemonBox = () => {
       <Box
         flexGrow={1}
         display={"flex"}
-        justifyContent={{ xs: "flex-start", md: "center" }}
+        justifyContent={"center"}
         alignItems={{ xs: "flex-end", md: "center" }}
       >
         <img height={size} width={size} src={pokemon.spriteUrl} />

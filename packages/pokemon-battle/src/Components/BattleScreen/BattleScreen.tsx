@@ -40,7 +40,22 @@ const BattleScreen = ({
         borderBottom={window.innerHeight > 820 ? "solid 1px darkgray" : "none"}
       >
         <TeamButtonGroup />
-        <Box flexGrow={1} height="100%" display={"flex"} flexDirection="column">
+        <Box
+          sx={{
+            //   background:
+            //     "linear-gradient(279deg, rgba(111,170,30,0.6767441860465117) 0%, rgba(50,90,42,0.5) 47%, rgba(42,90,51,0.8023255813953488) 100%)",
+            //
+            backgroundImage: `url(${
+              process.env.PUBLIC_URL + "/battleBackground.png"
+            })`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+          flexGrow={1}
+          height="100%"
+          display={"flex"}
+          flexDirection="column"
+        >
           <Box height="calc(100% - 104px)" display={"flex"}>
             <Box
               maxWidth="50%"
