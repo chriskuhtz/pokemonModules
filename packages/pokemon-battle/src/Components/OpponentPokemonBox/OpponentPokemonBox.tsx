@@ -22,8 +22,8 @@ const OpponentPokemonBox = () => {
       <Box
         flexGrow={1}
         display={"flex"}
-        justifyContent={{ xs: "flex-end", md: "center" }}
-        alignItems={{ xs: "flex-start", md: "center" }}
+        justifyContent={{ xs: "center", md: "center" }}
+        alignItems={{ xs: "flex-end", md: "center" }}
       >
         <img height={size} width={size} src={pokemon.spriteUrl} />
       </Box>

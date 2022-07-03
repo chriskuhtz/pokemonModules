@@ -14,7 +14,7 @@ const LogBox = () => {
         dispatch(dismissLog());
       }}
       height="100%"
-      sx={{ borderTop: "1px solid darkgray" }}
+      sx={{ borderTop: "1px solid darkgray", backgroundColor: "white" }}
       display="flex"
       justifyContent="center"
       alignItems="center"

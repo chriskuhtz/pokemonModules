@@ -10,7 +10,7 @@ const MoveSetGroup = () => {
   );
   const moves = pokemon.moves;
   return (
-    <Grid container>
+    <Grid container sx={{ backgroundColor: "white" }}>
       <Grid item xs={6}>
         <MoveButton move={moves.first} />
       </Grid>
