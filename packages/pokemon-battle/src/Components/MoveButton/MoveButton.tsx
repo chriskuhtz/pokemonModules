@@ -17,7 +17,10 @@ const MoveButton = ({ move }: { move: Move }) => {
         alignItems={"center"}
       >
         <TypeIcon size={40} type={move.type} />
-        <Typography variant="h5" color="text.primary">
+        <Typography
+          variant={move.name.length > 12 ? "button" : "h5"}
+          color="text.primary"
+        >
           {move.name}
         </Typography>
         <Typography variant="h5" color="text.primary">
