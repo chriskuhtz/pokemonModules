@@ -1,12 +1,12 @@
 import { Card, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { ActivePokemon } from "../../Models/Pokemon";
+import { OpponentPokemon } from "../../Models/Pokemon";
 import { RootState } from "../../Store/store";
 import ModifierBox from "../ModifierBox/ModifierBox";
 import ProgressWithLabel from "../ProgressWithLabel/ProgressWithLabel";
 
 const OpponentPokemonCard = () => {
-  const pokemon: ActivePokemon = useSelector(
+  const pokemon: OpponentPokemon = useSelector(
     (state: RootState) => state.opponentPokemon.value
   );
 

@@ -1,11 +1,11 @@
 import { Move, TargetEnum } from "../../Models/Move";
-import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
+import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
 
 export const determineUserAndTarget = (
   move: Move,
   mover: "active" | "opponent",
-  activePokemon: ActivePokemon,
-  opponentPokemon: OpponentPokemon
+  activePokemon: Pokemon,
+  opponentPokemon: Pokemon
 ) => {
   let target = opponentPokemon;
   let user = activePokemon;

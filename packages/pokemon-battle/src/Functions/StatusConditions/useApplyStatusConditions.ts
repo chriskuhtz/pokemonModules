@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Move } from "../../Models/Move";
-import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
+import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
 import { StatusConditionEnum } from "../../Models/StatusConditions";
 import { applyStatusConditionToActivePokemon } from "../../Store/activePokemonSlice";
 import { Log } from "../../Store/logSlice";
@@ -16,8 +16,8 @@ export const useApplyStatusConditions = () => {
 
   const applyStatusConditions = (
     move: Move,
-    user: ActivePokemon | OpponentPokemon,
-    target: ActivePokemon | OpponentPokemon
+    user: Pokemon,
+    target: Pokemon
   ): { logs: Log[] } => {
     console.log(move);
     const logs: Log[] = [];

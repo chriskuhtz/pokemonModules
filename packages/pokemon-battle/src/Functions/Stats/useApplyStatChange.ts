@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Move, TargetEnum } from "../../Models/Move";
-import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
+import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
 import { StatChange } from "../../Models/Stat";
 import { applyStatChangeToActivePokemon } from "../../Store/activePokemonSlice";
 import { Log } from "../../Store/logSlice";
@@ -19,8 +19,8 @@ export const useApplyStatChange = () => {
   );
   const applyStatChange = (
     move: Move,
-    user: ActivePokemon | OpponentPokemon,
-    target: ActivePokemon | OpponentPokemon
+    user: Pokemon,
+    target: Pokemon
   ): { logs: Log[] } => {
     const logs: Log[] = [];
     if (move.statChange && move.statChange.target === TargetEnum.SELF) {

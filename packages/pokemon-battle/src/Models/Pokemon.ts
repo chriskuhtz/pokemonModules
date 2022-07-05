@@ -22,6 +22,7 @@ export interface PokemonMoveSet {
 
 export interface ActivePokemon extends Pokemon {
   spriteUrl: string;
+  frontUrl: string;
 }
 
 export interface OpponentPokemon extends Pokemon {
