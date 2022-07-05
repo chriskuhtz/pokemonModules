@@ -1,0 +1,50 @@
+.bugButton {
+  border: 1px solid #1a202c;
+  background: rgb(207, 63, 47);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  z-index: 10000;
+}
+
+.reportButton {
+  border: 1px solid #1a202c;
+  background: rgb(82, 165, 112);
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.reportButton:disabled {
+  background: lightgray;
+  color: white;
+}
+
+.closeButtonBox {
+  display: flex;
+  justify-content: flex-end;
+}
+.closeButton {
+  border: 1px solid #1a202c;
+  border-radius: 0.5rem;
+}
+
+.bugModal {
+  cursor: pointer;
+  border: 1px solid #1a202c;
+  background: white;
+  border-radius: 0.5rem;
+
+  z-index: 10001;
+}
+
+.stack {
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+.stack > * {
+  margin-bottom: 1rem;
+}
+.displayNone {
+  display: none;
+}
