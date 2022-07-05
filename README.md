@@ -5,6 +5,9 @@
 ## Next Release: 
 Battle System: Redux Store Bugfix (status conditions are not updated before second move is calculated, e.g. Pokemon is frozen, but can still execute its move if it goes second)
 
+## 06.07.2022:  
+Bug Button: allows test users to create Github Issues without leaving the site
+
 ## 05.07.2022:  
 Battle System: Preview for TeamBox, Item Menu
 
