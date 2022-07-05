@@ -1,11 +1,12 @@
 import { PriorityEnum, TargetEnum } from "../../Models/Move";
-import { ActivePokemon, OpponentPokemon } from "../../Models/Pokemon";
+import { ActivePokemon } from "../../Models/Pokemon";
 
-export const fallbackPokemon: OpponentPokemon | ActivePokemon = {
+export const fallbackPokemon: ActivePokemon = {
   name: "Fallback",
   primaryType: "poison",
   level: 10,
   spriteUrl: "",
+  frontUrl: "",
   moves: {
     first: {
       name: "tackle",

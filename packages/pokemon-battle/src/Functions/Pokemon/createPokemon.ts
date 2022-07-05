@@ -134,6 +134,7 @@ const createPokemon = (
 export const createActivePokemon = (
   stats: [{ base_stat: number; stat: { name: string } }],
   spriteUrl: string,
+  frontUrl: string,
   pokemon: string,
   types: { slot: number; type: { name: string } }[],
   moves: LoadedMove[],
@@ -147,7 +148,7 @@ export const createActivePokemon = (
     types[0].type.name,
     types[1]?.type?.name ?? undefined
   );
-  return { ...createdPokemon, spriteUrl: spriteUrl };
+  return { ...createdPokemon, spriteUrl: spriteUrl, frontUrl: frontUrl };
 };
 
 export const createOpponentPokemon = (
@@ -157,7 +158,7 @@ export const createOpponentPokemon = (
   types: { slot: number; type: { name: string } }[],
   moves: LoadedMove[],
   level = 100
-): ActivePokemon => {
+): OpponentPokemon => {
   const createdPokemon = createPokemon(
     stats,
     pokemon,

@@ -3,7 +3,7 @@ import {
   useGetPokemonByNameQuery,
 } from "chriskuhtz-pokemon-api";
 import { useState, useEffect } from "react";
-import { ActivePokemon } from "../../Models/Pokemon";
+import { ActivePokemon, OpponentPokemon, Pokemon } from "../../Models/Pokemon";
 import { fallbackPokemon } from "../../Utils/Constants/fallbackPokemon";
 import { createActivePokemon, createOpponentPokemon } from "./createPokemon";
 import { pickRandomMoves } from "./pickRandomMoves";
@@ -34,7 +34,7 @@ export const useCreateTwoRandomPokemon = () => {
   //all hooks,selectors etc for opponent Pokemon
 
   const [opponentPokemon, setOpponentPokemon] =
-    useState<ActivePokemon>(fallbackPokemon);
+    useState<OpponentPokemon>(fallbackPokemon);
   const { data: opponentData } = useGetPokemonByNameQuery(randomPokemon[1]);
   const [opponentMoveUrls, setOpponentMoveUrls] = useState<string[]>([]);
   const { fetchMoves: fetchOpponentMoves, moves: opponentMoves } =
@@ -78,6 +78,7 @@ export const useCreateTwoRandomPokemon = () => {
       const createdActivePokemon = createActivePokemon(
         activeData.stats,
         activeData.sprites.back_default,
+        activeData.sprites.front_default,
         activeData.name,
         activeData.types,
         activeMoves
