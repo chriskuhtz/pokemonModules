@@ -5,6 +5,12 @@
 ## Next Release: 
 Battle System: Redux Store Bugfix (status conditions are not updated before second move is calculated, e.g. Pokemon is frozen, but can still execute its move if it goes second)
 
+## 05.07.2022:  
+Battle System: Preview for TeamBox, Item Menu
+
+## 03.07.2022:  
+Battle System: Background, Sprite Positioning
+
 ## 02.07.2022:  
 Battle System: Status Condition Freeze
 Battle System: Status Condition Sleep
