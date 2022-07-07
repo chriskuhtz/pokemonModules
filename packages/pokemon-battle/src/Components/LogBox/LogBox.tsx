@@ -4,7 +4,7 @@ import { dismissLog } from "../../Store/logSlice";
 import { RootState } from "../../Store/store";
 
 const LogBox = () => {
-  const logs = useSelector((state: RootState) => state.logs.value);
+  const logs = useSelector((state: RootState) => state.logs.value.logs);
   const dispatch = useDispatch();
 
   return (

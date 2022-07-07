@@ -19,7 +19,7 @@ export const useExecuteTurn = () => {
   const opponentPokemon: OpponentPokemon = useSelector(
     (state: RootState) => state.opponentPokemon.value
   );
-  const logs: Log[] = useSelector((state: RootState) => state.logs.value);
+  const logs: Log[] = useSelector((state: RootState) => state.logs.value.logs);
 
   const executeTurn = (move: Move) => {
     //decide opponent move
