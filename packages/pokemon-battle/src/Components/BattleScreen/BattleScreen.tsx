@@ -21,7 +21,7 @@ const BattleScreen = ({
   activePokemon: ActivePokemon;
   opponentPokemon: OpponentPokemon;
 }) => {
-  const logs = useSelector((state: RootState) => state.logs.value);
+  const logs = useSelector((state: RootState) => state.logs.value.logs);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -6,11 +6,11 @@ export interface Log {
   onDismissal?: Function;
 }
 export interface logState {
-  value: Log[];
+  value: { logs: Log[]; archive: Log[] };
 }
 
 const initialState: logState = {
-  value: [],
+  value: { logs: [], archive: [] },
 };
 
 export const logSlice = createSlice({
@@ -18,16 +18,20 @@ export const logSlice = createSlice({
   initialState,
   reducers: {
     addLog: (state, action: PayloadAction<Log>) => {
-      state.value.push(action.payload);
+      state.value.logs.push(action.payload);
     },
     addMultipleLogs: (state, action: PayloadAction<Log[]>) => {
-      state.value = state.value.concat(action.payload);
+      state.value.logs = state.value.logs.concat(action.payload);
     },
     dismissLog: (state) => {
-      state.value = state.value.slice(1);
+      state.value.archive = state.value.archive.concat(state.value.logs[0]);
+      if (state.value.archive.length > 15) {
+        state.value.archive = state.value.archive.slice(-15);
+      }
+      state.value.logs = state.value.logs.slice(1);
     },
     clearLogs: (state) => {
-      state.value = state.value.slice(0, 1);
+      state.value.logs = state.value.logs.slice(0, 1);
     },
   },
 });
