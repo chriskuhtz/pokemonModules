@@ -1,9 +1,8 @@
 import { Box, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { PokemonIcon } from "chriskuhtz-pokemon-common-components";
 import { useSelector } from "react-redux";
-
 import BattleScreen from "./Components/BattleScreen/BattleScreen";
-import BugButton from "./Components/BugButton/BugButton";
+import { BugButton } from "bugbutton";
 import { useCreateTwoRandomPokemon } from "./Functions/Pokemon/useCreateTwoRandomPokemon";
 import { Log } from "./Store/logSlice";
 import { RootState } from "./Store/store";
@@ -27,7 +26,7 @@ const App = (): JSX.Element => {
           condition={true}
           authToken={process.env.REACT_APP_GITHUB_AUTH_TOKEN ?? ""}
           url={process.env.REACT_APP_GITHUB_URL ?? ""}
-          position={"top"}
+          position={"bottom"}
           categories={["UI", "Effect Order", "Move"]}
           data={[
             {
@@ -60,7 +59,6 @@ const App = (): JSX.Element => {
             },
           ]}
         />
-
         <BattleScreen
           activePokemon={activePokemon}
           opponentPokemon={opponentPokemon}
